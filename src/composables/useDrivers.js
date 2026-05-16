@@ -8,7 +8,7 @@ export function useDrivers() {
   async function fetchDrivers() {
     try {
       loading.value = true
-      const res = await fetch('/drivers.json')
+      const res = await fetch(import.meta.env.BASE_URL + 'drivers.json')
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       drivers.value = await res.json()
     } catch (e) {

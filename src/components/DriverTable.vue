@@ -65,24 +65,24 @@ function getAriaSort(key) {
       <thead>
         <tr>
           <th class="col-version sortable" :aria-sort="getAriaSort('version')" @click="toggleSort('version')" tabindex="0" @keydown.enter="toggleSort('version')" @keydown.space.prevent="toggleSort('version')">
-            Version
-            <svg class="sort-icon" :class="{ active: sortKey === 'version', desc: sortKey === 'version' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+            <span class="sortable-inner">Version
+            <svg class="sort-icon" :class="{ active: sortKey === 'version', desc: sortKey === 'version' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg></span>
           </th>
           <th class="col-family sortable" :aria-sort="getAriaSort('releaseFamily')" @click="toggleSort('releaseFamily')" tabindex="0" @keydown.enter="toggleSort('releaseFamily')" @keydown.space.prevent="toggleSort('releaseFamily')">
-            Branch
-            <svg class="sort-icon" :class="{ active: sortKey === 'releaseFamily', desc: sortKey === 'releaseFamily' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+            <span class="sortable-inner">Branch
+            <svg class="sort-icon" :class="{ active: sortKey === 'releaseFamily', desc: sortKey === 'releaseFamily' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg></span>
           </th>
           <th class="col-date sortable" :aria-sort="getAriaSort('releaseDate')" @click="toggleSort('releaseDate')" tabindex="0" @keydown.enter="toggleSort('releaseDate')" @keydown.space.prevent="toggleSort('releaseDate')">
-            Release Date
-            <svg class="sort-icon" :class="{ active: sortKey === 'releaseDate', desc: sortKey === 'releaseDate' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+            <span class="sortable-inner">Release Date
+            <svg class="sort-icon" :class="{ active: sortKey === 'releaseDate', desc: sortKey === 'releaseDate' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg></span>
           </th>
           <th class="col-cuda sortable" :aria-sort="getAriaSort('cudaVersion')" @click="toggleSort('cudaVersion')" tabindex="0" @keydown.enter="toggleSort('cudaVersion')" @keydown.space.prevent="toggleSort('cudaVersion')">
-            CUDA
-            <svg class="sort-icon" :class="{ active: sortKey === 'cudaVersion', desc: sortKey === 'cudaVersion' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+            <span class="sortable-inner">CUDA
+            <svg class="sort-icon" :class="{ active: sortKey === 'cudaVersion', desc: sortKey === 'cudaVersion' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg></span>
           </th>
           <th class="col-issues sortable" :aria-sort="getAriaSort('fixedIssues')" @click="toggleSort('fixedIssues')" tabindex="0" @keydown.enter="toggleSort('fixedIssues')" @keydown.space.prevent="toggleSort('fixedIssues')">
-            Fixed Issues
-            <svg class="sort-icon" :class="{ active: sortKey === 'fixedIssues', desc: sortKey === 'fixedIssues' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+            <span class="sortable-inner">Fixed Issues
+            <svg class="sort-icon" :class="{ active: sortKey === 'fixedIssues', desc: sortKey === 'fixedIssues' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg></span>
           </th>
           <th class="col-doc">Documentation</th>
         </tr>
@@ -174,7 +174,10 @@ function getAriaSort(key) {
 .sortable {
   cursor: pointer;
   user-select: none;
-  display: flex;
+}
+
+.sortable-inner {
+  display: inline-flex;
   align-items: center;
   gap: 4px;
 }

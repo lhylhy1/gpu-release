@@ -1,1 +1,1570 @@
-[{"version": "595.71.05", "releaseFamily": "595", "releaseDate": "2026-04-28", "cudaVersion": "13.x", "fixedIssues": ["FM now detects an NVLSM crash by checking GRPC returns codes, and calls abort when it detects that NVLSM is no longer alive.", "Added an error check on the attempt to use state, which depends on specific RPC success in UVM.", "Changed the Single Node FM's behavior, and it stops processing newGpuEvent, similar to MN systems. Instead it processes NoGpuPKeyEvent, which always happens post-GPU handshake, ensuring moduleId and archId are valid.", "When setting up a MAD buffer, an error path was missed and now it is fixed by handling all error conditions.", "The new NVML API has been added to the Windows export list.", "Added a check for CX port status before starting the FM service.", "Fixed a device memory leak that sometimes occurred during function patching."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-595-71-05/index.html"}, {"version": "570.133.20", "releaseFamily": "570", "releaseDate": "2026-03-18", "cudaVersion": "12.8", "fixedIssues": ["Fixed a bug where nvidia-smi could report incorrect power usage on some Hopper GPUs.", "Resolved an issue where the driver could hang during GPU reset on multi-GPU systems.", "Fixed a memory leak in the NVML library when repeatedly querying GPU metrics.", "Corrected the reporting of ECC errors on Blackwell architecture GPUs.", "Fixed an issue where Fabric Manager could fail to start on systems with mixed GPU generations."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-570-133-20/index.html"}, {"version": "565.90", "releaseFamily": "565", "releaseDate": "2026-02-10", "cudaVersion": "12.7", "fixedIssues": ["Fixed a race condition in UVM that could cause kernel panic under heavy memory pressure.", "Resolved an issue where GPUDirect RDMA could fail on systems with more than 8 GPUs.", "Fixed incorrect reporting of GPU utilization in nvidia-smi for compute-only workloads.", "Addressed a security vulnerability in the kernel module (CVE-2025-XXXX).", "Fixed Fabric Manager timeout issues on large-scale NVLink systems."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-565-90/index.html"}, {"version": "560.35.05", "releaseFamily": "560", "releaseDate": "2025-12-15", "cudaVersion": "12.6", "fixedIssues": ["Fixed a bug where persistent mode could not be enabled on certain GPU models.", "Resolved an issue with incorrect clock speed reporting on H200 GPUs.", "Fixed a kernel panic that could occur when unloading the driver with active compute processes.", "Addressed a memory corruption issue in the GPU driver when using CUDA graphs extensively.", "Fixed Fabric Manager stability issues on HGX systems with NVSwitch."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-560-35-05/index.html"}, {"version": "555.58", "releaseFamily": "555", "releaseDate": "2025-10-20", "cudaVersion": "12.5", "fixedIssues": ["Fixed an issue where nvidia-smi could hang when querying MIG configurations.", "Resolved a bug that caused incorrect memory bandwidth reporting on H100 GPUs.", "Fixed a potential deadlock in the driver when multiple processes access the same GPU.", "Addressed an issue where ECC error counts could reset unexpectedly after driver reload.", "Fixed compatibility issues with Linux kernel 6.1 series."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-555-58/index.html"}, {"version": "550.127.05", "releaseFamily": "550", "releaseDate": "2025-08-12", "cudaVersion": "12.4", "fixedIssues": ["Fixed an issue where the driver could crash during GPU reset on Hopper GPUs.", "Resolved a performance regression in CUDA memcpy operations on A100 GPUs.", "Fixed a bug where MIG instance profiles were not correctly applied after driver reload.", "Addressed an issue with GPUDirect Storage causing data corruption under certain conditions.", "Fixed a potential use-after-free bug in the kernel module."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-550-127-05/index.html"}, {"version": "545.29.06", "releaseFamily": "545", "releaseDate": "2025-06-10", "cudaVersion": "12.3", "fixedIssues": ["Fixed a memory leak when using CUDA IPC with multiple processes.", "Resolved an issue where the driver failed to initialize on systems with IOMMU enabled.", "Fixed incorrect power state reporting for L40S GPUs.", "Addressed a bug in NVML that could return stale temperature readings.", "Fixed Fabric Manager issues with dynamic MIG configuration changes."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-545-29-06/index.html"}, {"version": "535.216.01", "releaseFamily": "535", "releaseDate": "2025-04-15", "cudaVersion": "12.2", "fixedIssues": ["Fixed a kernel panic triggered by specific CUDA workloads on A100 GPUs.", "Resolved an issue where nvidia-persistenced could fail to start after system reboot.", "Fixed a performance issue with PCIe atomics on Grace Hopper systems.", "Addressed incorrect reporting of GPU memory bandwidth in DCGM.", "Fixed a potential deadlock in the GPU driver when using MPS."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-216-01/index.html"}, {"version": "525.147.05", "releaseFamily": "525", "releaseDate": "2025-02-18", "cudaVersion": "12.1", "fixedIssues": ["Fixed a bug where CUDA out-of-band error handling could cause driver crash.", "Resolved an issue with incorrect MIG GPU instance reporting after GPU reset.", "Fixed a potential data corruption issue when using GPUDirect RDMA with A100.", "Addressed a memory leak in the NVSwitch configuration module.", "Fixed an issue where nvidia-smi could report incorrect persistence mode status."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-525-147-05/index.html"}, {"version": "515.105.01", "releaseFamily": "515", "releaseDate": "2024-12-10", "cudaVersion": "11.7", "fixedIssues": ["Fixed a bug where the driver could hang during MIG partition creation.", "Resolved an issue where NVLink connections were not properly initialized on A100 systems.", "Fixed incorrect ECC error reporting on Ampere architecture GPUs.", "Addressed a compatibility issue with Linux kernel 5.15 series.", "Fixed a potential kernel memory leak when repeatedly creating and destroying CUDA contexts."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-515-105-01/index.html"}, {"version": "510.108.03", "releaseFamily": "510", "releaseDate": "2024-10-05", "cudaVersion": "11.6", "fixedIssues": ["Fixed a race condition in the GPU driver that could cause system lockup.", "Resolved an issue where MIG compute instances could not be created on certain GPU models.", "Fixed a bug in nvidia-fabricmanager that caused incorrect NVSwitch topology detection.", "Addressed a performance regression in compute workloads after driver upgrade.", "Fixed an issue where GPU memory could not be fully utilized on large-memory A100 models."], "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-510-108-03/index.html"}]
+[
+  {
+    "version": "595.71.05",
+    "releaseFamily": "595",
+    "releaseDate": "2026-04-28",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "FM now detects an NVLSM crash by checking GRPC returns codes, and calls abort when it detects that NVLSM is no longer alive.",
+      "Added an error check on the attempt to use state, which depends on specific RPC success in UVM.",
+      "Changed the Single Node FM's behavior, and it stops processing newGpuEvent, similar to MN systems. Instead it processes NoGpuPKeyEvent, which always happens post-GPU handshake, ensuring moduleId and archId are valid.",
+      "When setting up a MAD buffer, an error path was missed and now it is fixed by handling all error conditions.",
+      "The new NVML API has been added to the Windows export list.",
+      "Added a check for CX port status before starting the FM service.",
+      "Fixed a device memory leak that sometimes occurred during function patching."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-595-71-05/index.html"
+  },
+  {
+    "version": "595.58.03",
+    "releaseFamily": "595",
+    "releaseDate": "2026-03-24",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "For default GUID-based partitions when a tray is replaced, old GUIDs are removed in addition to adding new GUIDs. For user-defined GUID-based partitions, limit the number of GPUs to domain limit in the API for creating partitions and adding GPUs to the partition.",
+      "NVML field IDs were shared between internal and external fields, causing collision. A special offset has been added to the internal fields to ensure they don't collide with public field IDs.",
+      "Removed unneeded fallback that causes latency."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-595-58-03/index.html"
+  },
+  {
+    "version": "590.48.01",
+    "releaseFamily": "590",
+    "releaseDate": "2025-12-22",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "Move the allocation of migrate_vma_state_t to use kvmalloc() which will fall back to a virtually contiguous allocation if a physically contiguous allocation from kmalloc() is not possible. Note that on 4K kernels, because the allocation is above UVM_KMALLOC_THRESHOLD so vmalloc() will be used. On 64K kernels kmalloc() will be used.",
+      "Add a check before attempting to free the NULL pointer.",
+      "Add proper synchronization for ISINK controller code.",
+      "ISINK XIDs are only logged when power smoothing is enabled.",
+      "Allow the removal of GPU from the partition while the multicast team is active and correct refcnt logic to handle the scenario.",
+      "Remove the old workaround in the NVIDIA driver to promote all spinlocks to raw spinlocks under PREEMPT_RT, which are no longer necessary.",
+      "Adjust event processing to handle the other order of events being generated, so that IMEX properly cleans up and establishes new connections and data streams."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-590-48-01/index.html"
+  },
+  {
+    "version": "580.159.04",
+    "releaseFamily": "580",
+    "releaseDate": "2026-05-14",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "During P2P object destruction, both EGM+HBM peerIDs are cleared.",
+      "The upstream kernel of_gpio.h is deprecated. We have provided a compatible API for of_get_named_gpio."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-580-159-04/index.html"
+  },
+  {
+    "version": "580.159.03",
+    "releaseFamily": "580",
+    "releaseDate": "2026-04-28",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "Users may see a black screen after resume. The reset sequence was incorrect, and the associated fix resolves the sequence.",
+      "Crashes may occur when GDB attaches to the GPU process and reads memory. This is because there was an incorrect assumption that all memory with backing struct pages would be mapped via insert_page, but in the case of CDMM, we use PFNs directly.",
+      "RFE to expose the number row remappings in inactive channels/banks. Implemented the RFE and updated NVML/nvidia-smi accordingly.",
+      "Fixed the network patching that was broken for the specific Gb207 SKU (x925).",
+      "For default GUID-based partitions when a tray is replaced, old GUIDs are removed in addition to adding new GUIDs. For user-defined GUID-based partitions, limit the number of GPUs to domain limit in the API for creating partitions and adding GPUs to the partition.",
+      "GFM handling has been improved even if there is an SM issue.",
+      "Removed unneeded fallback that causes latency.",
+      "CRC interrupts were causing an interrupt storm on some systems. This interrupt seems to be incorrectly handled in R580 driver because RM does not have the privileges to reset the interrupt. The interrupt in PMU has now been disabled.",
+      "Issues with handshaking between Grace CPU and GPU driver caused ECC interrupt handling. The race window is now narrowed between the two by limiting the timing window thru interrupt enablement/routing."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-580-159-03/index.html"
+  },
+  {
+    "version": "580.126.20",
+    "releaseFamily": "580",
+    "releaseDate": "2026-02-23",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "IMEX log rotation closed and reopened a FILE* only in a local copy, leaving the global handle stale. Subsequent stats logging used the stale stream and could trigger heap corruption/abort. Rotation now refreshes the global log handle, stats logging releases the correct lock, and stats/log size limit flags are independent.",
+      "An earlier fix introduced a deadlock condition that was extremely hard to hit, requiring multiple in-progress messages to be sent and triggering the write-complete timeout, before other timeouts kick in and trigger the clean-up. We have removed the calls from the code path to try and schedule the teardown that caused the deadlock. Adjusted lock order and lock assumption."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-580-126-20/index.html"
+  },
+  {
+    "version": "580.126.16",
+    "releaseFamily": "580",
+    "releaseDate": "2026-02-09",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "Nonaligned memcpy in vma_access no longer causes fault on aarch64.",
+      "Short-term driver fixes: nvidia-smi is prevented from triggering InfoROM validation when compute processes are active on the GPU. Cache unknown InfoROM objects in RM avoid repeated queries for non-existent Blackwell objects. Isink lifetime updates from PMU to FSP are throttled from 20ms to 1-hour cadence. (This auto-disables when fixed firmware is detected.) Long-term firmware fix: OTP writes are moved to 1-hour cadence and triggered only when lifetime crosses 1% threshold.",
+      "nvidia-smi is prevented from triggering InfoROM validation when compute processes are active on the GPU.",
+      "Cache unknown InfoROM objects in RM avoid repeated queries for non-existent Blackwell objects.",
+      "Isink lifetime updates from PMU to FSP are throttled from 20ms to 1-hour cadence. (This auto-disables when fixed firmware is detected.)",
+      "OTP writes are moved to 1-hour cadence and triggered only when lifetime crosses 1% threshold.",
+      "MNVLink deconfiguration is removed, leading to GPU containment."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-580-126-16/index.html"
+  },
+  {
+    "version": "580.126.09",
+    "releaseFamily": "580",
+    "releaseDate": "2026-01-13",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "Fixed latency bug with power controllers that could lead to running at EDPp for longer than expected during pulsing workloads.",
+      "Specific Linux kernel versions and configurations will take a long time to scrub large memory buffers without encountering scheduling points. The fix: explicit scheduling points are inserted into a buffer populating loop.",
+      "Because FSP has logic to conditionally reset depending on the PLM, the source isolating it to remove FSP access will fix this issue. The fix CL therefore does that; the source isolates the RESET PLM so FSP cannot access it.",
+      "Move the allocation of migrate_vma_state_t to use kvmalloc() which will fall back to a virtually contiguous allocation if a physically contiguous allocation from kmalloc() is not possible. Note that on 4K kernels, because the allocation is above UVM_KMALLOC_THRESHOLD so vmalloc() will be used. On 64K kernels kmalloc() will be used.",
+      "Available multicast groups move some code to make sure we check the partition exists first before any other return code.",
+      "Add a check before attempting to free the NULL pointer.",
+      "Immediately cast each operand in get_global_id to size_t before the multiply/adds.",
+      "Implemented the new functionality that reports the WAITING_FOR_CONN_RECOVERY state for connections that are blocking initialization.",
+      "Improved/enhanced logging around connection/disconnected times.",
+      "cuGetDeviceCount will fail and report cudaErrorNoDevice if GPU is disabled. The driver should return this error to hybrid_runtime but during the deinit flow for cudaErrorNoDevice, the driver frees the hybrid_runtime causing the hybrid_runtime return address to be invalidated on stack (stack corruption). Hybrid runtime is loaded by static loader via etlb and should be freed by static loader via etlb freeLibrary call.",
+      "Set GPU health after the link state has been set to down for remove operations.",
+      "Add proper synchronization for ISINK controller code.",
+      "Enhanced GFM API SDK to include more detailed information of GPU, Switch, Partition, compute and switch nodes.",
+      "Support operation of the fabric with a single switch tray failure/removal in the NVL domain. The GPUs will continue to operate with reduced bandwidth.",
+      "SINK XIDs are only logged when power smoothing is enabled.",
+      "Partitioning API calls are failed/reverted only when the call results in the partition becoming unhealthy.",
+      "Do not advertise non-graphics MIG devices as physical GPUs when in MIG mode.",
+      "Remove the old workaround in the NVIDIA driver to promote all spinlocks to raw spinlocks under PREEMPT_RT, which are no longer necessary.",
+      "Introduced Multi-tenancy NVLink Partition Mode and Trusted NVLink Partition Mode. Multi-tenancy NVLink Partition Mode (default): GPU reset is needed when it is moved across partitions. Trusted NVLink Partition Mode: GPUs can move across partitions and start working without reset or service restart. The mode is controlled by a new FM config option MNNVL_NVLINK_PARTITION_MODE. The update to config option requires NMX-C restart to take effect.",
+      "Remove WPR mappings from reserved memory mapping."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-580-126-09/index.html"
+  },
+  {
+    "version": "580.105.08",
+    "releaseFamily": "580",
+    "releaseDate": "2025-11-06",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "Added proper error handling and retry to the message queue so GDMA no longer fails silently.",
+      "The UVM driver has been updated to use the Oracle Linux v5.15 kernel.",
+      "Fixed IPv6 address handling so the reverseDNSLookup succeeds.",
+      "Implemented better modelling for idle GPU scenarios to mitigate power sensing inaccuracies. The new solution incorporates utilization counters to check whether capping should be ignored.",
+      "The Resource Manager server now uses a map instead of an unsorted list, greatly improving performance.",
+      "Fixed Resource Manager's credit check code for RM-MSE communication.",
+      "Whenever GFM restarts with FABRIC_MODE_RESTART config set to 1, if a partition is determined to be unhealthy, we trigger the reroute flow to reassign trunk links and get the partition to a healthy state.",
+      "An issue causing intermittent failures in the RemoveGpus NMX-C API operation has been resolved. Previously, these failures could lead to an inaccurate in-memory representation of the partition and associated GPUs, resulting in the DeletePartition API being unable to properly remove partition and GPU records from the Redis database. As a result, attempts to reassign the same GPUs to a new partition following an NMX-C restart could cause the CreatePartition API to fail.",
+      "Enabled a workaround against GDMA HW deadlock under high load situations for non CC mode. Currently, CC mode does not have enough DTCM for the workaround.",
+      "Enabled RM-based retry mechanism. LFM/GFM should now return NV_ERR_BUSY_RETRY when segment timeouts are hit. RM that supports this feature will then re-submit requests. This fix requires aligned RM, LFM, GFM.",
+      "Added changes to optimize admin state logging such that admin states are dumped only if there is any change in the admin state.",
+      "Resolved an issue where reroute operations (on a 36x2 system) may fail if the partition contains a partially-released multicast group. For example, a group where some GPUs have already been removed.",
+      "Added changes to check the presence of a GPU node before computing its health.",
+      "Runtime instability caused by the clock boost feature for GSP-RM no longer occurs.",
+      "Fabric Manager no longer has a circular dependency on some of the locks used.",
+      "After failing to re-arm async recv, NV_OK is no longer returned.",
+      "Allow the removal of GPU from the partition while the multicast team is active and correct refcnt logic to handle the scenario.",
+      "Adjust event processing to handle the other order of events being generated, so that IMEX properly cleans up and establishes new connections and data streams."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-580-105-08/index.html"
+  },
+  {
+    "version": "580.95.05",
+    "releaseFamily": "580",
+    "releaseDate": "2025-10-01",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "The nsmtool now populates all properties fetched by the Get ECC Error Count command.",
+      "The GspMsgQueueReceiveStatus message is consumed even if a checksum error occurs, so the subsequent message can be processed.",
+      "A new firmware API for NVML to use has been wired.",
+      "The GPU is allowed to be from a partition while the multicast team is active and the correct refcnt logic to handle the scenario.",
+      "In Resman, the state of NUMA is checked when nvidia-drm calls through NVKMS's KAPI layer to enumerate the GPUs, and set a flag if NUMA is neither required nor already working. Then, in nvidia-drm, if allocating an NvKmsKapiDevice fails and that flag was set, an informational message is printed rather than an error.",
+      "When compute trays are moved to different slots or rotated, FabricManager will mark different GPUs from a different compute tray as a single compute tray.",
+      "Aliasing of UVM gpu objects was fixed by adjusting their lookup in the RM nv_gpu_ops layer."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-580-95-05/index.html"
+  },
+  {
+    "version": "580.82.07",
+    "releaseFamily": "580",
+    "releaseDate": "2025-09-02",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "Re-added the -u parameter to the nvidia-imex-ctl utility, allowing the query (-q) operation to connect to the configured unix domain socket.",
+      "Added a configuration to set the level of version checking required between IMEX and the driver.",
+      "A race condition in the nvidia-imex-ctl tool is resulting in a rare segmentation fault. We have added locking around the objects to prevent the race condition.",
+      "sRGB conversion is now enabled on Hopper+ for 1D textures, as the texture header format has changed.",
+      "CCU Data copy no longer crashes the system when GPU in reset path or PMU is not ready.",
+      "In certain B200 SKUs, because of sensors' inaccuracy during IDLE, Power-Constraint was being incorrectly reported.",
+      "Fixed rare Xid 119 on Blackwell GPUs Fixed an issue where specific GPU driver activity triggered by workload or monitoring stack (nvml, dcgm etc.) would result in the driver becoming unresponsive (Xid 119). This condition is expected to be rare. There is no mitigation possible other than updating the driver.",
+      "Fixed rare Xid 119 related to HBM ECC on GH100/GB200/GB300 Fixed an issue where specific patterns of ECC errors in HBM would result in the driver becoming unresponsive (Xid 119). This condition is expected to be rare. There is no mitigation possible other than updating the driver."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-580-82-07/index.html"
+  },
+  {
+    "version": "580.65.06",
+    "releaseFamily": "580",
+    "releaseDate": "2025-08-04",
+    "cudaVersion": "13.x",
+    "fixedIssues": [
+      "When an IMEX daemon is waiting for RECOVERY quorum, the shutdown signal is allowed to interrupt the RECOVERY quorum loop to prevent unresponsiveness.",
+      "Requests from a shutting-down IMEX daemon no longer cause an error condition.",
+      "Optimized power control loops to improve performance under certain workload patterns when using power smoothing.",
+      "Updated GPU clock value reporting in nvidia-settings, NVML, and nvidia-smi to show clocks before thermal and idle slowdowns for better consistency with the equivalent functionality across Windows and Linux."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-580-65-06/index.html"
+  },
+  {
+    "version": "575.57.08",
+    "releaseFamily": "575",
+    "releaseDate": "2025-06-03",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "nvidia-bug-report.sh has been updated to collect logs into the temporary filesystem as designated by TMPDIR in accordance with POSIX standard.",
+      "Channel Adapters are iterated in alphabetical order before attempting to pick one. This behavior mimics existing IB tools such as ibnetdiscover.",
+      "Initialization of a field in the CSL context is moved to an earlier point to prevent decryption failures.",
+      "A bug in some error handling for inband messaging can incompletely cleanup after an error, resulting in residual data causing an assertion to fail in a subsequent inband message. This fix implements correct code that frees the message buffer regardless.",
+      "PREAD/PWRITE is only processed when a call is issued (i.e., memory is allocated).",
+      "Thread ID was incorrectly being used instead of Thread Group ID to match against the saved Thread Group ID during PID translation; this has been resolved.",
+      "The output print for GPU FABRIC GUID is now padded so that any print of the hex output will have 16 characters.",
+      "Register definition containing one-show power limit values (PMU) has been fixed.",
+      "Regression in PTXAS between CUDA 12.4 and CUDA 12.8 no longer causes an illegal memory access error on Hopper architectures.",
+      "When the container blocks support to a GPU for any reason, that GPU will be skipped instead of checking against a particular error code. This puts the checkpointing path in alignment with the CUDA driver's initialization.",
+      "Fixed an issue where GPU access to system memory, which is allocated using cudaMallocHost, cudaHostRegister, and so on might observe reduced performance."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-575-57-08/index.html"
+  },
+  {
+    "version": "570.211.01",
+    "releaseFamily": "570",
+    "releaseDate": "2026-01-13",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "Set GPU health after the link state has been set to down for remove operations.",
+      "GFM will request RM to retry MCFLA allocations if it detects a packet loss.",
+      "Fixed RM's credit check code for RM-MSE communication.",
+      "Whenever GFM restarts with FABRIC_MODE_RESTART config set to 1, if a partition is determined to be unhealthy, we trigger the reroute flow to reassign trunk links and get the partition to a healthy state.",
+      "For GB20x and GB20y, GDMA HW deadlocks no longer occur under high load situations.",
+      "Enable RM-based retry mechanism. LFM/GFM now returns NV_ERR_BUSY_RETRY when segment timeouts are hit. RM that supports this feature will then re-submit requests.",
+      "Eliminated the Fabric Manager circular dependency by avoiding taking the lock.",
+      "Enabled workaround against GDMA HW deadlock under high load situations for non CC mode. CC mode does not currently have enough DTCM for this workaround.",
+      "Remove the old workaround in the NVIDIA driver to promote all spinlocks to raw spinlocks under PREEMPT_RT, which are no longer necessary.",
+      "Aliasing of UVM gpu objects was fixed by adjusting their lookup in the RM nv_gpu_ops layer.",
+      "Adjust event processing to handle the other order of events being generated, so that IMEX properly cleans up and establishes new connections and data streams."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-570-211-01/index.html"
+  },
+  {
+    "version": "570.195.03",
+    "releaseFamily": "570",
+    "releaseDate": "2025-09-30",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "sRGB conversion is now enabled on Hopper+ for 1D textures, as the texture header format has changed."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-570-195-03/index.html"
+  },
+  {
+    "version": "570.172.08",
+    "releaseFamily": "570",
+    "releaseDate": "2025-07-17",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "GRPC client configuration was changed to default value to prevent incorrect termination.",
+      "When an IMEX daemon is waiting for RECOVERY quorum, the shutdown signal is allowed to interrupt the RECOVERY quorum loop to prevent unresponsiveness.",
+      "An issue occurred where MAD packets were not being handled correctly in the GPU probe update code path. This caused subsequent MAD processing to be ignored, so even a GPU reset could not complete its Fabric state and required an NMX-C restart. MAD packets are now handled correctly.",
+      "GA10x and Blackwell devices returned an incorrect value for CU_DEVICE_ATTRIBUTE_SINGLE_TO_DOUBLE_PRECISION_PERF_RATIO. The constant values are now corrected to match the information in the decoder rings.",
+      "Block Activity was disabled due to traffic from Die 1 -> Die 0 causing a performance regression. The feature is now enabled to support high frequency telemetry streaming requests.",
+      "A ZBC related assertion was non-fatal and converted to a warning to prevent false alarm.",
+      "The OOB path is now fixed so the EDPp limit is updated when the programmable multiplier is set.",
+      "Requests from a shutting-down IMEX daemon no longer cause an error condition.",
+      "The default GFM wait timeout has increased from 10 seconds to 30 seconds.",
+      "An opt-in was added for customers on GH100 only (by default this is still disabled). You will need to enable this option in hypervisor.",
+      "NVSwitch port throughput counters were incorrectly reported by NSCQ. The way the throughput counters are interpreted from the driver response has been corrected.",
+      "The version of libtirpc (a third-party OSS library for inter-process communication) that is statically linked into nvidia-smi and nvidia-persistenced has a bug that causes it to attempt to allocate a block of memory for the maximum number of file descriptors in a process. The version of libtirpc has increased to a more recent version that includes a fix for this issue."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-570-172-08/index.html"
+  },
+  {
+    "version": "570.158.01",
+    "releaseFamily": "570",
+    "releaseDate": "2025-06-17",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "Sometimes STO was observed when a partition is created right after GPU reset. Now, probe response to RM is delayed until all pkeys tables are updated by SM. Also, topology updates with invalid ALID are ignored.",
+      "Bug fixed in violation time accounting of perf limiting reasons. This violation time is informational in nature only and does not affect the inner workings of the GPU DVFS algorithms.",
+      "RCA: Switch tray reboot resulting in the complete loss of 2 switch ASICs and all 72 trunk links, this is a routing plane loss. Recovery action: By design, these trunk links do NOT get added back to the partition automatically, and require the system admin to explicitly trigger a partition reroute after switch/trunk servicing has been completed.",
+      "In systemd-based systems, by default the facility for waiting for the network to be ready before starting a dependent service (namely SYSTEMD-NETWORKD-WAIT-ONLINE.SERVICE(8)) allows services to proceed as soon as any of the network interfaces are ready. On systems with IMEX domains defined, it is important that the nvidia-imex.service does not start until the interface and addresses used in the domain definition is up before proceeding. This can be assured by adding the --interface argument to the SYSTEMD-NETWORKD-WAIT-ONLINE.SERVICE(8).",
+      "Hostnames in the nodes_config.cfg are supported, allowing the customer to change the DNS/hostname mappings at the system level without having to restart IMEX.",
+      "Fixed a bug that could result in a kernel crash on Multi-Instance GPU (MIG) configs when nvidia-drm.ko is loaded with DRM-KMS enabled (modeset=1).",
+      "Resolved the issue where the fabric state of one or more GPUs in a compute node remains \"in progress.\" This situation may occur following a VM reboot or when the compute tray is replaced and subsequently subjected to an immediate warm reboot.",
+      "DCGM version 4.2.3 is now available in the public NVIDIA Amazon Linux 2023 network package repositories for the x86_64 and SBSA architectures.",
+      "Fixed an issue where GPU access to system memory, which is allocated using cudaMallocHost, cudaHostRegister, and so on might observe reduced performance.",
+      "Code closing NVIDIA capability files is verified and operates on file descriptors referring to the capabilities.",
+      "Register definition was mismatched for the register containing one-shot power limit values. The register definition has been fixed on Driver (PMU).",
+      "New XIDs were added to signal failures for SRAM and HBM errors.",
+      "The Fabric Manager start script was upgraded to the chips_a version which performs sed operations on the file during pre-start and post-stop. The nv-fabricmanager binary implementation was changed to remove undefined behavior when working with the fabricmanager.cfg file.",
+      "The logging for PCIe errors was too verbose and was printing at error level on every XID, causing CPU soft lockups. The error level prints have now been downgraded to notice level.",
+      "Initialization of a field in the CSL context is moved to an earlier point to prevent decryption failures."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-570-158-01/index.html"
+  },
+  {
+    "version": "570.148.08",
+    "releaseFamily": "570",
+    "releaseDate": "2025-05-27",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "nvidia-bug-report.sh has been updated to collect logs into the temporary filesystem as designated by TMPDIR in accordance with POSIX standard.",
+      "HMM can consume a lot of address space per MIG; this has been fixed by reducing the duplicate consumption of address space.",
+      "An explicit NULL check was added to the helper function that is used in the error path and assumed fully initialized structure.",
+      "Improper deinitialization on WDDM removed all devices when using CUDA_VISIBLE_DEVICES; the deinitialization path has been fixed.",
+      "Channel Adapters are iterated in alphabetical order before attempting to pick one. This behavior mimics existing IB tools such as ibnetdiscover.",
+      "Initialization of a field in the CSL context is moved to an earlier point to prevent decryption failures.",
+      "A bug in some error handling for inband messaging can incompletely cleanup after an error, resulting in residual data causing an assertion to fail in a subsequent inband message. This fix implements correct code that frees the message buffer regardless.",
+      "PREAD/PWRITE is only processed when a call is issued (i.e., memory is allocated).",
+      "Thread ID was incorrectly being used instead of Thread Group ID to match against the saved Thread Group ID during PID translation; this has been resolved.",
+      "The output print for GPU FABRIC GUID is now padded so that any print of the hex output will have 16 characters."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-570-148-08/index.html"
+  },
+  {
+    "version": "570.133.20",
+    "releaseFamily": "570",
+    "releaseDate": "2026-03-18",
+    "cudaVersion": "12.8",
+    "fixedIssues": [
+      "Fixed a bug where nvidia-smi could report incorrect power usage on some Hopper GPUs.",
+      "Resolved an issue where the driver could hang during GPU reset on multi-GPU systems.",
+      "Fixed a memory leak in the NVML library when repeatedly querying GPU metrics.",
+      "Corrected the reporting of ECC errors on Blackwell architecture GPUs.",
+      "Fixed an issue where Fabric Manager could fail to start on systems with mixed GPU generations."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-570-133-20/index.html"
+  },
+  {
+    "version": "570.124.06",
+    "releaseFamily": "570",
+    "releaseDate": "2025-03-03",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "The command nvidia-smi --query-gpu=temperature.gpu.tlimit fails with an \"Argument Version Mismatch\" error. The underlying NVML API now checks a version number that is set by nvidia-smi.",
+      "In some cases, the GPU driver would free data structure (nv_linux_file_private_t) but leave it on an open file list and later access it after freeing it. This fix refactors how the file structure is linked into the open file list, not doing so if open fails.",
+      "nvidia-smi now handles the NOT_SUPPORTED code returned by the internal NVML function as a \"supported\" case of aliased devices and displays \"X\" to imply it’s the same device with different names.",
+      "nvidia-smi non-verbose output is enhanced to display 4 digits of power.",
+      "The Fabric Manager log file was being written out with permissive 0666 permissions; it is now restricted to 0644.",
+      "Integrated changes for SRAM aggregate total count query and updated volatile total count query.",
+      "nvidia-smi was updated to explicitly print both average and instantaneous power draw.",
+      "nvidia-smi dmon TVIOL would sometimes show ACTIVE even if the GPU was not under load.",
+      "Memory is no longer being incorrectly set up as decrypted for SMEE.",
+      "The tensors metrics report for H20 is now fixed."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-570-124-06/index.html"
+  },
+  {
+    "version": "570.86.15",
+    "releaseFamily": "570",
+    "releaseDate": "2025-01-27",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "libgcc is now statically linked for the nvidia-imex binary. [4889670]",
+      "AL2023 installation now works [4855412]",
+      "Resolved interrupt storm related to ECC limit counters. [4607641]"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-570-86-15/index.html"
+  },
+  {
+    "version": "565.90",
+    "releaseFamily": "565",
+    "releaseDate": "2026-02-10",
+    "cudaVersion": "12.7",
+    "fixedIssues": [
+      "Fixed a race condition in UVM that could cause kernel panic under heavy memory pressure.",
+      "Resolved an issue where GPUDirect RDMA could fail on systems with more than 8 GPUs.",
+      "Fixed incorrect reporting of GPU utilization in nvidia-smi for compute-only workloads.",
+      "Addressed a security vulnerability in the kernel module (CVE-2025-XXXX).",
+      "Fixed Fabric Manager timeout issues on large-scale NVLink systems."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-565-90/index.html"
+  },
+  {
+    "version": "565.57.01",
+    "releaseFamily": "565",
+    "releaseDate": "2024-10-29",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "AWS HGX H100 & H200 Parameters in Enterprise GPU Driver have changed 550.54.14 vs v535.129.03 [4783082]",
+      "Fixed an issue in the kernel driver Xid reporting callback mechanism that caused string corruption in the reported error message. The affected error reporting callback registration symbols have also been renamed to help users of the API identify drivers that have the fix. [4766627]",
+      "The UVM driver no longer relies on always getting response from the HW and now checks GPU health state whenever expecting a response [4732563]",
+      "Resolved interrupt storm related to ECC limit counters. [4607641]",
+      "Fixed a segmentation fault when using cudaMalloc in CUDA driver that was affecting certain applications. [4511621]",
+      "libgcc is now statically linked for the nvidia-imex binary. [4889670]",
+      "Resolved a use-after-free bug that occurred in a kernel with KASAN enabled. [4756071]",
+      "Fixed an issue in Fabric Manager that incorrectly detected the underlying system, resulting in the loading of an incorrect FM NVLink topology file. This issue caused GPU NVLink P2P traffic to fail with Xid/SXid errors. [4701808]",
+      "Refer to the nvidia-smi man page's change log for the latest updates. [4783082]"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-565-57-01/index.html"
+  },
+  {
+    "version": "560.35.05",
+    "releaseFamily": "560",
+    "releaseDate": "2025-12-15",
+    "cudaVersion": "12.6",
+    "fixedIssues": [
+      "Fixed a bug where persistent mode could not be enabled on certain GPU models.",
+      "Resolved an issue with incorrect clock speed reporting on H200 GPUs.",
+      "Fixed a kernel panic that could occur when unloading the driver with active compute processes.",
+      "Addressed a memory corruption issue in the GPU driver when using CUDA graphs extensively.",
+      "Fixed Fabric Manager stability issues on HGX systems with NVSwitch."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-560-35-05/index.html"
+  },
+  {
+    "version": "560.35.03",
+    "releaseFamily": "560",
+    "releaseDate": "2024-08-22",
+    "cudaVersion": "12.6",
+    "fixedIssues": [
+      "In Fabric Manager, an issue was fixed where NVLink multicast CUDA allocations would fail under Shared NVSwitch Virtualization deployment when the Tenant VM was using an older version of GPU driver, while the Service VM was using the latest R550 FM/ Driver release. [4739559]",
+      "In Fabric Manager, an issue was fixed where the FM would crash during a GPU reset after FM was restarted with the –restart option in Shared NVSwitch Virtualization model. [4698530]",
+      "Due to a kernel bug, under very specific conditions, the write operations from CPU to GPU could appear out of order, causing the GPU to miss tasks. The fix was to add a store fence to ensure correctness. [4696469]",
+      "Fixed an issue in kernel RM and NVML that produced incorrect PCIe TX/RX counters. [4667045]",
+      "On nvswitch based systems, the nvidia-smi topo command showed NS for some GPUs in the connectivity matrix. This issue has been fixed and the matrix now shows the correct connectivity after the nvidia-fabricmanager service is started. [4547730]",
+      "Fixed a segmentation fault when using cudaMalloc in CUDA driver that was affecting certain applications. [4511621]",
+      "The migration to CDPv2 introduced a regression where the entry patch was only applied to functions that use CDP. This meant that, if a function in a CDP module was called from a non-CDP context, no entry patch was applied, even though the blockIdx accesses in the function had been patched to read from the WAR memory. This resulted in the blockIdx reading incorrect data. The fix restores the original behavior of applying the entry patch to all functions in CDP modules, regardless of whether or not they use CDP. [4419815]",
+      "Fixed an error in the calculation of virtual address width for canonical form addresses. [4413514]",
+      "A regression introduced in kernel v6.6 that led to double faulting is resolved. [4318299]"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-560-35-03/index.html"
+  },
+  {
+    "version": "555.58",
+    "releaseFamily": "555",
+    "releaseDate": "2025-10-20",
+    "cudaVersion": "12.5",
+    "fixedIssues": [
+      "Fixed an issue where nvidia-smi could hang when querying MIG configurations.",
+      "Resolved a bug that caused incorrect memory bandwidth reporting on H100 GPUs.",
+      "Fixed a potential deadlock in the driver when multiple processes access the same GPU.",
+      "Addressed an issue where ECC error counts could reset unexpectedly after driver reload.",
+      "Fixed compatibility issues with Linux kernel 6.1 series."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-555-58/index.html"
+  },
+  {
+    "version": "550.163.01",
+    "releaseFamily": "550",
+    "releaseDate": "2025-04-17",
+    "cudaVersion": "12.x",
+    "fixedIssues": [
+      "Logging is enabled if an error is hit that indicates \"System is not in ready state.\"",
+      "An explicit NULL check was added to the helper function that is used in the error path and assumed fully initialized structure.",
+      "In some cases, the GPU driver would free data structure (nv_linux_file_private_t) but leave it on an open file list and later access it after freeing it. This fix refactors how the file structure is linked into the open file list, not doing so if open fails.",
+      "nvidia-smi now handles the NOT_SUPPORTED code returned by the internal NVML function as a \"supported\" case of aliased devices and displays \"X\" to imply it's the same device with different names.",
+      "Integrated changes for SRAM aggregate total count query and updated volatile total count query.",
+      "Updated nvidia-smi to explicitly print both average and instantaneous power draw.",
+      "Hypervisor is allowed to set relaxed ordering control bits so the guest GPU driver can read them and disable RO accordingly.",
+      "nvidia-smi dmon TVIOL would sometimes show ACTIVE even if the GPU was not under load.",
+      "GPM Tensor Metrics values for H20 have been adjusted so they are no longer incorrect."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-550-163-01/index.html"
+  },
+  {
+    "version": "550.144.03",
+    "releaseFamily": "550",
+    "releaseDate": "2025-01-16",
+    "cudaVersion": "12.4",
+    "fixedIssues": [
+      "On H200, SXID 0 is no longer generated at driver startup. [4948032]",
+      "PPCIE support has been re-enabled. [4904029]",
+      "Fixed nvidia-modprobe’s mknod helper to return the appropriate code so that RMAPI doesn’t run the invocation of nvidia-modprobe unnecessarily. [4900986]",
+      "Unnecessary register writes from the kernel driver were removed, so an IO error is no longer triggered when using FW 1.6. [4899198]",
+      "Repeated context switch timeouts were leading to GSP-RM crashes and timeouts. Now, the GPU is marked for reset to stop further GR resets that cause GSP-RM issues. [4877872]",
+      "Running cudaGetDevice no longer causes a driver crash. [4866152]",
+      "The driver disables RO on the DL380a Gen12 with 8x L40S chipset configuration. [4862496]",
+      "nvidia-persistenced stop/start no longer causes the VM to reboot. [4857110]",
+      "On MIG-enabled H100 hosts, the driver applies spin-lock to GPM MIGs operations to ensure thread-safety. [4801294]",
+      "Device partial restore functionality is no longer broken on Linux. Use CUDA_VISIBLE_DEVICES to disable the GPU that ray tracing is using. [4476386]",
+      "Observed Windows BSOD while doing GFX SVM Polynomial test on NVIDIA H100 GPU card with two cards in system. When freeing resources in RM, in addition to taking lock on the resource owning GPU, also take a lock on any GPU that is involved with the resource through backref mappings. [4469863]",
+      "Persistence Mode is no longer experiencing a regression caused by GSP-RM. [4444602]",
+      "RM init adapter is no longer failing to load the driver. [4424755]"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-550-144-03/index.html"
+  },
+  {
+    "version": "550.127.08",
+    "releaseFamily": "550",
+    "releaseDate": "2024-11-19",
+    "cudaVersion": "12.4",
+    "fixedIssues": [
+      "Unnecessary register writes from the kernel driver were removed, so an IO error is no longer triggered when upgrading to FW 1.6 with new security updates. [4899198]"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-550-127-08/index.html"
+  },
+  {
+    "version": "550.127.05",
+    "releaseFamily": "550",
+    "releaseDate": "2025-08-12",
+    "cudaVersion": "12.4",
+    "fixedIssues": [
+      "Fixed an issue where the driver could crash during GPU reset on Hopper GPUs.",
+      "Resolved a performance regression in CUDA memcpy operations on A100 GPUs.",
+      "Fixed a bug where MIG instance profiles were not correctly applied after driver reload.",
+      "Addressed an issue with GPUDirect Storage causing data corruption under certain conditions.",
+      "Fixed a potential use-after-free bug in the kernel module."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-550-127-05/index.html"
+  },
+  {
+    "version": "550.90.12",
+    "releaseFamily": "550",
+    "releaseDate": "2024-09-10",
+    "cudaVersion": "12.4",
+    "fixedIssues": [
+      "Due to a kernel bug, under very specific conditions, the write operations from CPU to GPU could appear out of order, causing the GPU to miss tasks. The fix was to add a store fence to ensure correctness. [4825677]",
+      "Fixed an error in the calculation of virtual address width for canonical form addresses. [4818252]",
+      "Resolved a use-after-free bug that occurred in a kernel with KASAN enabled. [4756071]"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-550-90-12/index.html"
+  },
+  {
+    "version": "550.90.07",
+    "releaseFamily": "550",
+    "releaseDate": "2024-06-06",
+    "cudaVersion": "12.4",
+    "fixedIssues": [
+      "On Intel Emerald Rapids chipset ID 0x1b81, PCIe P2P sometimes did not work even though the GPU driver reports P2P as supported in nvidia-smi topo -p2p rw command. This issue is resolved. 4448950",
+      "Running nvidia-smi caused a kernel panic, which was due to Null pointer dereferencing in the code path. This was fixed by making it a valid pointer. 4644086",
+      "The crashcat buffer was not large enough to contain all crash information, resulting in truncated reports. The buffer size has been increased. 4607635",
+      "The gRPC event poller is now proactively triggered by invoking waitForConnected() on the channel with an empirically shorter deadline, which is sufficient to get the channel to READY state. 4605545",
+      "Fixed a null pointer dereference caused by an unchecked return status from the API that allocates the channel notifier action table. 4603505",
+      "RC errors were observed during the channel allocation path, leading to accessing the notifier action table which has not been allocated yet. This issue is resolved. 4589964",
+      "Invalid objects are no longer accessed when a process is killed while profiling with MIG enabled. 4584716",
+      "On some versions of the GPU driver, the nvidia-smi topo -m command showed GPU connections as SYS, implying that they are connected across the SMP interconnect between NUMA nodes when they are actually part of the same NUMA node. This issue has been resolved and these connections now correctly show NODE instead of SYS. 4576789",
+      "Resolved an issue that caused driver compilation warnings whenever a .run package was installed on systems with kernels built with Clang or newer GCC. 4569283",
+      "Fixed a bug in the compiler's register allocator, where it was previously unable to correctly spill/refill and thereby allocate register for the barrier register class for test cases involving loops with breaks. 4546457",
+      "XID error messages for DRAM and LTCs are no longer limited to 1 per boot. XID error messages for DBEs are now printed when error containment is enabled. 4478617",
+      "The GPU Max Operating Temp now correctly displays the Slowdown temperature. 4507899",
+      "Changed row remapping histogram to only account for uncorrectable row remappings. 4451237",
+      "NVENC session data processing tasks are now scheduled into work-items so processing time won't be propagated up. NVENC NVENC session data are processed as CPU's work-items when no high priority tasks occupy the CPU. 4437306",
+      "Improved the ability of nvidia-modprobe to detect whether kernel modules are already loaded. This corrects an issue that prevented nvidia-persistenced from setting persistence mode on some systems. 4435513",
+      "The drain and reset flag is now set when uncorrectable row remapping occurs. 4432594",
+      "Fixed an issue with particular types of host memory allocations, for example CMA, where registering that memory buffer on the GPU (via cuMemHostRegister) first would later prevent to register the same memory buffer on the RDMA NIC (via ibv_reg_mr). 4429264",
+      "Fixed the regression issue where the new hwloc version 2.9.2 (integrated by NVML library) failed to detect two GPUs under a common NUMA node, resulting in the nvidia-smi topo -m command showing SYS instead of NODE. 4412560",
+      "When running MPS where the client and server are in different containers, it is possible that they may have access to different versions of the glibc library. There were observed hangs in some combinations of this mismatch due to differing ABI for the glibc semaphore implementation. This version includes a fix for this issue by making the synchronization used by MPS agnostic to the GLIBC implementation. 4382578",
+      "A clear signal is needed on OOB when the GPU exceeds the SRAM UCE > 4 criteria for RMA. The SRAM Threshold Exceeded flag from nvidia-smi is now reported through OOB. 4315988",
+      "Improved error containment by forwarding poisoned data to target engine instead of handling at GPU granularity. 4060421"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-550-90-07/index.html"
+  },
+  {
+    "version": "550.54.15",
+    "releaseFamily": "550",
+    "releaseDate": "2024-03-18",
+    "cudaVersion": "12.4",
+    "fixedIssues": [
+      "Fixed a potential corruption when launching kernels on H100 GPUs, which is more likely to occur when the GPU is shared between multiple processes. This may manifest in XID 13 errors such as Graphics Exception: SKEDCHECK11_TOTAL_THREADS. This issue has no user-controllable workaround and is fixable by updating to driver XXX.YY.ZZ or higher. 4537349"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-550-54-15/index.html"
+  },
+  {
+    "version": "550.54.14",
+    "releaseFamily": "550",
+    "releaseDate": "2024-02-23",
+    "cudaVersion": "12.4",
+    "fixedIssues": [
+      "Due to an issue in nvidia-smi related to enumerating RDMA-capable NICs, if the number of NICs in the system is greater than the upper limit that nvidia-smi can handle, the command nvidia-smi topo -m results in an error and fails to display the topology matrix. The enumeration logic in nvidia-smi is fixed and the topology command will now succeed."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-550-54-14/index.html"
+  },
+  {
+    "version": "545.29.06",
+    "releaseFamily": "545",
+    "releaseDate": "2025-06-10",
+    "cudaVersion": "12.3",
+    "fixedIssues": [
+      "Fixed a memory leak when using CUDA IPC with multiple processes.",
+      "Resolved an issue where the driver failed to initialize on systems with IOMMU enabled.",
+      "Fixed incorrect power state reporting for L40S GPUs.",
+      "Addressed a bug in NVML that could return stale temperature readings.",
+      "Fixed Fabric Manager issues with dynamic MIG configuration changes."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-545-29-06/index.html"
+  },
+  {
+    "version": "535.309.01",
+    "releaseFamily": "535",
+    "releaseDate": "2026-04-28",
+    "cudaVersion": "12.",
+    "fixedIssues": [
+      "Fixed API change in linux-next 6.19-rc8.",
+      "Upstream kernel changes removed map_resource from dma_map_ops, breaking the GPU driver. We now use newly added map_phys instead of map_resource."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-309-01/index.html"
+  },
+  {
+    "version": "535.288.01",
+    "releaseFamily": "535",
+    "releaseDate": "2026-01-13",
+    "cudaVersion": "12.",
+    "fixedIssues": [
+      "Remove the old workaround in the NVIDIA driver to promote all spinlocks to raw spinlocks under PREEMPT_RT, which we've determined to no longer be necessary."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-288-01/index.html"
+  },
+  {
+    "version": "535.274.02",
+    "releaseFamily": "535",
+    "releaseDate": "2025-09-30",
+    "cudaVersion": "12.",
+    "fixedIssues": [
+      "sRGB conversion is now enabled on Hopper+ for 1D textures, as the texture header format has changed."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-274-02/index.html"
+  },
+  {
+    "version": "535.261.03",
+    "releaseFamily": "535",
+    "releaseDate": "2025-07-17",
+    "cudaVersion": "12.",
+    "fixedIssues": [
+      "Code closing NVIDIA capability files is verified and operates on file descriptors referring to the capabilities.",
+      "An opt-in was added for customers on GH100 only (by default this is still disabled). You will need to enable this option in hypervisor.",
+      "The fabricmanager service no longer fails to start with an error that says, \"failed to parse fabric manager config file item LOG_USE_SYSLOG.\"",
+      "A bug in some error handling for inband messaging can incompletely cleanup after an error, resulting in residual data causing an assertion to fail in a subsequent inband message. This fix implements correct code that frees the message buffer regardless."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-261-03/index.html"
+  },
+  {
+    "version": "535.247.01",
+    "releaseFamily": "535",
+    "releaseDate": "2025-04-17",
+    "cudaVersion": "12.",
+    "fixedIssues": [
+      "Logging is enabled if an error is encountered that RM is unable to send an RPC to the PMU due to the PMU having insufficient memory for the RPC.",
+      "Logging is enabled if an error is hit that indicates “System is not in ready state.”",
+      "Integrated changes for SRAM aggregate total count query and updated volatile total count query.",
+      "Hypervisor is allowed to set relaxed ordering control bits so the guest GPU driver can read them and disable RO accordingly.",
+      "INA3221 device-related failures are no longer causing Xid errors on NVIDIA AI Enterprise systems.",
+      "GPM Tensor Metrics values for H20 have been adjusted so they are no longer incorrect."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-247-01/index.html"
+  },
+  {
+    "version": "535.230.02",
+    "releaseFamily": "535",
+    "releaseDate": "2025-01-16",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "UBSAN warnings on 535 Linux NVIDIA drivers are no longer occurring. [4978957]",
+      "On H200, SXID is longer generated at driver startup. [4948032]",
+      "Simple P2P tests no longer fail in the VM. [4911788]",
+      "Repeated context switch timeouts were leading to GSP-RM crashes and timeouts. Now, the GPU is marked for reset to stop further GR resets that cause GSP-RM issues. [4877872]",
+      "On HPE, the chipset does not support relaxed ordering and driver doesn't disable it by default; the driver now disables RO on this specific chipset. [4862496]",
+      "On MIG-enabled H100 hosts, the driver applies spin-lock to GPM MIGs operations to ensure thread-safety. [4801294]",
+      "Device partial restore functionality is no longer broken on Linux. Use CUDA_VISIBLE_DEVICES to disable the GPU that ray tracing is using. [4476386]",
+      "Observed Windows BSOD while doing GFX SVM Polynomial test on NVIDIA H100 GPU card with two cards in system. When freeing resources in RM, in addition to taking lock on the resource owning GPU, also take a lock on any GPU that is involved with the resource through backref mappings. [4469863]",
+      "RM init adapter is no longer failing to load the driver. [4424755]"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-230-02/index.html"
+  },
+  {
+    "version": "535.216.03",
+    "releaseFamily": "535",
+    "releaseDate": "2024-11-19",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "Increased the address space size for GSP Firmware tasks to support higher FB memory boards. [4904263]",
+      "Unnecessary register writes from the kernel driver were removed, so an IO error is no longer triggered when upgrading to FW 1.6 with new security updates. [4899198]"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-216-03/index.html"
+  },
+  {
+    "version": "535.216.01",
+    "releaseFamily": "535",
+    "releaseDate": "2025-04-15",
+    "cudaVersion": "12.2",
+    "fixedIssues": [
+      "Fixed a kernel panic triggered by specific CUDA workloads on A100 GPUs.",
+      "Resolved an issue where nvidia-persistenced could fail to start after system reboot.",
+      "Fixed a performance issue with PCIe atomics on Grace Hopper systems.",
+      "Addressed incorrect reporting of GPU memory bandwidth in DCGM.",
+      "Fixed a potential deadlock in the GPU driver when using MPS."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-216-01/index.html"
+  },
+  {
+    "version": "535.183.06",
+    "releaseFamily": "535",
+    "releaseDate": "2024-07-09",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "Security updates: see Security Bulletin: NVIDIA GPU Display Driver – July 2024, which is listed on the NVIDIA Product Security page. 4564626",
+      "On NVSwitch H100 based systems, the command nvidia-smi topo -p2p rw shows \"NS\" between GPU7, GPU6 and all other GPUs. even when the nvidia-fabricmanager daemon/service is up and running. This issue has been resolved and the connections now show \"OK\" correctly after nvidia-fabricmanager initializes. 4547730"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-183-06/index.html"
+  },
+  {
+    "version": "535.183.01",
+    "releaseFamily": "535",
+    "releaseDate": "2024-06-04",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "The crashcat buffer was not large enough to contain all crash information, resulting in truncated reports. The buffer size has been increased. 4607635",
+      "Fixed a null pointer dereference caused by an unchecked return status from the API that allocates the channel notifier action table. 4603505",
+      "RC errors were observed during the channel allocation path, leading to accessing the notifier action table which has not been allocated yet. This issue is resolved. 4589964",
+      "Invalid objects are no longer accessed when a process is killed while profiling with MIG enabled. 4584716",
+      "On Intel Emerald Rapids chipset ID 0x1b81, PCIe P2P sometimes did not work even though the GPU driver reports P2P as supported in nvidia-smi topo -p2p rw command. This issue is resolved. 4448950",
+      "Fixed a bug in the compiler's register allocator, where it was previously unable to correctly spill/refill and thereby allocate register for the barrier register class for test cases involving loops with breaks. 4546457",
+      "XID error messages for DRAM and LTCs are no longer limited to 1 per boot. XID error messages for DBEs are now printed when error containment is enabled. 4478617",
+      "The GPU Max Operating Temp now correctly displays the Slowdown temperature. 4507899",
+      "Changed row remapping histogram to only account for uncorrectable row remappings. 4451237",
+      "NVENC session data processing tasks are now scheduled into work-items so processing time won't be propagated up. NVENC NVENC session data are processed as CPU's work-items when no high priority tasks occupy the CPU. 4437306",
+      "Improved the ability of nvidia-modprobe to detect whether kernel modules are already loaded. This corrects an issue that prevented nvidia-persistenced from setting persistence mode on some systems. 4435513",
+      "The drain and reset flag is now set when uncorrectable row remapping occurs. 4432594",
+      "Fixed an issue with particular types of host memory allocations, for example CMA, where registering that memory buffer on the GPU (via cuMemHostRegister) first would later prevent to register the same memory buffer on the RDMA NIC (via ibv_reg_mr). 4429264",
+      "When running MPS where the client and server are in different containers, it is possible that they may have access to different versions of the glibc library. There were observed hangs in some combinations of this mismatch due to differing ABI for the glibc semaphore implementation. This version includes a fix for this issue by making the synchronization used by MPS agnostic to the GLIBC implementation. 4382578",
+      "Resolved cuda-gdb hang issues with attaching to apps using cudaFree() or similar APIs. 4364083",
+      "A clear signal is needed on OOB when the GPU exceeds the SRAM UCE > 4 criteria for RMA. The SRAM Threshold Exceeded flag from nvidia-smi is now reported through OOB. 4315988",
+      "A timeout in the nvlink driver codebase was increased in 525 and in this fix was reduced back to its original value. This fix shortens the time some FM calls to the driver take to complete, which in turn helps reduce partition creation time to be within limits set by the customer. 4275551",
+      "Enabled faster sampling of GPU power causing average power draw to be more accurate. 4125257",
+      "Improved error containment by forwarding poisoned data to target engine instead of handling at GPU granularity. 4060421"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-183-01/index.html"
+  },
+  {
+    "version": "535.161.08",
+    "releaseFamily": "535",
+    "releaseDate": "2024-03-18",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "Fixed a potential corruption when launching kernels on H100 GPUs, which is more likely to occur when the GPU is shared between multiple processes. This may manifest in XID 13 errors such as Graphics Exception: SKEDCHECK11_TOTAL_THREADS . This issue has no user-controllable workaround and is fixable by updating to driver XXX.YY.ZZ or higher. 4537349"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-161-08/index.html"
+  },
+  {
+    "version": "535.161.07",
+    "releaseFamily": "535",
+    "releaseDate": "2024-02-22",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "Added an interface that performs a memory allocation, and it can return error/NULL in case it runs out of memory. Added a handler where GSP runs out of memory to avoid GSP crash. 4327476",
+      "Due to an issue in nvidia-smi related to enumerating RDMA-capable NICs, if the number of NICs in the system is greater than the upper limit that nvidia-smi can handle, the command nvidia-smi topo -m results in an error and fails to display the topology matrix. The enumeration logic in nvidia-smi is fixed and the topology command will now succeed. 4383156",
+      "Addressed a failure to perform peer access in the open source kernel module. 4374657",
+      "Resolved an issue that caused a memory leak while calling NVML init followed by NVML shutdown in the same thread more than 500 times. 4370862",
+      "The usage of symbol_get() from a GPL kernel driver failed when used on non-GPL symbols exported by the open-source NVIDIA GPU driver(such as the driver's peer-to-peer kernel mode functions). The fix exports these symbols as GPL for the open-source GPU driver so the usage of these symbols is possible by another GPL driver. 4330118",
+      "Fixed the regression issue where the new hwloc version 2.9.2 (integrated by NVML library) failed to detect two GPUs under a common NUMA node. 4412560",
+      "As part of getting remote link information, there is a check to see if the system is running with the shared-Nvswitch virtualization mode which was getting entered incorrectly for some H800 products not using shared-Nvswitch virtualization. This caused the driver to incorrectly report the remote link information as having a link ids of 0 and a PCIe address of all F's. The check has been fixed to correctly identify when shared-Nvswitch virtualization is in use for H800 products. 4216937"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-161-07/index.html"
+  },
+  {
+    "version": "535.154.05",
+    "releaseFamily": "535",
+    "releaseDate": "2024-01-16",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "Fixed an issue in driver initialization in certain configurations. 4339817",
+      "Increased internal array size to cover max possible amount of offlined/blacklisted pages. 4344238",
+      "Addressed an issue in the Fabric Manager service that led to the failure in identifying variants of HGX H800 8-GPU systems, such as partner-cooled systems. This problem resulted in incorrect programming of NVSwitch routing, leading to NVSwitch SXid errors and subsequent CUDA job failures. 4264031",
+      "An issue that caused \"Row Remapper Error: internal pointer error\" is resolved. 4255827",
+      "Added an interface that performs a memory allocation, and it can return error/NULL in case it runs out of memory. 4327476"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-154-05/index.html"
+  },
+  {
+    "version": "535.129.03",
+    "releaseFamily": "535",
+    "releaseDate": "2023-10-31",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "4309921 – Due to a race condition in the NVIDIA GPU driver, NVLink-connected systems, such as DGX H100, may intermittently boot with restricted P2P capabilities (e.g. a specific pair of GPUs reporting P2P as not supported). This issue has been present in all earlier 535 drivers and is now fixed with R535TeslaRD5.",
+      "4288650 – Fixed a bug where the driver sometimes reports \"Trying to free already-free IRQ\" during a failed initialization. The driver would also not clean up interrupt resources completely during exit.",
+      "4278367 – Fix for false GSP-RM RPC timeouts (XID 119) in case the CPU thread processing the RPC gets de-scheduled for a long time.",
+      "4272659 – A design defect has been identified and mitigated in the GPU kernel-mode driver, related to the GPUDirect RDMA support in MLNX_OFED and some Ubuntu kernels, commonly referred to as the PeerDirect technology, i.e. the one using the peer-memory kernel patch. In specific scenarios, for example involving the cleanup after killing of a multi-process application, this issue may lead to use-after-free and potentially to kernel memory corruption.",
+      "4260289 - Fixed an issue that would prevent the UVM kernel module building correctly against the CentOS Stream 8 kernel and possibly other kernel versions due to an undefined reference to the MPOL_PREFERRED_MANY symbol.",
+      "4259080 - Fixed a regression that caused CUDA initialization failure on Grace Hopper with newer Linux kernel versions due to UVM incorrectly detecting ATS support was not available when it was.",
+      "4228552 – Asymmetric resets of GPUs and NVSwitches caused NVLinks to fault. Checks were added to reset links in fault and re-launch ALI.",
+      "4169030 – Asymmetric resets of GPUs and NVSwitches caused NVLinks to go into contain state. Checks were added to reset links in contain state and re-launch ALI.",
+      "4165142 – Fixed an issue arising from a race condition between internal GPU microcontrollers in fetching GPU memory temperature which causes the current HBM temperature to return an invalid value which is above the memory maximum operating temperature. This produced a negative T.Limit temperature reading."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-129-03/index.html"
+  },
+  {
+    "version": "535.104.12",
+    "releaseFamily": "535",
+    "releaseDate": "2023-09-25",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "4228552 - Fixed an issue where the NVSwitch driver would not retrain NVLinks on init correctly on HGX 8 H100, in case they faulted earlier (such a due to GPU resets). This would result in links being down and CUDA workloads failing with \"system not yet initialized\" error. The issue was introduced in the 535.86.10 driver and fixed in 535.104.12 and later drivers."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-104-12/index.html"
+  },
+  {
+    "version": "535.104.05",
+    "releaseFamily": "535",
+    "releaseDate": "2023-08-29",
+    "cudaVersion": "12.2.2",
+    "fixedIssues": [
+      "4191930 - Failures could occur for 64-bit integer bit-wise AND operation when the result is used in comparison with 0 to set a predicate/boolean variable. If one of the two operands of AND has NOT operation before being AND'ed, it fails, because an optimization did not take that into account. That optimization is now prevented if any operand of AND has to perform any earlier operation (modifier) before AND'ing.",
+      "4016266 - Fixed an issue in MPS where if multiple clients triggered a fatal exception, there existed a path where only affected devices for the first errored client were processed; the devices affected by other clients weren't processed.",
+      "4196718 - Fixed an issue where relaunching graph A that launches device graph B without guaranteeing that graph A was not pending could result in application hangs due to a race condition. The driver now properly accounts for stream order and the completion of previous launches of graph A from the CPU when determining when it can reinitialize the graph execution environment of graph A.",
+      "4235941 - Added the nvmlDeviceGetRunningProcessDetailList() API to get information about Compute, Graphics or MPS-Compute processes running on a GPU with protected memory usage info. Currently returns NVML_ERROR_NOT_SUPPORTED. Functionality will be implemented in a future release.",
+      "4198194 - Reintroduced v3 for the following APIs and removed protected-mem from nvmlProcessInfo_t data structure to fix an ABI breakage issue. nvmlDeviceGetComputeRunningProcesses_v3 nvmlDeviceGetGraphicsRunningProcesses_v3 nvmlDeviceGetMPSComputeRunningProcesses_v3",
+      "nvmlDeviceGetComputeRunningProcesses_v3",
+      "nvmlDeviceGetGraphicsRunningProcesses_v3",
+      "nvmlDeviceGetMPSComputeRunningProcesses_v3",
+      "4198257 - Updated the RPC completion check by saving the GPU timeout and verifying the GSP RPC completion. This addresses the situation where a GPU timeout was encountered when the CPU thread went to sleep immediately after checking for RPC completion.",
+      "4151017 - Fixed an issue in nvmlGpmSampleGet which caused sample reading to block for 100ms+ under certain conditions. This was due to a driver call checking the validity of the request which could encounter delays on some H100 systems. The fix is to cache the result of that call and avoid making it past the initial sample read.",
+      "4020948 - Added more error checking when doing remote procedure calls from the host kernel driver to the GPU System Processor (GSP). This avoids emitting misleading or redundant kernel logs and waiting for extra timeouts in error paths where it is already known that communicating with the GSP will fail, for example if the GPU has fallen off the system bus."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-104-05/index.html"
+  },
+  {
+    "version": "535.86.10",
+    "releaseFamily": "535",
+    "releaseDate": "2023-07-31",
+    "cudaVersion": "12.2.1",
+    "fixedIssues": [
+      "4165063 - nvidia-smi conf-compute -gc now prints CPU capabilities to the user when AMD SEV is enabled within the Hyper-V environment.",
+      "4133327 – The NVSwitch FSP microcode, which is part of the NVSwitch firmware, was susceptible to a race condition in out-of-band (SMBPBI) NVLink query, where query racing with NVLinks being reset leads to an FSP crash. The primary impact of FSP crash on NVSwitch is loss of out-of-band telemetry including temperature. SXid pointing to SOE timeout can also be observed by the nvidia-nvswitch driver on the host. This issue has been fixed.",
+      "4151190 - Frame pointers have been enabled on Linux x86_64 platforms to enhance the ability to debug and profile applications using CUDA. With this, users can now unwind and understand stack traces involving CUDA better."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-86-10/index.html"
+  },
+  {
+    "version": "535.54.03",
+    "releaseFamily": "535",
+    "releaseDate": "2023-06-26",
+    "cudaVersion": "12.2",
+    "fixedIssues": [
+      "4046386 - On Viking systems, CUDA waits for 5s for link training to complete (if it is not complete already). It was observed on some systems that the link training may take up to 10s. The fabric probe timeout in CUDA is now increased from 5s to 30s, which should be ample for link training to complete.",
+      "4079365 - On H100, atomicops capability was not available. PCIE atomic capabilities are now enabled for Genoa and SPR family CPUs.",
+      "4087329A Linux kernel device driver API used for timer management in the Linux kernel interface of the NVIDIA GPU driver is susceptible to a race condition under multi-GPU configurations. The Linux kernel interface of the NVIDIA GPU driver has been updated to use a different Linux kernel device driver API for timer management, which properly addresses the race condition inherent in the previously-used API.",
+      "4026611Fixed an issue specific to GSP-RM that could lead to GSP RPC timeout errors (Xid 119). The issue was most likely to happen after installing a new driver without resetting the GPU.",
+      "4100483 - Updated the communication request handling to PMU to update RPC stats only when PMU should be ready to process request. Previously we always updated this statistics, even when RPC-s were issues too early / too late.",
+      "4032382 - Resolved an issue where the Fabric Manager service would unexpectedly terminate on earlier production sample NVIDIA HGX H800 systems due to its failure in reading necessary board type information."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-535-54-03/index.html"
+  },
+  {
+    "version": "525.147.05",
+    "releaseFamily": "525",
+    "releaseDate": "2025-02-18",
+    "cudaVersion": "12.1",
+    "fixedIssues": [
+      "Fixed a bug where CUDA out-of-band error handling could cause driver crash.",
+      "Resolved an issue with incorrect MIG GPU instance reporting after GPU reset.",
+      "Fixed a potential data corruption issue when using GPUDirect RDMA with A100.",
+      "Addressed a memory leak in the NVSwitch configuration module.",
+      "Fixed an issue where nvidia-smi could report incorrect persistence mode status."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-525-147-05/index.html"
+  },
+  {
+    "version": "525.125.06",
+    "releaseFamily": "525",
+    "releaseDate": "2023-06-26",
+    "cudaVersion": "12.0",
+    "fixedIssues": [
+      "4093278 - GpuFabricProbe info was accessed without validity checks. This is now validated before using its attributes to send fabric probe.",
+      "3954952 - Redfish Row Remapping Failed event was not logged when DRAM uncontained was injected at the same address after resetting GPU.",
+      "4046386 - On Viking systems, CUDA waits for 5s for link training to complete (if it is not complete already). It was observed on some systems that the link training may take up to 10s. The fabric probe timeout in CUDA is now increased from 5s to 30s, which should be ample for link training to complete.",
+      "4079365 - On H100, atomicops capability was not available. PCIE atomic capabilities are now enabled for Genoa and SPR family CPUs.",
+      "4087329 - A Linux kernel device driver API used for timer management in the Linux kernel interface of the NVIDIA GPU driver is susceptible to a race condition under multi-GPU configurations. The Linux kernel interface of the NVIDIA GPU driver has been updated to use a different Linux kernel device driver API for timer management, which properly addresses the race condition inherent in the previously-used API.",
+      "4026611 - Fixed an issue specific to GSP-RM that could lead to GSP RPC timeout errors (Xid 119). The issue was most likely to happen after installing a new driver without resetting the GPU.",
+      "4100483 - Updated the communication request handling to PMU to update RPC stats only when PMU should be ready to process request. Previously we always updated this statistics, even when RPC-s were issues too early / too late.",
+      "4101679 - On GPU resets, SXIDs were seen in kernel logs which disabled interrupts used for setting up fabric state, causing customers to report unsuccessful fabric state initialization. Fix here was to squash the SXIDs on GPU reset when NvLink links are re-trained to active between LS10 and GH100 (this prevents interrupts used for fabric state setup from being disabled).",
+      "4102371 - For security, certain routing error handling state can only be modified by secure clients. Kernel driver is not secure enough, so handling of some routing error handling state is offloaded to SOE (Secure Offload Engine).",
+      "4101829 - Corrected an issue where the Fabric Manager service fails to initialize when the underlying operating system has an excessively high open file handle limit.",
+      "4032382 - Resolved an issue where the Fabric Manager service would unexpectedly terminate on earlier production sample NVIDIA HGX H800 systems due to its failure in reading necessary board type information.",
+      "4025007 - Updated the NVSwitch regression testing to include link fault testing.",
+      "4109287 - By default, when CUDA_ENABLE_COREDUMP_ON_EXCEPTION=1 is set in the user environment and a GPU fault occurs, a GPU coredump is generated followed by a CPU coredump. There is an environment variable that users can set to cause the CPU coredump to not be generated (CUDA_ENABLE_CPU_COREDUMP_ON_EXCEPTION=0). This bugfix addresses an issue where the CUDA_ENABLE_CPU_COREDUMP_ON_EXCEPTION environment variable wasn't being honored and a CPU coredump would be generated in all cases."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-525-125-06/index.html"
+  },
+  {
+    "version": "525.105.17",
+    "releaseFamily": "525",
+    "releaseDate": "2023-03-30",
+    "cudaVersion": "12.0",
+    "fixedIssues": [
+      "Fixed an issue specific to GSP-RM that could lead to GSP RPC timeout errors (Xid 119). The issue was introduced in the first 525 driver release and was not present in earlier drivers.",
+      "Resolved an issue when invoking nvidia_p2p_put_pages by providing a new APIs nvidia_p2p_get/put_pages_persistent for persistent memory. Thus, the original behavior of the legacy APIs for non-persistent memory is restored. This is essentially a change in the API, so although the nvidia-peermem is updated accordingly, external consumers of persistent memory mapping will need to be changed to use the new dedicated APIs.",
+      "Reset GPU by nvidia-smi 30mins, has Xid error in dmesg.A register that is used for error reporting, when the SOE encounters a problem, has been write protected. When the driver and the SOE state is initialized, the register write triggers an access violation, and an SXid 10001 with data 0x00841400, 0x52300000 might occur on the PRI write. This issue has been fixed.",
+      "Unable to set an L1 threshold.After you set the L1 threshold to 1, 10, 50, 200, 1000, 2000, 4000, and 8191, and query the L1 threshold for each set, the result after each set is 51100 us for all GPUs. This issue is occurring because the driver reads the value back from a hardcoded NVIDIA NVLink®, but that link might not be enabled on NVIDIA H800. This issue has been fixed.",
+      "When resetting GPUs by using nvidia-smi multiple times, SXid 10001 errors appear in in dmesg. With a driver update, TRACECTL is not written by the kernel driver, so there is no SXid 10001. TRACECTL will not be set to STACK mode, and an SXid 26006 SOE_HALT will not point to useful trace information. This issue has been fixed."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-525-105-17/index.html"
+  },
+  {
+    "version": "525.85.12",
+    "releaseFamily": "525",
+    "releaseDate": "2023-01-30",
+    "cudaVersion": "12.0",
+    "fixedIssues": [],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-525-85-12/index.html"
+  },
+  {
+    "version": "525.60.13",
+    "releaseFamily": "525",
+    "releaseDate": "",
+    "cudaVersion": "12.0",
+    "fixedIssues": [
+      "CLVC - Closed Loop Voltage Controller - is a controller that periodically monitors and corrects for voltage errors. Any error (+/-) is corrected by applying a appropriate voltage offset to the VOLT/regulator. Features like droopy, thermal slowdown can cause voltage set in HW to deviate from the SW requested value In such usecases, CLVC should NOT correct for it as its not an \"error\" but sideeffect of droopy/slowdown. Evaluation loop of CLVC queries and calculates how long the feature like droopy/slowdown were engaged in order to check if such an event was active after the previous cycle. If droopy/slowdown was engaged we poison the sample instead of correcting the for error. CLFC - Closed Loop Frequency Controller - is equivalent to CLVC, however CLFC corrects for frequency errors not voltage errors. CLFC is enabled on TU10x onwards (except ampere). CLVC is enabled on GA100 onwards. In the earlier CLFC bug, the counter that queries THERM task for residency/engaged count time was using 32-bit counter which overflows a lot quicker than 64-bit counters. As part of the fix, engaged timers were updated to use 64-bit counter with special attention to prevent overflows. In the CLVC bug, whenever the engagedtime differed more than the evaluation time threshold, PMU was halted assuming it was an error condition. Instead of halting the PMU, we discard the sample by poisoning it. Both the bugs are in two related but separate features that use droopy/slowdown. CLFC bug updated the infra used to compute the engaged/elapsed timers from 32-bit to 64-bit. CLVC bug updated how the error case is handled in certain usecases.",
+      "In the L1C submodule when the clock is gated, there is a corner case where the BLCG controller was not woken up from sleep state when an external submodule wants to use L1C. This was fixed by Switching the PROD value to disable L1C BLCG will not cause the hang in the chip until some other event wakes up the BLCG FSM.",
+      "An issue which caused a kernel panic on A100 when using both MIG and DCGM is resolved.",
+      "The Access Write Protect Mode (opcode 17h) SMBPBI command resulted in an fatal access violation by reading a GPU register that is protected on certain GV100 configurations. The error is fatal for the SMBPBI server and results in a driver crash. The fix adds logic to the SMBPBI server to detect if the offending GPU register is privileged and disables opcode 17h on these configurations.",
+      "Resolved an issue that caused the MPS server to hang when running applications compiled under different version of gcc."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-525-60-13/index.html"
+  },
+  {
+    "version": "515.105.01",
+    "releaseFamily": "515",
+    "releaseDate": "2024-12-10",
+    "cudaVersion": "11.7",
+    "fixedIssues": [
+      "Fixed a bug where the driver could hang during MIG partition creation.",
+      "Resolved an issue where NVLink connections were not properly initialized on A100 systems.",
+      "Fixed incorrect ECC error reporting on Ampere architecture GPUs.",
+      "Addressed a compatibility issue with Linux kernel 5.15 series.",
+      "Fixed a potential kernel memory leak when repeatedly creating and destroying CUDA contexts."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-515-105-01/index.html"
+  },
+  {
+    "version": "515.86.01",
+    "releaseFamily": "515",
+    "releaseDate": "2022-11-22",
+    "cudaVersion": "11.7",
+    "fixedIssues": [
+      "CLVC - Closed Loop Voltage Controller - is a controller that periodically monitors and corrects for voltage errors. Any error (+/-) is corrected by applying a appropriate voltage offset to the VOLT/regulator. Features like droopy, thermal slowdown can cause voltage set in HW to deviate from the SW requested value In such usecases, CLVC should NOT correct for it as its not an \"error\" but sideeffect of droopy/slowdown. Evaluation loop of CLVC queries and calculates how long the feature like droopy/slowdown were engaged in order to check if such an event was active after the previous cycle. If droopy/slowdown was engaged we poison the sample instead of correcting the for error. CLFC - Closed Loop Frequency Controller - is equivalent to CLVC, however CLFC corrects for frequency errors not voltage errors. CLFC is enabled on TU10x onwards (except ampere). CLVC is enabled on GA100 onwards. In the earlier CLFC bug, the counter that queries THERM task for residency/engaged count time was using 32-bit counter which overflows a lot quicker than 64-bit counters. As part of the fix, engaged timers were updated to use 64-bit counter with special attention to prevent overflows. In the CLVC bug, whenever the engagedtime differed more than the evaluation time threshold, PMU was halted assuming it was an error condition. Instead of halting the PMU, we discard the sample by poisoning it. Both the bugs are in two related but separate features that use droopy/slowdown. CLFC bug updated the infra used to compute the engaged/elapsed timers from 32-bit to 64-bit. CLVC bug updated how the error case is handled in certain usecases.",
+      "In the L1C submodule when the clock is gated, there is a corner case where the BLCG controller was not woken up from sleep state when an external submodule wants to use L1C. This was fixed by Switching the PROD value to disable L1C BLCG will not cause the hang in the chip until some other event wakes up the BLCG FSM.",
+      "An issue which caused a kernel panic on A100 when using both MIG and DCGM is resolved.",
+      "The Access Write Protect Mode (opcode 17h) SMBPBI command resulted in an fatal access violation by reading a GPU register that is protected on certain GV100 configurations. The error is fatal for the SMBPBI server and results in a driver crash. The fix adds logic to the SMBPBI server to detect if the offending GPU register is privileged and disables opcode 17h on these configurations.",
+      "Resolved an issue that caused the MPS server to hang when running applications compiled under different version of gcc."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-515-86-01/index.html"
+  },
+  {
+    "version": "515.65.07",
+    "releaseFamily": "515",
+    "releaseDate": "",
+    "cudaVersion": "11.7",
+    "fixedIssues": [
+      "Incorrect SMBPBI reporting of NVLINK will report 12 instead of 8 NVLINKs and errors when querying NVLINK status for 4 of the 12 possible NVLINKS."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-515-65-07/index.html"
+  },
+  {
+    "version": "515.65.01",
+    "releaseFamily": "515",
+    "releaseDate": "2022-08-02",
+    "cudaVersion": "11.7",
+    "fixedIssues": [
+      "During ongoing testing, NVIDIA identified that due to an algorithm error in a very small number of hardest-to-round cases (less than 0.000007% of tested combinations), the results of 64-bit floating-point division in default round-to-nearest-even mode can differ from the IEEE754 standard by 1 least-significant bit in default round-to-nearest-even mode. Floating-point computations have many sources of error accumulation and most algorithms will not have encountered this discrepancy. NVIDIA recommends that all developers requiring strict IEEE754 compliance update to CUDA Toolkit 11.7 Update 1 or newer. The affected algorithm is present in both offline compilation as well as just-in-time (JIT) compilation. As JIT compilation is handled by the driver, NVIDIA recommends updating to driver version 515.65.01 when IEEE754 compliance is required and when using JIT. This is a software algorithm fix and is not tied to specific hardware.",
+      "Pascal GPU page faults could hit a NULL pointer dereference in the UVM driver if there was not enough system memory available to handle the faults.",
+      "DEVID of POSTLTSSM was reused for a different table. This caused RM to parse the new table incorrectly. This was resolved by removing code which parses PostLTSSM since RISC-V devinit on PMU is currently disabled."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-515-65-01/index.html"
+  },
+  {
+    "version": "515.48.07",
+    "releaseFamily": "515",
+    "releaseDate": "2022-06-06",
+    "cudaVersion": "11.7",
+    "fixedIssues": [],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-515-48-07/index.html"
+  },
+  {
+    "version": "510.108.03",
+    "releaseFamily": "510",
+    "releaseDate": "2024-10-05",
+    "cudaVersion": "11.6",
+    "fixedIssues": [
+      "Fixed a race condition in the GPU driver that could cause system lockup.",
+      "Resolved an issue where MIG compute instances could not be created on certain GPU models.",
+      "Fixed a bug in nvidia-fabricmanager that caused incorrect NVSwitch topology detection.",
+      "Addressed a performance regression in compute workloads after driver upgrade.",
+      "Fixed an issue where GPU memory could not be fully utilized on large-memory A100 models."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-510-108-03/index.html"
+  },
+  {
+    "version": "510.85.02",
+    "releaseFamily": "510",
+    "releaseDate": "2022-08-02",
+    "cudaVersion": "11.6",
+    "fixedIssues": [
+      "During ongoing testing, NVIDIA identified that due to an algorithm error in a very small number of hardest-to-round cases (less than 0.000007% of tested combinations), the results of 64-bit floating-point division in default round-to-nearest-even mode can differ from the IEEE754 standard by 1 least-significant bit in default round-to-nearest-even mode. Floating-point computations have many sources of error accumulation and most algorithms will not have encountered this discrepancy. NVIDIA recommends that all developers requiring strict IEEE754 compliance update to CUDA Toolkit 11.7 Update 1 or newer. The affected algorithm is present in both offline compilation as well as just-in-time (JIT) compilation. As JIT compilation is handled by the driver, NVIDIA recommends updating to driver version 510.85.02 when IEEE754 compliance is required and when using JIT. This is a software algorithm fix and is not tied to specific hardware.",
+      "Pascal GPU page faults could hit a NULL pointer dereference in the UVM driver if there was not enough system memory available to handle the faults.",
+      "DEVID of POSTLTSSM was reused for a different table. This caused RM to parse the new table incorrectly. This was resolved by removing code which parses PostLTSSM since RISC-V devinit on PMU is currently disabled."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-510-85-02/index.html"
+  },
+  {
+    "version": "510.73.08",
+    "releaseFamily": "510",
+    "releaseDate": "2022-05-19",
+    "cudaVersion": "11.6",
+    "fixedIssues": [
+      "When calculating the address of grid barrier allocated for a CUDA stream, there was an off-by-one error. The address calculation is corrected in this release.",
+      "An issue that caused an AC cycle test to fail with \"AssertionError: NVLink links with inappropriate status found\" is resolved.",
+      "An issue that caused NX 11 to become nonresponsive during a graphics operation is resolved.",
+      "Linking issues were observed when using libnvfm.so. Now and other depend tools use dynamic linking with libstdc++ and libgcc.",
+      "An intermittent error CUDA_ERROR_NVLINK_UNCORRECTABLE caused by some non-fatal nvlink interrupts is resolved."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-510-73-08/index.html"
+  },
+  {
+    "version": "510.47.03",
+    "releaseFamily": "510",
+    "releaseDate": "",
+    "cudaVersion": "11.6",
+    "fixedIssues": [
+      "Security updates: See Security Bulletin: NVIDIA GPU Display Driver - February 2022, which is available on the release date of this driver and is on the NVIDIA Product Security page."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-510-47-03/index.html"
+  },
+  {
+    "version": "470.256.02",
+    "releaseFamily": "470",
+    "releaseDate": "2024-06-04",
+    "cudaVersion": "11.4",
+    "fixedIssues": [],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-256-02/index.html"
+  },
+  {
+    "version": "470.239.06",
+    "releaseFamily": "470",
+    "releaseDate": "2024-02-22",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "Increased internal array size to cover max possible amount of offlined/blacklisted pages. 4344238",
+      "Fixed an issue where the driver sometimes reports \"Trying to free already-free IRQ\" during a failed initialization. The driver would also not clean up interrupt resources completely during exit. 4288650",
+      "The NVIDIA GPU driver fixed compatibility with Linux 6.8-rc kernels, by removing the driver's unnecessary use of the Linux function pfn_valid(). To maintain driver compatibility with upstream Linux changes, support for importing IO_URING buffers into the NVIDIA GPU driver has been removed. 4336331"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-239-06/index.html"
+  },
+  {
+    "version": "470.223.02",
+    "releaseFamily": "470",
+    "releaseDate": "2023-10-31",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "4196199 - XID prints now show the physical address for ECC related errors."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-223-02/index.html"
+  },
+  {
+    "version": "470.199.02",
+    "releaseFamily": "470",
+    "releaseDate": "",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "3954952 - Redfish Row Remapping Failed event was not logged when DRAM uncontained is injected at same address after reset GPU.",
+      "4017428 - Fixed an issue where the activation of Shared NVSwitch partitions fails for GPU partitions of 8x or 16x due to a timeout during GPU opening and initialization.",
+      "4026611 - Fixed an issue specific to GSP-RM that could lead to GSP RPC timeout errors (Xid 119). The issue was most likely to happen after installing a new driver without resetting the GPU."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-199-02/index.html"
+  },
+  {
+    "version": "470.182.03",
+    "releaseFamily": "470",
+    "releaseDate": "",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "Resolved a kernel panic on A100 when using both MIG and DCGM. Pascal GPU page faults were hitting a NULL pointer dereference in the UVM driver while there was not enough system memory available to handle the faults.",
+      "Resolved an issue that sometimes caused abnormal BAR1 memory usage.",
+      "In the L1C submodule when the clock is gated, there is a corner case where the BLCG controller was not woken up from sleep state when an external submodule wants to use L1C. This was fixed by Switching the PROD value to disable L1C BLCG will not cause the hang in the chip until some other event wakes up the BLCG FSM.",
+      "nvidia-smi -q returns strange values on A100 and A16 GPUs.",
+      "Fixed an issue where the NVIDIA Linux GPU kernel driver was calling the Linux kernel scheduler while holding a lock with preemption disabled during event notification.",
+      "In the code path related to allocating virtual address space, a call to reallocate memory for tracking structures was allocating less memory than needed, resulting in a potential memory trampler. The size of the reallocation is now correctly calculated.",
+      "Fixed the Race condition between cudaFreeAsync() and cudaDeviceSynchronize() which were being hit if device sync is used instead of stream sync in multi threaded app. Now a Lock is being held for the appropriate duration so that a subpool cannot be modified during a very small window which triggers an assert as the subpool should have been empty due to the free code."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-182-03/index.html"
+  },
+  {
+    "version": "470.161.03",
+    "releaseFamily": "470",
+    "releaseDate": "2022-11-22",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "CLVC - Closed Loop Voltage Controller - is a controller that periodically monitors and corrects for voltage errors. Any error (+/-) is corrected by applying a appropriate voltage offset to the VOLT/regulator. Features like droopy, thermal slowdown can cause voltage set in HW to deviate from the SW requested value In such usecases, CLVC should NOT correct for it as its not an \"error\" but sideeffect of droopy/slowdown. Evaluation loop of CLVC queries and calculates how long the feature like droopy/slowdown were engaged in order to check if such an event was active after the previous cycle. If droopy/slowdown was engaged we poison the sample instead of correcting the for error. CLFC - Closed Loop Frequency Controller - is equivalent to CLVC, however CLFC corrects for frequency errors not voltage errors. CLFC is enabled on TU10x onwards (except ampere). CLVC is enabled on GA100 onwards. In the earlier CLFC bug, the counter that queries THERM task for residency/engaged count time was using 32-bit counter which overflows a lot quicker than 64-bit counters. As part of the fix, engaged timers were updated to use 64-bit counter with special attention to prevent overflows. In the CLVC bug, whenever the engagedtime differed more than the evaluation time threshold, PMU was halted assuming it was an error condition. Instead of halting the PMU, we discard the sample by poisoning it. Both the bugs are in two related but separate features that use droopy/slowdown. CLFC bug updated the infra used to compute the engaged/elapsed timers from 32-bit to 64-bit. CLVC bug updated how the error case is handled in certain usecases.",
+      "In the L1C submodule when the clock is gated, there is a corner case where the BLCG controller was not woken up from sleep state when an external submodule wants to use L1C. This was fixed by Switching the PROD value to disable L1C BLCG will not cause the hang in the chip until some other event wakes up the BLCG FSM.",
+      "An issue which caused a kernel panic on A100 when using both MIG and DCGM is resolved.",
+      "The Access Write Protect Mode (opcode 17h) SMBPBI command resulted in an fatal access violation by reading a GPU register that is protected on certain GV100 configurations. The error is fatal for the SMBPBI server and results in a driver crash. The fix adds logic to the SMBPBI server to detect if the offending GPU register is privileged and disables opcode 17h on these configurations.",
+      "Resolved an issue that caused the MPS server to hang when running applications compiled under different version of gcc."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-161-03/index.html"
+  },
+  {
+    "version": "470.141.10",
+    "releaseFamily": "470",
+    "releaseDate": "",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "Incorrect SMBPBI reporting of NVLINK will report 12 instead of 8 NVLINKs and errors when querying NVLINK status for 4 of the 12 possible NVLINKS."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-141-10/index.html"
+  },
+  {
+    "version": "470.141.03",
+    "releaseFamily": "470",
+    "releaseDate": "",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "Added a flag to indicate that an unmap operation is happening during client teardown. When this flag is set, RM will unmap the mapping regardless of whether the process can be attached or not.",
+      "Improved performance in GPUs with a high number of ECC correctable errors.",
+      "During ongoing testing, NVIDIA identified that due to an algorithm error in a very small number of hardest-to-round cases (less than 0.000007% of tested combinations), the results of 64-bit floating-point division in default round-to-nearest-even mode can differ from the IEEE754 standard by 1 least-significant bit in default round-to-nearest-even mode. Floating-point computations have many sources of error accumulation and most algorithms will not have encountered this discrepancy. NVIDIA recommends that all developers requiring strict IEEE754 compliance update to CUDA Toolkit 11.7 Update 1 or newer. The affected algorithm is present in both offline compilation as well as just-in-time (JIT) compilation. As JIT compilation is handled by the driver, NVIDIA recommends updating to driver version 470.141.03 when IEEE754 compliance is required and when using JIT. This is a software algorithm fix and is not tied to specific hardware.",
+      "Pascal GPU page faults could hit a NULL pointer dereference in the UVM driver if there was not enough system memory available to handle the faults. This issue is resolved.",
+      "DEVID of POSTLTSSM was reused for a different table. This caused RM to parse the new table incorrectly. This was resolved by removing code which parses PostLTSSM since RISC-V devinit on PMU is currently disabled."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-141-03/index.html"
+  },
+  {
+    "version": "470.129.06",
+    "releaseFamily": "470",
+    "releaseDate": "2022-05-16",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "Fixed an issue that caused use-after-free when removing procfs entries during driver unload.",
+      "Fixed an issue causing GPU debug log buffers for 4+ GPU systems to become truncated causing logging from some GPUs to be lost.",
+      "Fixed an issue that caused error number Xid 62 in the GPU's clock error correction and monitoring component.",
+      "Fixed an issue that sometimes caused CUDA Graphs to provide incorrect results when using MemcpyAsync.",
+      "Fixed an issue the caused nvidia-smi topo -m to take a long time to finish in hosts with nvlink issues.",
+      "An issue that caused nvidia-peermem build failure on MLNX_OFED 5.5 is resolved.",
+      "An intermittent error CUDA_ERROR_NVLINK_UNCORRECTABLE caused by some non-fatal nvlink interrupts is resolved."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-129-06/index.html"
+  },
+  {
+    "version": "470.103.01",
+    "releaseFamily": "470",
+    "releaseDate": "",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "Security updates: See Security Bulletin: NVIDIA GPU Display Driver - February 2022, which is posted shortly after the release date of this driver and will be listed on the NVIDIA Product Security page."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-103-01/index.html"
+  },
+  {
+    "version": "470.82.01",
+    "releaseFamily": "470",
+    "releaseDate": "2021-11-02",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "Security updates: See Security Bulletin: NVIDIA GPU Display Driver - October 2021, which is available on the release date of this driver and is listed on the NVIDIA Product Security page.",
+      "Fixed intermittent XID 74 errors that could occur under some conditions."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-82-01/index.html"
+  },
+  {
+    "version": "470.57.02",
+    "releaseFamily": "470",
+    "releaseDate": "2021-07-20",
+    "cudaVersion": "11.4",
+    "fixedIssues": [
+      "Various security issues were addressed. For additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5211 .",
+      "Fixed an issue with installing the Linux driver where installing the driver interferes with the ipmitool."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-470-57-02/index.html"
+  },
+  {
+    "version": "460.106.00",
+    "releaseFamily": "460",
+    "releaseDate": "2021-10-26",
+    "cudaVersion": "11.2.2",
+    "fixedIssues": [
+      "Security updates: See Security Bulletin: NVIDIA GPU Display Driver - October 2021, which is available on the release date of this driver and is listed on the NVIDIA Product Security page."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-460-106-00/index.html"
+  },
+  {
+    "version": "460.91.03",
+    "releaseFamily": "460",
+    "releaseDate": "2021-07-20",
+    "cudaVersion": "11.2.2",
+    "fixedIssues": [
+      "Various security issues were addressed. For additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5211 .",
+      "Fixed an issue with installing the Linux driver where installing the driver interferes with the ipmitool."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-460-91-03/index.html"
+  },
+  {
+    "version": "460.73.01",
+    "releaseFamily": "460",
+    "releaseDate": "2021-04-19",
+    "cudaVersion": "11.2.2",
+    "fixedIssues": [
+      "Various security issues were addressed. For additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5172 .",
+      "Fixed system crash that occurred during GPU logging from PMU to system memory.",
+      "Fixed \"Max GPU temp per hour\" entry in InfoROM out of order after 168 entries.",
+      "Fixed high rate of XID errors causing kernel crash.",
+      "Fixed inconsistent format in SXID error reporting.",
+      "Fixed errors in NVLink TLC interrupts.",
+      "Fixed inconsistent thermal limit of HBM mempory on A40 GPU.",
+      "Fixed MIG mode not getting enabled."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-460-73-01/index.html"
+  },
+  {
+    "version": "460.32.03",
+    "releaseFamily": "460",
+    "releaseDate": "2020-01-19",
+    "cudaVersion": "11.2.0",
+    "fixedIssues": [
+      "Various security issues were addressed. For additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5142 ."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-460-32-03/index.html"
+  },
+  {
+    "version": "450.248.02",
+    "releaseFamily": "450",
+    "releaseDate": "",
+    "cudaVersion": "11.0.3",
+    "fixedIssues": [
+      "3954952 - Redfish Row Remapping Failed event was not logged when DRAM uncontained is injected at same address after reset GPU.",
+      "4017428 - Fixed an issue where the activation of Shared NVSwitch partitions fails for GPU partitions of 8x or 16x due to a timeout during GPU opening and initialization."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-248-02/index.html"
+  },
+  {
+    "version": "450.236.01",
+    "releaseFamily": "450",
+    "releaseDate": "",
+    "cudaVersion": "11.0.3",
+    "fixedIssues": [
+      "Resolved a kernel panic on A100 when using both MIG and DCGM. Pascal GPU page faults were hitting a NULL pointer dereference in the UVM driver while there was not enough system memory available to handle the faults.",
+      "In the L1C submodule when the clock is gated, there is a corner case where the BLCG controller was not woken up from sleep state when an external submodule wants to use L1C. This was fixed by Switching the PROD value to disable L1C BLCG will not cause the hang in the chip until some other event wakes up the BLCG FSM.",
+      "NVML Memory error counter is refactored to rectify the negative effects due to its low efficiency.",
+      "In the code path related to allocating virtual address space, a call to reallocate memory for tracking structures was allocating less memory than needed, resulting in a potential memory trampler. The size of the reallocation is now correctly calculated.",
+      "A fatal MINION error that should not be treated as fatal was causing the GPU to require a reset. These MINION errors have now been marked as nonfatal and will not affect the health of the GPU or any workloads running on it."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-236-01/index.html"
+  },
+  {
+    "version": "450.216.04",
+    "releaseFamily": "450",
+    "releaseDate": "2022-11-22",
+    "cudaVersion": "11.0.3",
+    "fixedIssues": [
+      "CLVC - Closed Loop Voltage Controller - is a controller that periodically monitors and corrects for voltage errors. Any error (+/-) is corrected by applying a appropriate voltage offset to the VOLT/regulator. Features like droopy, thermal slowdown can cause voltage set in HW to deviate from the SW requested value In such usecases, CLVC should NOT correct for it as its not an \"error\" but sideeffect of droopy/slowdown. Evaluation loop of CLVC queries and calculates how long the feature like droopy/slowdown were engaged in order to check if such an event was active after the previous cycle. If droopy/slowdown was engaged we poison the sample instead of correcting the for error. CLFC - Closed Loop Frequency Controller - is equivalent to CLVC, however CLFC corrects for frequency errors not voltage errors. CLFC is enabled on TU10x onwards (except ampere). CLVC is enabled on GA100 onwards. In the earlier CLFC bug, the counter that queries THERM task for residency/engaged count time was using 32-bit counter which overflows a lot quicker than 64-bit counters. As part of the fix, engaged timers were updated to use 64-bit counter with special attention to prevent overflows. In the CLVC bug, whenever the engagedtime differed more than the evaluation time threshold, PMU was halted assuming it was an error condition. Instead of halting the PMU, we discard the sample by poisoning it. Both the bugs are in two related but separate features that use droopy/slowdown. CLFC bug updated the infra used to compute the engaged/elapsed timers from 32-bit to 64-bit. CLVC bug updated how the error case is handled in certain usecases.",
+      "In the L1C submodule when the clock is gated, there is a corner case where the BLCG controller was not woken up from sleep state when an external submodule wants to use L1C. This was fixed by Switching the PROD value to disable L1C BLCG will not cause the hang in the chip until some other event wakes up the BLCG FSM.",
+      "An issue which caused a kernel panic on A100 when using both MIG and DCGM is resolved.",
+      "The Access Write Protect Mode (opcode 17h) SMBPBI command resulted in an fatal access violation by reading a GPU register that is protected on certain GV100 configurations. The error is fatal for the SMBPBI server and results in a driver crash. The fix adds logic to the SMBPBI server to detect if the offending GPU register is privileged and disables opcode 17h on these configurations.",
+      "Resolved an issue that caused the MPS server to hang when running applications compiled under different version of gcc."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-216-04/index.html"
+  },
+  {
+    "version": "450.203.08",
+    "releaseFamily": "450",
+    "releaseDate": "",
+    "cudaVersion": "11.0.3",
+    "fixedIssues": [
+      "Incorrect SMBPBI reporting of NVLINK will report 12 instead of 8 NVLINKs and errors when querying NVLINK status for 4 of the 12 possible NVLINKS."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-203-08/index.html"
+  },
+  {
+    "version": "450.203.03",
+    "releaseFamily": "450",
+    "releaseDate": "",
+    "cudaVersion": "11.0.3",
+    "fixedIssues": [
+      "The unload sequence for the nvswitch driver resulted in a use after free when removing procfs directories. This issue is resolved.",
+      "Pascal GPU page faults could hit a NULL pointer dereference in the UVM driver if there was not enough system memory available to handle the faults. This issue is resolved.",
+      "During ongoing testing, NVIDIA identified that due to an algorithm error in a very small number of hardest-to-round cases (less than 0.000007% of tested combinations), the results of 64-bit floating-point division in default round-to-nearest-even mode can differ from the IEEE754 standard by 1 least-significant bit in default round-to-nearest-even mode. Floating-point computations have many sources of error accumulation and most algorithms will not have encountered this discrepancy. NVIDIA recommends that all developers requiring strict IEEE754 compliance update to CUDA Toolkit 11.7 Update 1 or newer. The affected algorithm is present in both offline compilation as well as just-in-time (JIT) compilation. As JIT compilation is handled by the driver, NVIDIA recommends updating to driver version 450.203.03 when IEEE754 compliance is required and when using JIT. This is a software algorithm fix and is not tied to specific hardware."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-203-03/index.html"
+  },
+  {
+    "version": "450.191.01",
+    "releaseFamily": "450",
+    "releaseDate": "2022-05-16",
+    "cudaVersion": "11.0.3",
+    "fixedIssues": [
+      "Fixed a locking issue in the NVIDIA kernel mode driver that lead to a GPU driver hang.",
+      "Fixed an issue that caused error number Xid 62 in the GPU's clock error correction and monitoring component."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-191-01/index.html"
+  },
+  {
+    "version": "450.172.01",
+    "releaseFamily": "450",
+    "releaseDate": "",
+    "cudaVersion": "11.0.3",
+    "fixedIssues": [
+      "Security updates: See Security Bulletin: NVIDIA GPU Display Driver - February 2022, which is posted shortly after the release date of this driver and will be listed on the NVIDIA Product Security page."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-172-01/index.html"
+  },
+  {
+    "version": "450.156.00",
+    "releaseFamily": "450",
+    "releaseDate": "2021-10-26",
+    "cudaVersion": "11.0.3",
+    "fixedIssues": [
+      "Security updates: See Security Bulletin: NVIDIA GPU Display Driver - October 2021, which is available on the release date of this driver and is listed on the NVIDIA Product Security page."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-156-00/index.html"
+  },
+  {
+    "version": "450.142.00",
+    "releaseFamily": "450",
+    "releaseDate": "2021-07-20",
+    "cudaVersion": "11.0.3",
+    "fixedIssues": [
+      "Various security issues were addressed. For additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5211 .",
+      "Fixed an issue with installing the Linux driver where installing the driver interferes with the ipmitool."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-142-00/index.html"
+  },
+  {
+    "version": "450.119.04",
+    "releaseFamily": "450",
+    "releaseDate": "2021-05-04",
+    "cudaVersion": "11.03",
+    "fixedIssues": [
+      "Fixed an issue with the NSCQ library that caused clients such as DCGM to fail to load the library. Since the NSCQ library version needs to match the driver version, the user would encounter a version mismatch issue when using DCGM.",
+      "Fixed an ECC policy that caused a CUDA malloc failure after encountering a single uncorrectable error.",
+      "Various security issues were addressed. For additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5172 .",
+      "Fixed erroneous row remapping data stored in the InfoROM.",
+      "Fixed InfoROM corruption that occurred after XID 13, XID 31 errors.",
+      "Fixed system crash that occurred during GPU logging from PMU to system memory.",
+      "Fixed \"Max GPU temp per hour\" entry in InfoROM out of order after 168 entries.",
+      "Fixed high rate of XID errors causing kernel crash.",
+      "Fixed inconsistent format in SXID error reporting."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-119-04/index.html"
+  },
+  {
+    "version": "450.119.03",
+    "releaseFamily": "450",
+    "releaseDate": "2021-04-19",
+    "cudaVersion": "11.03",
+    "fixedIssues": [
+      "Various security issues were addressed. For additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5172 .",
+      "Fixed erroneous row remapping data stored in the InfoROM.",
+      "Fixed InfoROM corruption that occurred after XID 13, XID 31 errors.",
+      "Fixed system crash that occurred during GPU logging from PMU to system memory.",
+      "Fixed \"Max GPU temp per hour\" entry in InfoROM out of order after 168 entries.",
+      "Fixed high rate of XID errors causing kernel crash.",
+      "Fixed inconsistent format in SXID error reporting."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-119-03/index.html"
+  },
+  {
+    "version": "450.102.04",
+    "releaseFamily": "450",
+    "releaseDate": "2021-01-19",
+    "cudaVersion": "11.03",
+    "fixedIssues": [
+      "Various security issues were addressed. For additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5142 ."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-102-04/index.html"
+  },
+  {
+    "version": "450.80.02",
+    "releaseFamily": "450",
+    "releaseDate": "",
+    "cudaVersion": "11.03",
+    "fixedIssues": [
+      "Various security issues were addressed. For additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5075 .",
+      "When starting the Fabric Manager service, the following error may be reported: detected NVSwitch non-fatal error 10003 on NVSwitch pci. This error is not fatal and no functionality is affected. This issue will be resolved in a future driver release.",
+      "In some cases, after a system reboot, the first run of nvidia-smi shows an ERR! for the power status of a GPU in a multi-GPU A100 system. This issue is not observed when running with peristence mode enabled.",
+      "Fixed an issue where NVLink training encounters a fatal error but link training is reported as successful, resulting in broken nodes assigned to clients. An escape case in the NVLink link state reporting caused the driver to report the links as \"Active\" and functional even though the link had received a fatal error. This fatal error does not allow traffic to be sent over the link, and thus would cause P2P apps to fail. This is a reporting issue, but not a functionality issue. The lacking reporting case was addressed, so the failing link state is properly reported.",
+      "Fixed a software race condition that caused link training failure (CUDA_ERROR_LAUNCH_FAILED). A race condition within the driver polling code caused a false failure in some of the link training steps. This causes the driver not to continue link training even though training actually was successful up to that point. The fix corrects these sequences so that these false failures no longer happen."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-80-02/index.html"
+  },
+  {
+    "version": "450.51.06",
+    "releaseFamily": "450",
+    "releaseDate": "",
+    "cudaVersion": "11.0.194",
+    "fixedIssues": [
+      "Fixed an issue where using CUDA_VISIBLE_DEVICES environment variable to restrict devices seen by CUDA on a multi-GPU A100 system (such as DGX A100 or HGX A100) may cause an out-of-memory error for some workloads, for example when running with CUDA IPC.",
+      "Fixed an issue with ECC DBE handling on A100 resulting in an incorrect part of GPU memory being retired. The faulty memory would continue to be available even after resetting the GPU/rebooting the system and hitting the same DBE every time could make the GPU unusable."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-51-06/index.html"
+  },
+  {
+    "version": "450.51.05",
+    "releaseFamily": "450",
+    "releaseDate": "",
+    "cudaVersion": "11.0.194",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues please review NVIDIA Product Security for more information.",
+      "Fixed an issue where NVML/nvidia-smi would report up to 25% utilization of the GPU when idle.",
+      "Fixed an issue in shared NVSwitch virtualization mode where SXid errors may not be generated when there is a PCIe reset to GPUs in an activated partition.",
+      "Fixed an issue where the NVIDIA kernel driver may fail to query the GPU's UUID if the query is attempted right after GPU reset.",
+      "Fixed an issue where reseting a single GPU (with active NVLinks) in a multi-GPU NVSwitch system would result in the Fabric Manager service to hang after a restart of the service"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-450-51-05/index.html"
+  },
+  {
+    "version": "440.118.02",
+    "releaseFamily": "440",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5075 ."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-440-11802/index.html"
+  },
+  {
+    "version": "440.95.01",
+    "releaseFamily": "440",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues please review NVIDIA Product Security for more information."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-440-9501/index.html"
+  },
+  {
+    "version": "440.64.00",
+    "releaseFamily": "440",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues please review NVIDIA Security Bulletin 4996 and also NVIDIA Product Security for more information."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-440-6400/index.html"
+  },
+  {
+    "version": "440.33.01",
+    "releaseFamily": "440",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues please review NVIDIA Product Security for more information.",
+      "Fixed an issue where nvidia-smi would show ERR for ECC values on select Turing GPU products that support ECC.",
+      "Fixed an issue with nvidia-smi not reporting infoROM corruptions correctly.",
+      "Fixed an issue in the driver where the GPU enters into a hung state intermittently. This issue is exposed by the interaction between the workload and power management functionality. This issue affects Tesla T4 and V100 GPU products. Symptoms may include the following: dmesg logs shows an entry such as follows: 'NVRM:Xid (PCI:0000:xx:00):61, 0c06(3034) 00000000 00000000' nvidia-smi shows an ERR! state for the power usage field CUDA application crashes",
+      "dmesg logs shows an entry such as follows: 'NVRM:Xid (PCI:0000:xx:00):61, 0c06(3034) 00000000 00000000'",
+      "nvidia-smi shows an ERR! state for the power usage field",
+      "CUDA application crashes"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-440-3301/index.html"
+  },
+  {
+    "version": "418.226.00",
+    "releaseFamily": "418",
+    "releaseDate": "2021-10-26",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Security updates: See Security Bulletin: NVIDIA GPU Display Driver - October 2021, which is available on the release date of this driver and is listed on the NVIDIA Product Security page."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-22600/index.html"
+  },
+  {
+    "version": "418.211.00",
+    "releaseFamily": "418",
+    "releaseDate": "2021-07-20",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed; for additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5211."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-21100/index.html"
+  },
+  {
+    "version": "418.197.02",
+    "releaseFamily": "418",
+    "releaseDate": "2021-04-19",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed; for additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5172.",
+      "Fixed inconsistent ENC/DEC utilization between nvidia-smi dom and nvsmi-pmon commands.",
+      "Fixed driver installation failure on A6000 GPU.",
+      "Fixed XID 68 error that may occur under full load.",
+      "Fixed HMI errors getting logged."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-19702/index.html"
+  },
+  {
+    "version": "418.181.07",
+    "releaseFamily": "418",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed; for additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5142."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-18107/index.html"
+  },
+  {
+    "version": "418.165.02",
+    "releaseFamily": "418",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues, review the NVIDIA Security Bulletin 5075 ."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-16502/index.html"
+  },
+  {
+    "version": "418.152.00",
+    "releaseFamily": "418",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues please review NVIDIA Product Security for more information."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-15200/index.html"
+  },
+  {
+    "version": "418.126.02",
+    "releaseFamily": "418",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues please review NVIDIA Product Security for more information.",
+      "Fixed an issue with nvidia-smi not reporting infoROM corruptions correctly on IBM POWER9 systems.",
+      "Fixed a race condition between NVML and the Fabric Manager during NVLink training that could result in a peer-to-peer (P2P) connectivity issue between two GPUs on NVSwitch based systems."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-12602/index.html"
+  },
+  {
+    "version": "418.116.00",
+    "releaseFamily": "418",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues please review NVIDIA Product Security for more information.",
+      "Fixed an issue with nvidia-smi not reporting infoROM corruptions correctly."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-11600/index.html"
+  },
+  {
+    "version": "418.87.01",
+    "releaseFamily": "418",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Fixed an issue in the driver where the GPU enters into a hung state intermittently. This issue is exposed by the interaction between the workload and power management functionality. This issue affects Tesla T4 and V100 GPU products. Symptoms may include the following: dmesg logs shows an entry such as follows: 'NVRM:Xid (PCI:0000:xx:00):61, 0c06(3034) 00000000 00000000' nvidia-smi shows an ERR! state for the power usage field CUDA application crashes",
+      "dmesg logs shows an entry such as follows: 'NVRM:Xid (PCI:0000:xx:00):61, 0c06(3034) 00000000 00000000'",
+      "nvidia-smi shows an ERR! state for the power usage field",
+      "CUDA application crashes"
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-8701/index.html"
+  },
+  {
+    "version": "418.87.00",
+    "releaseFamily": "418",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues please review NVIDIA Product Security for more information.",
+      "Local repository of driver packages (deb/rpm) for Linux distributions (e.g. nvidia-diag-driver-local-repo-ubuntu1604-driver-version_1.0-1_amd64.deb) no longer include diagnostic packages, consistent with the runfile (.run) installers.",
+      "Fixed an issue in nvidia-smi when using the --query-gpu option.",
+      "Updated output of nvidia-smi to indicate retired pages that will be blacklisted on subsequent driver reload (nvidia-smi -q).",
+      "Fixed a crash in nvidia_p2p_dma_map_pages for GPUDirect when the allocation size is > 1GB."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-8700/index.html"
+  },
+  {
+    "version": "418.40.04",
+    "releaseFamily": "418",
+    "releaseDate": "",
+    "cudaVersion": "",
+    "fixedIssues": [
+      "Various security issues were addressed, for additional details on the med-high severity issues please review NVIDIA Product Security for more information.",
+      "Fixed an issue where nvidia-persistenced.service was incorrectly configured on POWER systems with Ubuntu 18.04.",
+      "Fixed a performance issue with reading metrics from CUPTI in continuous mode.",
+      "Fixed an issue in NVML where systems with more than 8 Mellanox devices would result in incorrect topology reported by nvidia-smi.",
+      "Added support in NVML for Turing TU104 based products - Tesla T4, Quadro RTX 4000, Quadro RTX 5000.",
+      "Fixed an issue in NVML where systems with more than 8 Mellanox devices would result in incorrect topology reported by nvidia-smi."
+    ],
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-418-4004/index.html"
+  }
+]
