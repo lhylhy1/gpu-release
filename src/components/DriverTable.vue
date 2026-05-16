@@ -11,6 +11,7 @@ const props = defineProps({
 const sortKey = ref('releaseDate')
 const sortOrder = ref('desc')
 const currentPage = ref(1)
+const activeIssueVersion = ref(null)
 
 const sortOptions = {
   version: (a, b) => {
@@ -51,6 +52,7 @@ function toggleSort(key) {
     sortOrder.value = key === 'releaseDate' ? 'desc' : 'asc'
   }
   currentPage.value = 1
+  activeIssueVersion.value = null
 }
 
 function getAriaSort(key) {
@@ -102,7 +104,7 @@ function getAriaSort(key) {
             <span class="cuda-text">{{ d.cudaVersion }}</span>
           </td>
           <td class="col-issues" data-label="Fixed Issues">
-            <IssuesCell :issues="d.fixedIssues" :version="d.version" />
+            <IssuesCell :issues="d.fixedIssues" :version="d.version" v-model:activeVersion="activeIssueVersion" />
           </td>
           <td class="col-doc" data-label="Documentation">
             <a class="doc-link" :href="d.docUrl" target="_blank" rel="noopener">
@@ -160,7 +162,7 @@ function getAriaSort(key) {
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
-  z-index: 5;
+  z-index: 150;
 }
 
 .driver-table thead th:first-child {

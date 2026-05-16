@@ -1,15 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   issues: { type: Array, required: true },
   version: { type: String, required: true },
+  activeVersion: { type: String, default: null },
 })
 
-const expanded = ref(false)
+const emit = defineEmits(['update:activeVersion'])
+
+const expanded = computed(() => props.activeVersion === props.version)
 
 function toggle() {
-  expanded.value = !expanded.value
+  emit('update:activeVersion', expanded.value ? null : props.version)
 }
 </script>
 
@@ -135,6 +138,25 @@ function toggle() {
   list-style: none;
   max-height: 300px;
   overflow-y: auto;
+  padding-right: 4px;
+}
+
+.issue-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.issue-list::-webkit-scrollbar-track {
+  background: var(--tooltip-bg);
+  border-radius: 3px;
+}
+
+.issue-list::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 3px;
+}
+
+.issue-list::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
 
 .issue-list li {
