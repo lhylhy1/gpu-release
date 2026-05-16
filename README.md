@@ -1,51 +1,53 @@
-# NVIDIA Data Center GPU Driver Releases
+# NVIDIA 数据中心 GPU 驱动版本汇总
 
-A web dashboard that aggregates Linux Data Center GPU driver releases from [NVIDIA's official documentation](https://docs.nvidia.com/datacenter/tesla/index.html), providing searchable, sortable access to driver versions, fixed issues, CUDA compatibility, and direct download links.
+汇总 [NVIDIA 官方文档](https://docs.nvidia.com/datacenter/tesla/index.html) 中的 Linux 数据中心 GPU 驱动发布信息，提供可搜索、可排序的驱动版本、修复问题、CUDA 兼容性及下载链接。
 
-**Live site:** [https://lhylhy1.github.io/gpu-release/](https://lhylhy1.github.io/gpu-release/)
+**在线访问：** [https://lhylhy1.github.io/gpu-release/](https://lhylhy1.github.io/gpu-release/)
 
-## Features
+## 功能特性
 
-- Search across driver versions, CUDA versions, release dates, and fixed issues
-- Filter by driver release family (e.g. 550, 535, 525)
-- Sortable table with version, release date, CUDA version, fixed issues count, and download links
-- Expandable fixed issues list per driver
-- Pagination for large result sets
-- Dark theme with NVIDIA-inspired styling
+- 跨字段搜索：驱动版本、CUDA 版本、发布日期、修复问题
+- 按驱动系列筛选（如 550、535、525）
+- 可排序表格：版本、发布日期、CUDA 版本、修复问题数、下载链接
+- 可展开查看每条驱动的修复问题详情
+- 大数据量分页
+- 暗色主题，NVIDIA 风格
 
-## Tech Stack
+## 技术栈
 
-- **Frontend:** Vue 3 + Vite
-- **Data Source:** Scraped from NVIDIA docs via `scraper.mjs` (cheerio)
-- **Hosting:** GitHub Pages (auto-deployed on push to `main`)
+- **前端：** Vue 3 + Vite
+- **数据来源：** 通过 `scraper.mjs`（cheerio）从 NVIDIA 文档抓取
+- **托管：** GitHub Pages（推送到 `main` 分支自动部署）
 
-## Data Pipeline
+## 数据流程
 
-1. `scraper.mjs` crawls the [NVIDIA Tesla driver index](https://docs.nvidia.com/datacenter/tesla/index.html) and each release notes page
-2. Extracted data (version, release date, CUDA version, fixed issues, download URL) is saved to `public/drivers.json`
-3. The Vue app loads this JSON at runtime and renders the interactive table
+1. `scraper.mjs` 爬取 [NVIDIA Tesla 驱动索引页](https://docs.nvidia.com/datacenter/tesla/index.html)及各版本发布说明
+2. 提取的数据（版本号、发布日期、CUDA 版本、修复问题、下载链接）保存至 `public/drivers.json`
+3. Vue 应用运行时加载该 JSON 并渲染交互式表格
 
-To update driver data:
+更新驱动数据：
 
 ```bash
 node scraper.mjs
 ```
 
-## Development
+## 本地开发
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
+## 构建
 
 ```bash
 npm run build
 ```
 
-The output is written to `dist/` and deployed to GitHub Pages via the CI workflow in `.github/workflows/pages.yml`.
+构建产物输出到 `dist/`，通过 `.github/workflows/pages.yml` 中的 CI 工作流自动部署到 GitHub Pages。
 
-## License
+[English](./README_EN.md)
+
+## 许可证
 
 MIT
