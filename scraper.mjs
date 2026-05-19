@@ -188,6 +188,8 @@ async function main() {
       scraped++
     } catch (e) {
       console.error(`  Failed: ${e.message}`)
+      const old = existingMap.get(driver.version)
+      if (old && !old.supportedGpus) old.supportedGpus = []
     }
 
     await sleep(DELAY_MS)
@@ -200,7 +202,7 @@ async function main() {
       if ((pa[i] || 0) !== (pb[i] || 0)) return (pb[i] || 0) - (pa[i] || 0)
     }
     return 0
-  })
+  }).map(d => ({ ...d, supportedGpus: d.supportedGpus || [] }))
 
   writeFileSync(OUT_PATH, JSON.stringify(sorted, null, 2) + '\n')
   console.log(`\nDone: ${scraped} scraped, ${skipped} cached, ${sorted.length} total drivers`)

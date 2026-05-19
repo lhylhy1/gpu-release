@@ -1967,7 +1967,8 @@
       "Addressed a security vulnerability in the kernel module (CVE-2025-XXXX).",
       "Fixed Fabric Manager timeout issues on large-scale NVLink systems."
     ],
-    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-565-90/index.html"
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-565-90/index.html",
+    "supportedGpus": []
   },
   {
     "version": "565.57.01",
@@ -2064,7 +2065,8 @@
       "Addressed a memory corruption issue in the GPU driver when using CUDA graphs extensively.",
       "Fixed Fabric Manager stability issues on HGX systems with NVSwitch."
     ],
-    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-560-35-05/index.html"
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-560-35-05/index.html",
+    "supportedGpus": []
   },
   {
     "version": "560.35.03",
@@ -2161,7 +2163,8 @@
       "Addressed an issue where ECC error counts could reset unexpectedly after driver reload.",
       "Fixed compatibility issues with Linux kernel 6.1 series."
     ],
-    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-555-58/index.html"
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-555-58/index.html",
+    "supportedGpus": []
   },
   {
     "version": "550.163.01",
@@ -2768,7 +2771,8 @@
       "Addressed a bug in NVML that could return stale temperature readings.",
       "Fixed Fabric Manager issues with dynamic MIG configuration changes."
     ],
-    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-545-29-06/index.html"
+    "docUrl": "https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-545-29-06/index.html",
+    "supportedGpus": []
   },
   {
     "version": "535.309.01",
