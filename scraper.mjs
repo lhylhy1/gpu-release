@@ -70,6 +70,7 @@ async function scrapeReleaseNotes(driver) {
   const cudaVersion = extractCudaVersion($)
   const releaseDate = extractReleaseDate($)
   const fixedIssues = extractFixedIssues($)
+  const supportedGpus = extractSupportedGpus($)
 
   return {
     version: driver.version,
@@ -77,6 +78,7 @@ async function scrapeReleaseNotes(driver) {
     releaseDate,
     cudaVersion,
     fixedIssues,
+    supportedGpus,
     docUrl: driver.docUrl,
   }
 }
@@ -123,6 +125,37 @@ function extractFixedIssues($) {
   return issues
 }
 
+function extractSupportedGpus($) {
+  const gpus = []
+  let inSection = false
+
+  $('h1, h2, h3, h4, table').each((_, el) => {
+    const $el = $(el)
+    const tag = el.tagName.toLowerCase()
+
+    if (tag.match(/^h[1-4]$/) && /supported\s+nvidia\s+data\s+center\s+gpus/i.test($el.text())) {
+      inSection = true
+      return
+    }
+    if (tag.match(/^h[1-4]$/) && inSection) {
+      inSection = false
+      return
+    }
+
+    if (inSection && tag === 'table') {
+      $el.find('tbody tr, tr:not(:first-child)').each((_, row) => {
+        const firstTd = $(row).find('td').first()
+        const text = firstTd.text().trim()
+        if (text && !/product|architecture/i.test(text) && text.length > 2) {
+          gpus.push(text.replace(/\s+/g, ' ').trim())
+        }
+      })
+    }
+  })
+
+  return gpus
+}
+
 async function main() {
   console.log('Fetching index page...')
   const indexHtml = await fetchWithRetry(INDEX_URL)
@@ -142,7 +175,8 @@ async function main() {
   let skipped = 0
 
   for (const driver of drivers) {
-    if (existingMap.has(driver.version)) {
+    const cached = existingMap.get(driver.version)
+    if (cached && cached.supportedGpus) {
       skipped++
       continue
     }

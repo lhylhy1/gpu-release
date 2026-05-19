@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import VersionCell from './VersionCell.vue'
 import IssuesCell from './IssuesCell.vue'
+import GpuCell from './GpuCell.vue'
 
 const props = defineProps({
   drivers: { type: Array, required: true },
@@ -12,6 +13,7 @@ const sortKey = ref('releaseDate')
 const sortOrder = ref('desc')
 const currentPage = ref(1)
 const activeIssueVersion = ref(null)
+const activeGpuVersion = ref(null)
 
 const sortOptions = {
   version: (a, b) => {
@@ -26,6 +28,7 @@ const sortOptions = {
   cudaVersion: (a, b) => a.cudaVersion.localeCompare(b.cudaVersion),
   releaseFamily: (a, b) => a.releaseFamily.localeCompare(b.releaseFamily),
   fixedIssues: (a, b) => a.fixedIssues.length - b.fixedIssues.length,
+  supportedGpus: (a, b) => (a.supportedGpus || []).length - (b.supportedGpus || []).length,
 }
 
 const sorted = computed(() => {
@@ -53,6 +56,7 @@ function toggleSort(key) {
   }
   currentPage.value = 1
   activeIssueVersion.value = null
+  activeGpuVersion.value = null
 }
 
 function getAriaSort(key) {
@@ -86,6 +90,10 @@ function getAriaSort(key) {
             <span class="sortable-inner">Fixed Issues
             <svg class="sort-icon" :class="{ active: sortKey === 'fixedIssues', desc: sortKey === 'fixedIssues' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg></span>
           </th>
+          <th class="col-gpus sortable" :aria-sort="getAriaSort('supportedGpus')" @click="toggleSort('supportedGpus')" tabindex="0" @keydown.enter="toggleSort('supportedGpus')" @keydown.space.prevent="toggleSort('supportedGpus')">
+            <span class="sortable-inner">Supported GPUs
+            <svg class="sort-icon" :class="{ active: sortKey === 'supportedGpus', desc: sortKey === 'supportedGpus' && sortOrder === 'desc' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg></span>
+          </th>
           <th class="col-doc">Documentation</th>
         </tr>
       </thead>
@@ -105,6 +113,9 @@ function getAriaSort(key) {
           </td>
           <td class="col-issues" data-label="Fixed Issues">
             <IssuesCell :issues="d.fixedIssues" :version="d.version" v-model:activeVersion="activeIssueVersion" />
+          </td>
+          <td class="col-gpus" data-label="Supported GPUs">
+            <GpuCell :gpus="d.supportedGpus || []" :version="d.version" v-model:activeVersion="activeGpuVersion" />
           </td>
           <td class="col-doc" data-label="Documentation">
             <a class="doc-link" :href="d.docUrl" target="_blank" rel="noopener">
@@ -226,7 +237,8 @@ function getAriaSort(key) {
 .col-family { width: 100px; }
 .col-date { width: 130px; }
 .col-cuda { width: 100px; }
-.col-issues { min-width: 300px; }
+.col-issues { min-width: 200px; }
+.col-gpus { min-width: 140px; }
 .col-doc { width: 140px; }
 
 .family-badge {

@@ -29,7 +29,8 @@ const filteredDrivers = computed(() => {
       d.releaseFamily.includes(q) ||
       d.cudaVersion.toLowerCase().includes(q) ||
       d.releaseDate.includes(q) ||
-      d.fixedIssues.some(i => i.toLowerCase().includes(q))
+      d.fixedIssues.some(i => i.toLowerCase().includes(q)) ||
+      (d.supportedGpus || []).some(g => g.toLowerCase().includes(q))
     )
   })
 })
@@ -107,7 +108,7 @@ const cudaCurrentPage = ref(1)
 
     <template v-if="activeTab === 'drivers'">
       <div class="toolbar">
-        <SearchBox v-model="searchQuery" placeholder="Search driver version, CUDA version, date, or issues..." />
+        <SearchBox v-model="searchQuery" placeholder="Search driver version, CUDA version, date, issues, or GPU model..." />
         <FilterChips :families="families" v-model="activeFamily" />
       </div>
 
