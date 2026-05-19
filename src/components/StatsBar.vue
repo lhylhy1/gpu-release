@@ -3,6 +3,9 @@ defineProps({
   total: { type: Number, default: 0 },
   issues: { type: Number, default: 0 },
   latest: { type: String, default: '—' },
+  totalLabel: { type: String, default: 'Drivers' },
+  issuesLabel: { type: String, default: 'Fixed Issues' },
+  latestLabel: { type: String, default: 'Latest' },
 })
 </script>
 
@@ -10,15 +13,15 @@ defineProps({
   <div class="stats-bar">
     <div class="stat">
       <span class="stat-value">{{ total }}</span>
-      <span class="stat-label">Drivers</span>
+      <span class="stat-label">{{ totalLabel }}</span>
     </div>
-    <div class="stat">
+    <div v-if="issuesLabel" class="stat">
       <span class="stat-value">{{ issues }}</span>
-      <span class="stat-label">Fixed Issues</span>
+      <span class="stat-label">{{ issuesLabel }}</span>
     </div>
     <div class="stat">
       <span class="stat-value">{{ latest }}</span>
-      <span class="stat-label">Latest</span>
+      <span class="stat-label">{{ latestLabel }}</span>
     </div>
   </div>
 </template>

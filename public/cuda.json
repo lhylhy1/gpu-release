@@ -1,0 +1,415 @@
+[
+  {
+    "version": "13.2.1",
+    "versionLabel": "13.2 Update 1",
+    "linuxDriver": "595.58.03",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.2.1/local_installers/cuda_13.2.1_595.58.03_linux.run"
+  },
+  {
+    "version": "13.2.0",
+    "versionLabel": "13.2 GA",
+    "linuxDriver": "595.45.04",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.2.0/local_installers/cuda_13.2.0_595.45.04_linux.run"
+  },
+  {
+    "version": "13.1.1",
+    "versionLabel": "13.1 Update 1",
+    "linuxDriver": "590.48.01",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.1.1/local_installers/cuda_13.1.1_590.48.01_linux.run"
+  },
+  {
+    "version": "13.1.0",
+    "versionLabel": "13.1 GA",
+    "linuxDriver": "590.44.01",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.1.0/local_installers/cuda_13.1.0_590.44.01_linux.run"
+  },
+  {
+    "version": "13.0.2",
+    "versionLabel": "13.0 Update 2",
+    "linuxDriver": "580.95.05",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.0.2/local_installers/cuda_13.0.2_580.95.05_linux.run"
+  },
+  {
+    "version": "13.0.1",
+    "versionLabel": "13.0 Update 1",
+    "linuxDriver": "580.82.07",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.0.1/local_installers/cuda_13.0.1_580.82.07_linux.run"
+  },
+  {
+    "version": "13.0.0",
+    "versionLabel": "13.0 GA",
+    "linuxDriver": "580.65.06",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.0.0/local_installers/cuda_13.0.0_580.65.06_linux.run"
+  },
+  {
+    "version": "12.9.1",
+    "versionLabel": "12.9 Update 1",
+    "linuxDriver": "575.57.08",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.9.1/local_installers/cuda_12.9.1_575.57.08_linux.run"
+  },
+  {
+    "version": "12.9.0",
+    "versionLabel": "12.9 GA",
+    "linuxDriver": "575.51.03",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.9.0/local_installers/cuda_12.9.0_575.51.03_linux.run"
+  },
+  {
+    "version": "12.8.1",
+    "versionLabel": "12.8 Update 1",
+    "linuxDriver": "570.124.06",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.8.1/local_installers/cuda_12.8.1_570.124.06_linux.run"
+  },
+  {
+    "version": "12.8.0",
+    "versionLabel": "12.8 GA",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "12.6.3",
+    "versionLabel": "12.6 Update 3",
+    "linuxDriver": "560.35.05",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.6.3/local_installers/cuda_12.6.3_560.35.05_linux.run"
+  },
+  {
+    "version": "12.6.2",
+    "versionLabel": "12.6 Update 2",
+    "linuxDriver": "560.35.03",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.6.2/local_installers/cuda_12.6.2_560.35.03_linux.run"
+  },
+  {
+    "version": "12.6.1",
+    "versionLabel": "12.6 Update 1",
+    "linuxDriver": "560.35.03",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.6.1/local_installers/cuda_12.6.1_560.35.03_linux.run"
+  },
+  {
+    "version": "12.6.0",
+    "versionLabel": "12.6 GA",
+    "linuxDriver": "560.28.03",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.6.0/local_installers/cuda_12.6.0_560.28.03_linux.run"
+  },
+  {
+    "version": "12.5.1",
+    "versionLabel": "12.5 Update 1",
+    "linuxDriver": "555.42.06",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.5.1/local_installers/cuda_12.5.1_555.42.06_linux.run"
+  },
+  {
+    "version": "12.5.0",
+    "versionLabel": "12.5 GA",
+    "linuxDriver": "555.42.02",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.5.0/local_installers/cuda_12.5.0_555.42.02_linux.run"
+  },
+  {
+    "version": "12.4.1",
+    "versionLabel": "12.4 Update 1",
+    "linuxDriver": "550.54.15",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda_12.4.1_550.54.15_linux.run"
+  },
+  {
+    "version": "12.4.0",
+    "versionLabel": "12.4 GA",
+    "linuxDriver": "550.54.14",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.4.0/local_installers/cuda_12.4.0_550.54.14_linux.run"
+  },
+  {
+    "version": "12.3.1",
+    "versionLabel": "12.3 Update 1",
+    "linuxDriver": "545.23.08",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.3.1/local_installers/cuda_12.3.1_545.23.08_linux.run"
+  },
+  {
+    "version": "12.3.0",
+    "versionLabel": "12.3 GA",
+    "linuxDriver": "545.23.06",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.3.0/local_installers/cuda_12.3.0_545.23.06_linux.run"
+  },
+  {
+    "version": "12.2.2",
+    "versionLabel": "12.2 Update 2",
+    "linuxDriver": "535.104.05",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.2.2/local_installers/cuda_12.2.2_535.104.05_linux.run"
+  },
+  {
+    "version": "12.2.1",
+    "versionLabel": "12.2 Update 1",
+    "linuxDriver": "535.86.09",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.2.1/local_installers/cuda_12.2.1_535.86.09_linux.run"
+  },
+  {
+    "version": "12.2.0",
+    "versionLabel": "12.2 GA",
+    "linuxDriver": "535.54.03",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.2.0/local_installers/cuda_12.2.0_535.54.03_linux.run"
+  },
+  {
+    "version": "12.1.1",
+    "versionLabel": "12.1 Update 1",
+    "linuxDriver": "530.30.02",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda_12.1.1_530.30.02_linux.run"
+  },
+  {
+    "version": "12.1.0",
+    "versionLabel": "12.1 GA",
+    "linuxDriver": "530.30.02",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.1.0/local_installers/cuda_12.1.0_530.30.02_linux.run"
+  },
+  {
+    "version": "12.0.1",
+    "versionLabel": "12.0 Update 1",
+    "linuxDriver": "525.85.12",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.0.1/local_installers/cuda_12.0.1_525.85.12_linux.run"
+  },
+  {
+    "version": "12.0.0",
+    "versionLabel": "12.0 GA",
+    "linuxDriver": "525.60.13",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/12.0.0/local_installers/cuda_12.0.0_525.60.13_linux.run"
+  },
+  {
+    "version": "11.8.0",
+    "versionLabel": "11.8 GA",
+    "linuxDriver": "520.61.05",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda_11.8.0_520.61.05_linux.run"
+  },
+  {
+    "version": "11.7.1",
+    "versionLabel": "11.7 Update 1",
+    "linuxDriver": "515.48.07",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.48.07_linux.run"
+  },
+  {
+    "version": "11.7.0",
+    "versionLabel": "11.7 GA",
+    "linuxDriver": "515.43.04",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.7.0/local_installers/cuda_11.7.0_515.43.04_linux.run"
+  },
+  {
+    "version": "11.6.2",
+    "versionLabel": "11.6 Update 2",
+    "linuxDriver": "510.47.03",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.6.2/local_installers/cuda_11.6.2_510.47.03_linux.run"
+  },
+  {
+    "version": "11.6.1",
+    "versionLabel": "11.6 Update 1",
+    "linuxDriver": "510.47.03",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.6.1/local_installers/cuda_11.6.1_510.47.03_linux.run"
+  },
+  {
+    "version": "11.6.0",
+    "versionLabel": "11.6 GA",
+    "linuxDriver": "510.39.01",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.6.0/local_installers/cuda_11.6.0_510.39.01_linux.run"
+  },
+  {
+    "version": "11.5.2",
+    "versionLabel": "11.5 Update 2",
+    "linuxDriver": "495.29.05",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.5.2/local_installers/cuda_11.5.2_495.29.05_linux.run"
+  },
+  {
+    "version": "11.5.1",
+    "versionLabel": "11.5 Update 1",
+    "linuxDriver": "495.29.05",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.5.1/local_installers/cuda_11.5.1_495.29.05_linux.run"
+  },
+  {
+    "version": "11.5.0",
+    "versionLabel": "11.5 GA",
+    "linuxDriver": "495.29.05",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.5.0/local_installers/cuda_11.5.0_495.29.05_linux.run"
+  },
+  {
+    "version": "11.4.4",
+    "versionLabel": "11.4 Update 4",
+    "linuxDriver": "470.82.01",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.4.4/local_installers/cuda_11.4.4_470.82.01_linux.run"
+  },
+  {
+    "version": "11.4.3",
+    "versionLabel": "11.4 Update 3",
+    "linuxDriver": "470.82.01",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.4.3/local_installers/cuda_11.4.3_470.82.01_linux.run"
+  },
+  {
+    "version": "11.4.2",
+    "versionLabel": "11.4 Update 2",
+    "linuxDriver": "470.57.02",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.4.2/local_installers/cuda_11.4.2_470.57.02_linux.run"
+  },
+  {
+    "version": "11.4.1",
+    "versionLabel": "11.4 Update 1",
+    "linuxDriver": "470.57.02",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/cuda_11.4.1_470.57.02_linux.run"
+  },
+  {
+    "version": "11.4",
+    "versionLabel": "11.4.0 GA",
+    "linuxDriver": "470.42.01",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.4/local_installers/cuda_11.4_470.42.01_linux.run"
+  },
+  {
+    "version": "11.3",
+    "versionLabel": "11.3.1 Update 1",
+    "linuxDriver": "465.19.01",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.3/local_installers/cuda_11.3_465.19.01_linux.run"
+  },
+  {
+    "version": "11.2",
+    "versionLabel": "11.2.2 Update 2",
+    "linuxDriver": "460.32.03",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.2/local_installers/cuda_11.2_460.32.03_linux.run"
+  },
+  {
+    "version": "11.1",
+    "versionLabel": "11.1.1 Update 1",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "11.1.0",
+    "versionLabel": "11.1 GA",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "11.0.1",
+    "versionLabel": "11.0.1 RC",
+    "linuxDriver": "450.36.06",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.0.1/local_installers/cuda_11.0.1_450.36.06_linux.run"
+  },
+  {
+    "version": "11.0",
+    "versionLabel": "11.0.3 Update 1",
+    "linuxDriver": "450.51.06",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/11.0/local_installers/cuda_11.0_450.51.06_linux.run"
+  },
+  {
+    "version": "10.2.89",
+    "versionLabel": "10.2.89",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "10.1.105",
+    "versionLabel": "10.1 (10.1.105 general release, and updates)",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "10.0.130",
+    "versionLabel": "10.0.130",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "9.2.148",
+    "versionLabel": "9.2 (9.2.148 Update 1)",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "9.2.88",
+    "versionLabel": "9.2 (9.2.88)",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "9.1.85",
+    "versionLabel": "9.1 (9.1.85)",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "9.0.76",
+    "versionLabel": "9.0 (9.0.76)",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "8.0.61",
+    "versionLabel": "8.0 (8.0.61 GA2)",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "8.0.44",
+    "versionLabel": "8.0 (8.0.44)",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "7.5.16",
+    "versionLabel": "7.5 (7.5.16)",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
+    "version": "7.0.28",
+    "versionLabel": "7.0 (7.0.28)",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  }
+]

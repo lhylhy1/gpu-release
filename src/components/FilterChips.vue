@@ -2,6 +2,7 @@
 defineProps({
   families: { type: Array, required: true },
   modelValue: { type: [String, Number], default: 'all' },
+  prefix: { type: String, default: 'R' },
 })
 defineEmits(['update:modelValue'])
 </script>
@@ -29,7 +30,7 @@ defineEmits(['update:modelValue'])
       @click="$emit('update:modelValue', f)"
       @keydown.enter="$emit('update:modelValue', f)"
       @keydown.space.prevent="$emit('update:modelValue', f)"
-    >R{{ f }}</button>
+    >{{ prefix }}{{ f }}</button>
   </div>
 </template>
 

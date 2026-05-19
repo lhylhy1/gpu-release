@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
   modelValue: String,
+  placeholder: { type: String, default: 'Search driver version, CUDA version, date, or issues...' },
 })
 defineEmits(['update:modelValue'])
 </script>
@@ -14,8 +15,8 @@ defineEmits(['update:modelValue'])
       type="text"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
-      placeholder="Search driver version, CUDA version, date, or issues..."
-      aria-label="Search drivers"
+      :placeholder="placeholder"
+      aria-label="Search"
     />
   </div>
 </template>

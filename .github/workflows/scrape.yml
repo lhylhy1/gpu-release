@@ -36,6 +36,9 @@ jobs:
       - name: Scrape driver data
         run: node scraper.mjs
 
+      - name: Scrape CUDA toolkit data
+        run: node cuda-scraper.mjs
+
       - name: Build site
         run: npm run build
 
@@ -43,7 +46,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/drivers.json
+          git add public/drivers.json public/cuda.json
           git diff --cached --quiet || git commit -m "chore: update driver data [skip ci]"
           git push
 
