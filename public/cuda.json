@@ -1,5 +1,12 @@
 [
   {
+    "version": "13.3.0",
+    "versionLabel": "13.3 GA",
+    "linuxDriver": "610.43.02",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.3.0/local_installers/cuda_13.3.0_610.43.02_linux.run"
+  },
+  {
     "version": "13.2.1",
     "versionLabel": "13.2 Update 1",
     "linuxDriver": "595.58.03",
