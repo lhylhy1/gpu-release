@@ -8,6 +8,7 @@ import SearchBox from './components/SearchBox.vue'
 import FilterChips from './components/FilterChips.vue'
 import StatsBar from './components/StatsBar.vue'
 import DriverTable from './components/DriverTable.vue'
+import DriverMatrixTable from './components/DriverMatrixTable.vue'
 import CudaTable from './components/CudaTable.vue'
 
 const { drivers, families, loading: driversLoading, error: driversError } = useDrivers()
@@ -104,9 +105,19 @@ const cudaCurrentPage = ref(1)
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         CUDA Toolkit
       </button>
+      <button
+        class="tab"
+        :class="{ active: activeTab === 'matrix' }"
+        role="tab"
+        :aria-selected="activeTab === 'matrix'"
+        @click="activeTab = 'matrix'"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
+        Matrix
+      </button>
     </div>
 
-    <template v-if="activeTab === 'drivers'">
+    <template v-if="activeTab === 'drivers' || activeTab === 'matrix'">
       <div class="toolbar">
         <SearchBox v-model="searchQuery" placeholder="Search driver version, CUDA version, date, issues, or GPU model..." />
         <FilterChips :families="families" v-model="activeFamily" />
@@ -126,11 +137,12 @@ const cudaCurrentPage = ref(1)
           <p>No drivers match your search.</p>
         </div>
 
+        <DriverMatrixTable v-else-if="activeTab === 'matrix'" :drivers="filteredDrivers" />
         <DriverTable v-else :drivers="filteredDrivers" />
       </template>
     </template>
 
-    <template v-else>
+    <template v-else-if="activeTab === 'cuda'">
       <div class="toolbar">
         <SearchBox v-model="cudaSearchQuery" placeholder="Search CUDA version, driver version..." />
         <FilterChips :families="cudaMajorVersions" v-model="activeCudaMajor" prefix="v" />
