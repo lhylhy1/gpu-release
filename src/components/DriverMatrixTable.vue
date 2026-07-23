@@ -1,161 +1,213 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useMatrix } from '../composables/useMatrix.js'
 
 const props = defineProps({
-  drivers: { type: Array, required: true },
+  searchQuery: { type: String, default: '' },
+  activeFamily: { type: String, default: 'all' },
 })
 
-const selectedVersion = ref(null)
-const DAYS_PER_COLUMN = 7
+const {
+  loading, error,
+  enterpriseGpus, consumerGpus,
+  enterpriseRows, consumerRows,
+  issueCodes, changeNotes,
+} = useMatrix()
 
-const visibleDrivers = computed(() => [...props.drivers].sort(compareReleaseDesc))
+const segment = ref('enterprise') // 'enterprise' | 'consumer'
+const selectedCode = ref(null)     // issue code currently shown in detail panel
 
-const heatmapColumns = computed(() => {
-  const columns = []
-  for (let index = 0; index < visibleDrivers.value.length; index += DAYS_PER_COLUMN) {
-    columns.push(visibleDrivers.value.slice(index, index + DAYS_PER_COLUMN))
-  }
-  return columns
+const gpus = computed(() => (segment.value === 'enterprise' ? enterpriseGpus.value : consumerGpus.value))
+
+const allRows = computed(() => (segment.value === 'enterprise' ? enterpriseRows.value : consumerRows.value))
+
+const filteredRows = computed(() => {
+  const q = props.searchQuery.toLowerCase().trim()
+  return allRows.value.filter(row => {
+    if (props.activeFamily !== 'all' && String(row.releaseFamily) !== String(props.activeFamily)) return false
+    if (!q) return true
+    if (row.version.toLowerCase().includes(q)) return true
+    if (row.releaseFamily.includes(q)) return true
+    if ((row.releaseDate || '').includes(q)) return true
+    // search by GPU column key when that GPU is supported
+    return gpus.value.some(gpu => gpu.toLowerCase().includes(q) && isSupported(row.cells[gpu]))
+  })
 })
 
-const maxCoverage = computed(() => Math.max(
-  1,
-  ...visibleDrivers.value.map(driver => getCoverage(driver)),
-))
-
-const selectedDriver = computed(() => (
-  visibleDrivers.value.find(driver => driver.version === selectedVersion.value)
-  || visibleDrivers.value[0]
-  || null
-))
-
-const selectedProducts = computed(() => (
-  [...new Set(selectedDriver.value?.supportedGpus || [])]
-    .sort((a, b) => a.localeCompare(b))
-))
-
-function compareReleaseDesc(a, b) {
-  const byDate = (b.releaseDate || '').localeCompare(a.releaseDate || '')
-  if (byDate !== 0) return byDate
-  return compareVersionDesc(a.version, b.version)
+function cellStatus(value) {
+  if (!value) return 'unknown'
+  if (value === 'N') return 'no'
+  if (value === 'Y') return 'yes'
+  if (/^Y\d+$/.test(value)) return 'caveat'
+  return 'unknown'
 }
 
-function compareVersionDesc(a, b) {
-  const pa = a.split('.').map(Number)
-  const pb = b.split('.').map(Number)
-  for (let index = 0; index < Math.max(pa.length, pb.length); index += 1) {
-    const diff = (pb[index] || 0) - (pa[index] || 0)
-    if (diff !== 0) return diff
+function isSupported(value) {
+  return value === 'Y' || /^Y\d+$/.test(value)
+}
+
+function codeOf(value) {
+  const m = String(value || '').match(/^Y(\d+)$/)
+  return m ? `Y${m[1].padStart(3, '0')}` : null
+}
+
+function issueText(code) {
+  const entry = issueCodes.value[code]
+  return entry ? entry.text : ''
+}
+
+function isRetired(code) {
+  return issueCodes.value[code]?.retired || false
+}
+
+function selectCell(value) {
+  const code = codeOf(value)
+  if (code && issueCodes.value[code]) {
+    selectedCode.value = selectedCode.value === code ? null : code
+  } else {
+    selectedCode.value = null
   }
-  return 0
 }
 
-function getCoverage(driver) {
-  return new Set(driver.supportedGpus || []).size
+// counts for the summary header
+const stats = computed(() => {
+  const rows = filteredRows.value
+  let supported = 0
+  let incompatible = 0
+  let caveats = 0
+  for (const row of rows) {
+    for (const gpu of gpus.value) {
+      const v = row.cells[gpu]
+      if (v === 'N') incompatible++
+      else if (v === 'Y') supported++
+      else if (/^Y\d+$/.test(v)) { caveats++; supported++ }
+    }
+  }
+  return { rows: rows.length, supported, incompatible, caveats }
+})
+
+function cellLabel(value) {
+  if (!value) return 'no data'
+  if (value === 'Y') return 'supported'
+  if (value === 'N') return 'incompatible'
+  if (/^Y\d+$/.test(value)) return 'supported with caveat'
+  return 'no data'
 }
 
-function getCoverageLevel(driver) {
-  const coverage = getCoverage(driver)
-  if (!coverage) return 0
-
-  const ratio = coverage / maxCoverage.value
-  if (ratio >= 0.75) return 4
-  if (ratio >= 0.5) return 3
-  if (ratio >= 0.25) return 2
-  return 1
+function cellSymbol(value) {
+  if (!value) return ''
+  if (value === 'N') return '×'
+  return '✓'
 }
 
-function selectDriver(driver) {
-  selectedVersion.value = driver.version
-}
-
-function getDownloadUrl(version) {
-  return `https://us.download.nvidia.com/tesla/${version}/NVIDIA-Linux-x86_64-${version}.run`
-}
-
-function getDriverLabel(driver) {
-  const date = driver.releaseDate || 'Release date unavailable'
-  return `R${driver.releaseFamily} · ${driver.version} · ${date} · ${getCoverage(driver)} supported products`
-}
-
-function formatProductName(product) {
-  return String(product).replace(/^NVIDIA\s+/i, '')
+// change notes come from our own sanitized parser output; allow <br/> line
+// breaks, neutralize any other angle brackets, and tidy pipes.
+function renderNote(note) {
+  return String(note)
+    .replace(/</g, '&lt;')
+    .replace(/&lt;(\/?br\/?)&gt;/gi, '<$1>')
+    .replace(/\|/g, '·')
 }
 </script>
 
 <template>
-  <section class="matrix-shell" aria-label="Driver product support overview">
+  <section class="matrix-shell" aria-label="Driver compatibility matrix">
     <header class="matrix-title">
       <div>
         <p class="eyebrow">Compatibility Matrix</p>
-        <h2>Driver Support Heatmap</h2>
-        <p class="matrix-meta">Each square is a driver release. A darker green square supports more listed products.</p>
+        <h2>GPU × Driver Version</h2>
+        <p class="matrix-meta">Rows are driver releases, columns are GPU products. Green = supported, red = incompatible, a green cell with a code has a field caveat — click it for details.</p>
       </div>
-      <div class="matrix-summary" aria-label="Matrix summary">
-        <strong>{{ visibleDrivers.length }}</strong>
-        <span>Driver releases</span>
+      <div class="matrix-summary">
+        <strong>{{ stats.rows }}</strong>
+        <span>Releases</span>
       </div>
     </header>
 
-    <div class="heatmap-panel">
-      <div class="heatmap-caption">
-        <span>Newest</span>
-        <span>Click a release to inspect its supported products</span>
-        <span>Oldest</span>
+    <div v-if="loading" class="state" aria-live="polite">Loading matrix…</div>
+    <div v-else-if="error" class="state err" aria-live="assertive">Failed to load matrix: {{ error }}</div>
+
+    <template v-else>
+      <div class="segment-bar" role="tablist" aria-label="Matrix segment">
+        <button
+          role="tab" :aria-selected="segment === 'enterprise'"
+          :class="{ active: segment === 'enterprise' }"
+          @click="segment = 'enterprise'; selectedCode = null"
+        >Enterprise / Data Center</button>
+        <button
+          role="tab" :aria-selected="segment === 'consumer'"
+          :class="{ active: segment === 'consumer' }"
+          @click="segment = 'consumer'; selectedCode = null"
+        >Consumer / GeForce</button>
       </div>
 
-      <div class="heatmap" role="grid" aria-label="Driver support coverage heatmap">
-        <div v-for="(column, columnIndex) in heatmapColumns" :key="columnIndex" class="heatmap-column" role="row">
-          <button
-            v-for="driver in column"
-            :key="driver.version"
-            class="heatmap-cell"
-            :class="[`level-${getCoverageLevel(driver)}`, { selected: selectedDriver?.version === driver.version }]"
-            type="button"
-            role="gridcell"
-            :aria-label="getDriverLabel(driver)"
-            :aria-pressed="selectedDriver?.version === driver.version"
-            :title="getDriverLabel(driver)"
-            @click="selectDriver(driver)"
-          >
-            <span class="sr-only">{{ getDriverLabel(driver) }}</span>
-          </button>
-        </div>
+      <p v-if="segment === 'consumer'" class="segment-note">
+        ⚠ 企业级数据中心产品与消费级产品驱动官方不通用 — 这两条分支独立维护。
+      </p>
+
+      <div v-if="filteredRows.length === 0" class="no-results" aria-live="polite">
+        <p>No releases match your filter.</p>
       </div>
 
-      <div class="legend" aria-label="Heatmap coverage legend">
-        <span>Product coverage</span>
-        <i class="level-0"></i>
-        <i class="level-1"></i>
-        <i class="level-2"></i>
-        <i class="level-3"></i>
-        <i class="level-4"></i>
-        <span>More</span>
+      <div v-else class="table-scroll">
+        <table class="matrix-table" role="grid">
+          <thead>
+            <tr>
+              <th class="corner" scope="col">Driver</th>
+              <th v-for="gpu in gpus" :key="gpu" scope="col" class="gpu-col">
+                <span class="gpu-name">{{ gpu }}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in filteredRows" :key="row.version" :class="{ inferred: row.source === 'inferred' }">
+              <th class="ver-col" scope="row">
+                <span class="ver-num">{{ row.version }}</span>
+                <span class="ver-fam">R{{ row.releaseFamily }}</span>
+                <span v-if="row.beta" class="ver-beta">BETA</span>
+              </th>
+              <td v-for="gpu in gpus" :key="gpu" class="cell">
+                <button
+                  v-if="row.cells[gpu]"
+                  class="cell-btn"
+                  :class="[cellStatus(row.cells[gpu]), { selected: selectedCode === codeOf(row.cells[gpu]) }]"
+                  :title="`${row.version} · ${gpu} · ${cellLabel(row.cells[gpu])}`"
+                  @click="selectCell(row.cells[gpu])"
+                >
+                  <span class="cell-mark">{{ cellSymbol(row.cells[gpu]) }}</span>
+                  <span v-if="cellStatus(row.cells[gpu]) === 'caveat'" class="cell-code">{{ codeOf(row.cells[gpu]).slice(1) }}</span>
+                </button>
+                <span v-else class="cell-empty" :title="`${row.version} · ${gpu} · no data`" aria-label="no data"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
 
-    <article v-if="selectedDriver" class="driver-detail" aria-live="polite">
-      <div class="detail-heading">
-        <div>
-          <p class="eyebrow">Selected release</p>
-          <h3>R{{ selectedDriver.releaseFamily }} · {{ selectedDriver.version }}</h3>
-          <p>{{ selectedDriver.releaseDate || 'Release date unavailable' }} <span aria-hidden="true">·</span> CUDA {{ selectedDriver.cudaVersion || '—' }}</p>
-        </div>
-        <div class="detail-actions">
-          <a :href="selectedDriver.docUrl" target="_blank" rel="noopener">Release notes</a>
-          <a :href="getDownloadUrl(selectedDriver.version)" target="_blank" rel="noopener">Download</a>
-        </div>
+      <div class="legend" aria-label="Cell legend">
+        <span class="lg"><i class="yes"></i> Supported</span>
+        <span class="lg"><i class="caveat"></i> Supported w/ caveat</span>
+        <span class="lg"><i class="no"></i> Incompatible</span>
+        <span class="lg"><i class="unknown"></i> No data</span>
+        <span class="lg"><i class="inferred"></i> Inferred from official notes</span>
       </div>
 
-      <div class="product-heading">
-        <strong>{{ selectedProducts.length }}</strong>
-        <span>listed supported products</span>
-      </div>
-      <div v-if="selectedProducts.length" class="product-list">
-        <span v-for="product in selectedProducts" :key="product" class="product-pill">{{ formatProductName(product) }}</span>
-      </div>
-      <p v-else class="empty-products">No supported-product list is available for this release.</p>
-    </article>
+      <article v-if="selectedCode" class="issue-detail" aria-live="polite">
+        <header>
+          <span class="issue-code" :class="{ retired: isRetired(selectedCode) }">{{ selectedCode }}</span>
+          <span v-if="isRetired(selectedCode)" class="retired-tag">retired</span>
+          <button class="close" :aria-label="`Dismiss ${selectedCode} detail`" @click="selectedCode = null">&times;</button>
+        </header>
+        <p>{{ issueText(selectedCode) }}</p>
+      </article>
+
+      <footer v-if="changeNotes.length" class="change-notes">
+        <p class="cn-title">变更备注</p>
+        <ul>
+          <li v-for="(note, i) in changeNotes" :key="i" v-html="renderNote(note)"></li>
+        </ul>
+      </footer>
+    </template>
   </section>
 </template>
 
@@ -165,294 +217,133 @@ function formatProductName(product) {
   border: 1px solid var(--border-color);
   border-radius: 10px;
   box-shadow: var(--shadow);
-  color: var(--text-primary);
   overflow: hidden;
 }
 
-.matrix-title,
-.detail-heading {
+.matrix-title {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
-}
-
-.matrix-title {
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
   padding: 22px 24px;
 }
+.matrix-title h2 { font-size: 22px; font-weight: 700; margin: 0; }
+.eyebrow { color: var(--nv-green); font-size: 11px; font-weight: 700; letter-spacing: 1px; margin: 0 0 8px; text-transform: uppercase; }
+.matrix-meta { color: var(--text-muted); font-size: 13px; margin: 8px 0 0; max-width: 640px; }
+.matrix-summary { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.matrix-summary strong { color: var(--nv-green); font-size: 28px; line-height: 1; }
+.matrix-summary span { color: var(--text-muted); font-size: 11px; letter-spacing: 0.7px; text-transform: uppercase; }
 
-.matrix-title h2,
-.detail-heading h3 {
-  color: var(--text-primary);
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0;
-}
+.state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+.state.err { color: #e05050; }
 
-.matrix-meta {
-  color: var(--text-muted);
+.segment-bar { display: flex; gap: 4px; padding: 14px 24px 0; }
+.segment-bar button {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px 8px 0 0;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: inherit;
   font-size: 13px;
-  margin: 8px 0 0;
-  max-width: 620px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-bottom: none;
 }
+.segment-bar button.active { background: var(--nv-green); color: #000; font-weight: 600; }
+.segment-note { color: #d4a73a; font-size: 12px; margin: 12px 24px 0; }
 
-.eyebrow {
-  color: var(--nv-green);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  line-height: 1;
-  margin: 0 0 8px;
-  text-transform: uppercase;
-}
+.no-results { text-align: center; padding: 60px 20px; color: var(--text-muted); }
 
-.matrix-summary {
-  align-items: flex-end;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  gap: 2px;
-}
+.table-scroll { overflow: auto; max-height: 70vh; padding: 0 24px; }
 
-.matrix-summary strong {
-  color: var(--nv-green);
-  font-size: 28px;
-  line-height: 1;
-}
-
-.matrix-summary span,
-.product-heading span {
-  color: var(--text-muted);
-  font-size: 11px;
-  letter-spacing: 0.7px;
-  text-transform: uppercase;
-}
-
-.heatmap-panel {
-  border-bottom: 1px solid var(--border-color);
-  padding: 22px 24px 18px;
-}
-
-.heatmap-caption {
-  align-items: center;
-  color: var(--text-muted);
-  display: grid;
-  font-size: 11px;
-  grid-template-columns: 1fr auto 1fr;
-  margin-bottom: 12px;
-}
-
-.heatmap-caption span:last-child {
-  text-align: right;
-}
-
-.heatmap-caption span:nth-child(2) {
+.matrix-table { border-collapse: separate; border-spacing: 3px; width: 100%; }
+.matrix-table thead th {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--bg-secondary);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
+  color: var(--text-secondary); text-transform: uppercase;
+  padding: 8px 6px;
   text-align: center;
 }
-
-.heatmap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  justify-content: center;
+.matrix-table thead .corner {
+  position: sticky; left: 0; z-index: 30; text-align: left;
+  min-width: 120px;
 }
+.gpu-col .gpu-name { white-space: nowrap; }
+.matrix-table thead th:nth-child(2) { box-shadow: inset -1px 0 0 var(--border-color); }
 
-.heatmap-column {
-  display: grid;
-  gap: 4px;
-  grid-template-rows: repeat(7, 16px);
-}
-
-.heatmap-cell,
-.legend i {
-  background: #202527;
-  border: 1px solid transparent;
-  border-radius: 3px;
-}
-
-.heatmap-cell {
-  cursor: pointer;
-  height: 16px;
-  padding: 0;
-  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
-  width: 16px;
-}
-
-.heatmap-cell:hover {
-  border-color: #b7ee67;
-  transform: scale(1.2);
-}
-
-.heatmap-cell:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-
-.heatmap-cell.selected {
-  border-color: #fff;
-  box-shadow: 0 0 0 2px rgba(118, 185, 0, 0.4);
-}
-
-.level-0 { background: #202527; }
-.level-1 { background: #1f5f35; }
-.level-2 { background: #238636; }
-.level-3 { background: #2ea043; }
-.level-4 { background: #56d364; }
-
-.legend {
-  align-items: center;
-  color: var(--text-muted);
-  display: flex;
-  font-size: 11px;
-  gap: 5px;
-  justify-content: flex-end;
-  margin-top: 16px;
-}
-
-.legend i {
-  display: block;
-  height: 12px;
-  width: 12px;
-}
-
-.legend span:first-child {
-  margin-right: 4px;
-}
-
-.legend span:last-child {
-  margin-left: 2px;
-}
-
-.driver-detail {
-  padding: 22px 24px 24px;
-}
-
-.detail-heading h3 {
-  font-size: 19px;
-}
-
-.detail-heading p:not(.eyebrow) {
-  color: var(--text-secondary);
-  font-size: 13px;
-  margin: 8px 0 0;
-}
-
-.detail-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.detail-actions a {
-  background: rgba(118, 185, 0, 0.09);
-  border: 1px solid rgba(118, 185, 0, 0.28);
-  border-radius: 6px;
-  color: var(--nv-green);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 7px 10px;
-}
-
-.detail-actions a:hover {
-  background: rgba(118, 185, 0, 0.16);
-  color: #9edb37;
-  text-decoration: none;
-}
-
-.product-heading {
-  align-items: baseline;
-  display: flex;
-  gap: 7px;
-  margin: 22px 0 10px;
-}
-
-.product-heading strong {
-  color: var(--nv-green);
-  font-size: 18px;
-}
-
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-
-.product-pill {
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid var(--border-color);
-  border-radius: 999px;
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.3;
-  padding: 5px 9px;
-}
-
-.empty-products {
-  color: var(--text-muted);
-  font-size: 13px;
-  margin: 0;
-}
-
-.sr-only {
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
+.matrix-table tbody th.ver-col {
+  position: sticky; left: 0; z-index: 10;
+  background: var(--bg-card);
+  text-align: left;
+  font-size: 13px; font-weight: 600; color: var(--text-primary);
+  padding: 6px 10px 6px 4px;
+  border-right: 1px solid var(--border-color);
   white-space: nowrap;
-  width: 1px;
 }
+.matrix-table tbody tr:hover th.ver-col { background: var(--bg-hover); }
+.ver-num { display: block; }
+.ver-fam { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+.ver-beta { margin-left: 6px; font-size: 9px; color: #000; background: #d4a73a; border-radius: 3px; padding: 1px 4px; }
+.matrix-table tbody tr.inferred th.ver-num::after { content: ' ·'; color: var(--text-muted); font-size: 10px; }
+
+.cell { padding: 0; text-align: center; }
+.cell-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 2px; width: 100%; min-height: 30px;
+  border: 1px solid transparent; border-radius: 5px;
+  background: transparent; cursor: pointer; padding: 2px 4px;
+  font-family: inherit; font-size: 11px; font-weight: 600;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.cell-btn:hover { transform: scale(1.06); box-shadow: 0 0 0 2px rgba(255,255,255,0.25); }
+.cell-btn:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.cell-btn.yes { background: #1f5f35; color: #c6f7d0; }
+.cell-btn.caveat { background: #238636; color: #eafff0; cursor: pointer; border-color: #2ea043; }
+.cell-btn.no { background: #5a2320; color: #f3b8b4; }
+.cell-btn.unknown { background: #202527; color: var(--text-muted); }
+.cell-btn.selected { box-shadow: 0 0 0 2px #fff; }
+.cell-mark { font-size: 12px; line-height: 1; }
+.cell-code { font-size: 9px; opacity: 0.85; }
+.cell-empty { display: inline-block; width: 100%; min-height: 30px; background: #202527; border-radius: 5px; }
+
+/* inferred rows: cells get a dashed tint to signal they're auto-derived */
+.matrix-table tbody tr.inferred .cell-btn.yes { background: #2a4d36; border-style: dashed; border-color: #3a6d4a; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 14px; padding: 16px 24px 4px; font-size: 11px; color: var(--text-muted); }
+.legend .lg { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.legend i.yes { background: #1f5f35; }
+.legend i.caveat { background: #238636; }
+.legend i.no { background: #5a2320; }
+.legend i.unknown { background: #202527; }
+.legend i.inferred { background: #2a4d36; border: 1px dashed #3a6d4a; }
+
+.issue-detail {
+  margin: 14px 24px 0; padding: 16px 18px;
+  background: var(--bg-secondary); border: 1px solid var(--border-hover);
+  border-left: 3px solid var(--nv-green); border-radius: 8px;
+}
+.issue-detail header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.issue-code { font-weight: 700; color: var(--nv-green); font-size: 14px; letter-spacing: 0.5px; }
+.issue-code.retired { color: #d4a73a; text-decoration: line-through; }
+.retired-tag { font-size: 10px; color: #d4a73a; border: 1px solid #d4a73a; border-radius: 3px; padding: 1px 5px; }
+.issue-detail .close { margin-left: auto; background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; line-height: 1; }
+.issue-detail p { color: var(--text-secondary); font-size: 13px; line-height: 1.6; margin: 0; }
+
+.change-notes { padding: 18px 24px 22px; border-top: 1px solid var(--border-color); margin-top: 16px; }
+.cn-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; margin: 0 0 8px; }
+.change-notes ul { list-style: none; margin: 0; padding: 0; }
+.change-notes li { font-size: 12px; color: var(--text-secondary); line-height: 1.7; padding-left: 14px; position: relative; }
+.change-notes li::before { content: '›'; position: absolute; left: 0; color: var(--nv-green); }
 
 @media (max-width: 620px) {
-  .matrix-title,
-  .detail-heading {
-    flex-direction: column;
-  }
-
-  .matrix-summary {
-    align-items: flex-start;
-    flex-direction: row;
-  }
-
-  .matrix-summary span {
-    align-self: flex-end;
-  }
-
-  .heatmap-panel,
-  .matrix-title,
-  .driver-detail {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .heatmap-caption {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .heatmap-caption span:nth-child(2) {
-    display: none;
-  }
-
-  .heatmap {
-    gap: 3px;
-  }
-
-  .heatmap-column {
-    gap: 3px;
-    grid-template-rows: repeat(7, 13px);
-  }
-
-  .heatmap-cell {
-    height: 13px;
-    width: 13px;
-  }
-
-  .legend {
-    justify-content: flex-start;
-  }
+  .matrix-title { flex-direction: column; }
+  .matrix-summary { align-items: flex-start; flex-direction: row; }
+  .table-scroll { padding: 0 12px; }
+  .matrix-table thead .corner { min-width: 96px; }
 }
 </style>

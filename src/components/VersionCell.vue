@@ -1,19 +1,27 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useDownloadMap, downloadOverride } from '../composables/useDownloadMap.js'
 
 const props = defineProps({
   version: { type: String, required: true },
 })
 
+// matrix.json is fetched once (shared singleton); when it resolves the
+// computed URL re-evaluates and the real download link replaces the template.
+useDownloadMap()
+
 const copied = ref(false)
 
-function getDownloadUrl(version) {
+function templateUrl(version) {
   return `https://us.download.nvidia.com/tesla/${version}/NVIDIA-Linux-x86_64-${version}.run`
 }
 
+const downloadUrl = computed(() => downloadOverride(props.version) || templateUrl(props.version))
+const hasOverride = computed(() => Boolean(downloadOverride(props.version)))
+
 async function copyLink() {
   try {
-    await navigator.clipboard.writeText(getDownloadUrl(props.version))
+    await navigator.clipboard.writeText(downloadUrl.value)
     copied.value = true
     setTimeout(() => { copied.value = false }, 2000)
   } catch { /* clipboard not available */ }
@@ -24,7 +32,7 @@ async function copyLink() {
   <div class="version-cell">
     <a
       class="version-link"
-      :href="getDownloadUrl(version)"
+      :href="downloadUrl"
       :title="`Download NVIDIA-Linux-x86_64-${version}.run`"
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -32,6 +40,7 @@ async function copyLink() {
     </a>
     <div class="version-meta">
       <span class="version-badge">.run</span>
+      <span v-if="hasOverride" class="override-tag" title="Download link verified from release notes">verified</span>
       <button
         class="copy-btn"
         :class="{ copied }"
@@ -89,6 +98,16 @@ async function copyLink() {
   font-size: 11px;
   color: var(--nv-green);
   font-weight: 500;
+}
+
+.override-tag {
+  font-size: 9px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 2px 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
 }
 
 .copy-btn {

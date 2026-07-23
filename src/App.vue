@@ -10,6 +10,7 @@ import StatsBar from './components/StatsBar.vue'
 import DriverTable from './components/DriverTable.vue'
 import DriverMatrixTable from './components/DriverMatrixTable.vue'
 import CudaTable from './components/CudaTable.vue'
+import ComputeCapabilityTable from './components/ComputeCapabilityTable.vue'
 
 const { drivers, families, loading: driversLoading, error: driversError } = useDrivers()
 const { cuda, majorVersions: cudaMajorVersions, loading: cudaLoading, error: cudaError } = useCuda()
@@ -115,6 +116,16 @@ const cudaCurrentPage = ref(1)
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
         Matrix
       </button>
+      <button
+        class="tab"
+        :class="{ active: activeTab === 'capability' }"
+        role="tab"
+        :aria-selected="activeTab === 'capability'"
+        @click="activeTab = 'capability'"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 12h16"/><path d="M12 4v16"/></svg>
+        Capability
+      </button>
     </div>
 
     <template v-if="activeTab === 'drivers' || activeTab === 'matrix'">
@@ -123,23 +134,26 @@ const cudaCurrentPage = ref(1)
         <FilterChips :families="families" v-model="activeFamily" />
       </div>
 
-      <div v-if="driversLoading" class="loading" aria-live="polite">Loading drivers...</div>
-      <div v-else-if="driversError" class="error" aria-live="assertive">Failed to load: {{ driversError }}</div>
-      <template v-else>
-        <StatsBar
-          :total="driverStats.total"
-          :issues="driverStats.issues"
-          :latest="driverStats.latest"
-        />
+      <template v-if="activeTab === 'drivers'">
+        <div v-if="driversLoading" class="loading" aria-live="polite">Loading drivers...</div>
+        <div v-else-if="driversError" class="error" aria-live="assertive">Failed to load: {{ driversError }}</div>
+        <template v-else>
+          <StatsBar
+            :total="driverStats.total"
+            :issues="driverStats.issues"
+            :latest="driverStats.latest"
+          />
 
-        <div v-if="filteredDrivers.length === 0" class="no-results" aria-live="polite">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="8" x2="14" y2="14"/><line x1="14" y1="8" x2="8" y2="14"/></svg>
-          <p>No drivers match your search.</p>
-        </div>
+          <div v-if="filteredDrivers.length === 0" class="no-results" aria-live="polite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="8" x2="14" y2="14"/><line x1="14" y1="8" x2="8" y2="14"/></svg>
+            <p>No drivers match your search.</p>
+          </div>
 
-        <DriverMatrixTable v-else-if="activeTab === 'matrix'" :drivers="filteredDrivers" />
-        <DriverTable v-else :drivers="filteredDrivers" />
+          <DriverTable v-else :drivers="filteredDrivers" />
+        </template>
       </template>
+
+      <DriverMatrixTable v-else :search-query="searchQuery" :active-family="activeFamily" />
     </template>
 
     <template v-else-if="activeTab === 'cuda'">
@@ -167,6 +181,10 @@ const cudaCurrentPage = ref(1)
 
         <CudaTable v-else :drivers="filteredCuda" />
       </template>
+    </template>
+
+    <template v-else-if="activeTab === 'capability'">
+      <ComputeCapabilityTable />
     </template>
   </div>
 

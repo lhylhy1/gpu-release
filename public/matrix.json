@@ -1,0 +1,1576 @@
+{
+  "enterpriseGpus": [
+    "B300",
+    "B200",
+    "HGX H200",
+    "HGX H100",
+    "HGX H800",
+    "HGX H20",
+    "HGX H20-3e",
+    "HGX A100",
+    "HGX A800",
+    "V100",
+    "RTX 6000D",
+    "A30",
+    "A10",
+    "T4"
+  ],
+  "consumerGpus": [
+    "5090",
+    "4090",
+    "3090"
+  ],
+  "drivers": {
+    "595.71.05": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2026-04-28",
+      "cuda": "13.2",
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/595.71.05/NVIDIA-Linux-x86_64-595.71.05.run"
+    },
+    "595.58.03": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {
+        "3090": "Y014",
+        "4090": "Y014",
+        "5090": "Y"
+      },
+      "releaseDate": "2026-03-24",
+      "cuda": "13.2",
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/NVIDIA-Linux-x86_64-595.58.03.run",
+      "beta": false,
+      "consumerDate": "2026-03-24"
+    },
+    "590.48.01": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {
+        "3090": "Y014",
+        "4090": "Y014",
+        "5090": "Y"
+      },
+      "releaseDate": "2025-12-22",
+      "cuda": "13.x",
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/590.48.01/NVIDIA-Linux-x86_64-590.48.01.run",
+      "beta": false,
+      "consumerDate": "2025-12-18"
+    },
+    "580.167.08": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2026-04-28",
+      "cuda": "13.x",
+      "download": "https://developer.nvidia.com/datacenter-driver-580-167-08-download-archive?target_os=Linux"
+    },
+    "580.159.04": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2026-04-28",
+      "cuda": "13.x",
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/580.159.04/NVIDIA-Linux-x86_64-580.159.04.run"
+    },
+    "580.159.03": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2026-05-14",
+      "cuda": "13.x",
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/580.159.03/NVIDIA-Linux-x86_64-580.159.03.run"
+    },
+    "580.126.20": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2026-02-23",
+      "cuda": "13.x",
+      "download": "https://developer.nvidia.com/datacenter-driver-580-126-20-download-archive"
+    },
+    "580.126.16": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2026-02-09",
+      "cuda": "13.x",
+      "download": "https://developer.nvidia.com/datacenter-driver-580-126-16-download-archive?target_os=Linux"
+    },
+    "580.126.09": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {
+        "3090": "Y014",
+        "4090": "Y014",
+        "5090": "Y"
+      },
+      "releaseDate": "2026-01-13",
+      "cuda": "13.x",
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/580.126.09/NVIDIA-Linux-x86_64-580.126.09.run",
+      "beta": false,
+      "consumerDate": "2026-01-13"
+    },
+    "580.105.08": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2025-11-06",
+      "cuda": "13.x",
+      "download": "https://us.download.nvidia.com/tesla/580.105.08/nvidia-driver-local-repo-ubuntu2404-580.105.08_1.0-1_amd64.deb"
+    },
+    "580.95.05": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2025-10-01",
+      "cuda": "13.x",
+      "download": "https://us.download.nvidia.com/tesla/580.95.05/nvidia-driver-local-repo-ubuntu2404-580.95.05_1.0-1_amd64.deb"
+    },
+    "580.82.07": {
+      "enterprise": {
+        "B300": "Y",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2025-09-02",
+      "cuda": "13.x",
+      "download": "https://us.download.nvidia.com/tesla/580.82.07/NVIDIA-Linux-x86_64-580.82.07.run"
+    },
+    "580.65.06": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y012",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y012",
+        "T4": "Y012"
+      },
+      "consumer": {},
+      "releaseDate": "2025-08-04",
+      "cuda": "13",
+      "download": "https://us.download.nvidia.com/tesla/580.65.06/NVIDIA-Linux-x86_64-580.65.06.run"
+    },
+    "575.57.08": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-06-03",
+      "cuda": "12.8",
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/570.211.01/NVIDIA-Linux-x86_64-570.211.01.run"
+    },
+    "570.211.01": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2026-01-13",
+      "cuda": "12.x",
+      "download": "https://us.download.nvidia.com/tesla/575.57.08/NVIDIA-Linux-x86_64-575.57.08.run"
+    },
+    "570.195.03": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-09-30",
+      "cuda": "12.8",
+      "download": "https://us.download.nvidia.com/XFree86/Linux-x86_64/570.195.03/NVIDIA-Linux-x86_64-570.195.03.run"
+    },
+    "570.172.08": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "releaseDate": "2025-07-17",
+      "cuda": "12.8",
+      "download": "https://us.download.nvidia.com/XFree86/Linux-x86_64/570.172.08/NVIDIA-Linux-x86_64-570.172.08.run",
+      "beta": false,
+      "consumerDate": "2025-07-17"
+    },
+    "570.158.01": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y011",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y013",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-06-17",
+      "cuda": "12.8",
+      "download": "https://us.download.nvidia.com/tesla/570.158.01/NVIDIA-Linux-x86_64-570.158.01.run"
+    },
+    "570.148.08": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-05-27",
+      "cuda": "12.8",
+      "download": "https://us.download.nvidia.com/tesla/570.148.08/NVIDIA-Linux-x86_64-570.148.08.run"
+    },
+    "570.133.20": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-04-17",
+      "cuda": "12.8",
+      "download": "https://us.download.nvidia.com/tesla/570.133.20/NVIDIA-Linux-x86_64-570.133.20.run"
+    },
+    "570.124.06": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y010",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-03-03",
+      "cuda": "12.8",
+      "download": "https://developer.download.nvidia.com/compute/cuda/12.8.1/local_installers/cuda_12.8.1_570.124.06_linux.run"
+    },
+    "570.86.15": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "Y",
+        "HGX H200": "Y",
+        "HGX H100": "Y006",
+        "HGX H800": "Y",
+        "HGX H20": "Y005",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-01-27",
+      "cuda": "12.8",
+      "download": "https://www.nvidia.com/en-us/drivers/details/239776/"
+    },
+    "565.57.01": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y008",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2024-10-29",
+      "cuda": "12.6",
+      "download": "https://www.nvidia.com/en-us/drivers/details/233008/",
+      "beta": true,
+      "consumerDate": "2024-10-22"
+    },
+    "560.35.03": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y002",
+        "HGX A800": "Y002",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2024-08-22",
+      "cuda": "12.6",
+      "download": "https://www.nvidia.com/en-us/drivers/details/230918/",
+      "beta": false,
+      "consumerDate": "2024-08-21"
+    },
+    "550.163.01": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "Y",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-04-17",
+      "cuda": "12.4",
+      "download": "https://us.download.nvidia.com/tesla/550.163.01/NVIDIA-Linux-x86_64-550.163.01.run"
+    },
+    "550.144.03": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "Y",
+        "HGX H100": "Y009",
+        "HGX H800": "Y001",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2025-01-16",
+      "cuda": "12.4",
+      "download": "https://www.nvidia.com/en-us/drivers/details/238858/",
+      "beta": false,
+      "consumerDate": "2025-01-16"
+    },
+    "550.127.08": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2024-11-19",
+      "cuda": "12.4",
+      "download": "https://www.nvidia.com/en-us/drivers/details/236265/"
+    },
+    "550.127.05": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2024-10-22",
+      "cuda": "12.4",
+      "download": "https://www.nvidia.com/en-us/drivers/details/233004/",
+      "beta": false,
+      "consumerDate": "2024-10-22"
+    },
+    "550.90.12": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2024-09-10",
+      "cuda": "12.4",
+      "download": "https://www.nvidia.com/en-us/drivers/details/231856/"
+    },
+    "550.90.07": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2024-06-06",
+      "cuda": "12.4",
+      "download": "https://www.nvidia.com/en-us/drivers/details/226768/",
+      "beta": false,
+      "consumerDate": "2024-06-04"
+    },
+    "550.54.15": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y003",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2024-03-18",
+      "cuda": "12.4",
+      "download": "https://www.nvidia.com/en-us/drivers/details/222684/"
+    },
+    "550.54.14": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y007",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2024-02-22",
+      "cuda": "12.4",
+      "download": "https://www.nvidia.com/en-us/drivers/details/218826/",
+      "beta": false,
+      "consumerDate": "2024-02-23"
+    },
+    "535.288.01": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2026-01-13",
+      "cuda": "12.*",
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/535.288.01/NVIDIA-Linux-x86_64-535.288.01.run"
+    },
+    "535.274.02": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-09-30",
+      "cuda": "12.*",
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/535.274.02/NVIDIA-Linux-x86_64-535.274.02.run"
+    },
+    "535.261.03": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y015",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-07-17",
+      "cuda": "12.2",
+      "download": "https://us.download.nvidia.com/tesla/535.261.03/NVIDIA-Linux-x86_64-535.261.03.run"
+    },
+    "535.247.01": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2025-04-17",
+      "cuda": "12.2",
+      "download": "https://us.download.nvidia.com/tesla/535.247.01/NVIDIA-Linux-x86_64-535.247.01.run"
+    },
+    "535.230.02": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "Y",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2025-01-16",
+      "cuda": "12.2.2",
+      "download": "https://www.nvidia.com/en-us/drivers/details/238990/",
+      "beta": false,
+      "consumerDate": "2025-01-16"
+    },
+    "535.216.03": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2024-11-19",
+      "cuda": "12.2.2",
+      "download": "https://www.nvidia.com/en-us/drivers/details/236184/"
+    },
+    "535.216.01": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2024-10-22",
+      "cuda": "12.2.2",
+      "download": "https://www.nvidia.com/en-us/drivers/details/233000/",
+      "beta": false,
+      "consumerDate": "2024-10-22"
+    },
+    "535.183.06": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2024-07-09",
+      "cuda": "12.2.2",
+      "download": "https://www.nvidia.com/en-us/drivers/details/228697/"
+    },
+    "535.183.01": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2024-06-04",
+      "cuda": "12.2.2",
+      "download": "https://www.nvidia.com/en-us/drivers/details/226764/",
+      "beta": false,
+      "consumerDate": "2024-06-04"
+    },
+    "535.161.08": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y003",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2024-03-18",
+      "cuda": "12.2.2",
+      "download": "https://www.nvidia.com/en-us/drivers/details/221957/"
+    },
+    "535.161.07": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y003",
+        "HGX H800": "Y",
+        "HGX H20": "Y",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2024-02-22",
+      "cuda": "12.2.2",
+      "beta": false,
+      "download": "https://www.nvidia.com/en-us/drivers/details/218856/",
+      "consumerDate": "2024-02-22"
+    },
+    "535.154.05": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y003",
+        "HGX H800": "Y",
+        "HGX H20": "N",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2024-01-16",
+      "cuda": "12.2.2",
+      "download": "https://www.nvidia.com/en-us/drivers/details/217147/",
+      "beta": false,
+      "consumerDate": "2024-01-16"
+    },
+    "535.129.03": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y003",
+        "HGX H800": "Y001",
+        "HGX H20": "N",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2023-10-31",
+      "cuda": "12.2.2",
+      "download": "https://www.nvidia.com/en-us/drivers/details/213194/",
+      "beta": false,
+      "consumerDate": "2023-10-31"
+    },
+    "535.104.12": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y001",
+        "HGX H20": "N",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2023-09-25",
+      "cuda": "12.2.2"
+    },
+    "535.104.05": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y001",
+        "HGX H20": "N",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "N"
+      },
+      "releaseDate": "2023-08-29",
+      "cuda": "12.2.2",
+      "beta": false,
+      "download": "https://www.nvidia.com/en-us/drivers/details/210649/",
+      "consumerDate": "2023-08-22"
+    },
+    "535.86.10": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y001",
+        "HGX H20": "N",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {},
+      "releaseDate": "2023-07-31",
+      "cuda": "12.2.1"
+    },
+    "535.54.03": {
+      "enterprise": {
+        "B300": "N",
+        "B200": "N",
+        "HGX H200": "N",
+        "HGX H100": "Y",
+        "HGX H800": "Y001",
+        "HGX H20": "N",
+        "HGX H20-3e": "N",
+        "HGX A100": "Y",
+        "HGX A800": "Y",
+        "V100": "Y",
+        "RTX 6000D": null,
+        "A30": "Y",
+        "A10": "Y",
+        "T4": "Y"
+      },
+      "consumer": {
+        "3090": "N",
+        "4090": "N",
+        "5090": "N"
+      },
+      "releaseDate": "2023-06-26",
+      "cuda": "12.2",
+      "beta": false,
+      "download": "https://www.nvidia.com/en-us/drivers/details/205464/",
+      "consumerDate": "2023-06-14"
+    },
+    "595.45.04": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y014",
+        "4090": "Y014",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/595.45.04/NVIDIA-Linux-x86_64-595.45.04.run",
+      "consumerDate": "2026-03-05"
+    },
+    "590.44.01": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y014",
+        "4090": "Y014",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/590.44.01/NVIDIA-Linux-x86_64-590.44.01.run",
+      "consumerDate": "2025-12-02"
+    },
+    "580.126.18": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y014",
+        "4090": "Y014",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/580.126.18/NVIDIA-Linux-x86_64-580.126.18.run",
+      "consumerDate": "2026-02-17"
+    },
+    "580.142": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y014",
+        "4090": "Y014",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://download.nvidia.com/XFree86/Linux-x86_64/580.142/NVIDIA-Linux-x86_64-580.142.run",
+      "consumerDate": "2026-03-10"
+    },
+    "580.76.05": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y014",
+        "4090": "Y014",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://us.download.nvidia.com/XFree86/Linux-x86_64/580.76.05/NVIDIA-Linux-x86_64-580.76.05.run",
+      "consumerDate": "2025-08-12"
+    },
+    "575.64.05": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://us.download.nvidia.com/XFree86/Linux-x86_64/575.64.05/NVIDIA-Linux-x86_64-575.64.05.run",
+      "consumerDate": "2025-07-22"
+    },
+    "575.64.03": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://us.download.nvidia.com/XFree86/Linux-x86_64/575.64.03/NVIDIA-Linux-x86_64-575.64.03.run",
+      "consumerDate": "2025-07-01"
+    },
+    "570.181": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://us.download.nvidia.com/XFree86/Linux-x86_64/570.181/NVIDIA-Linux-x86_64-570.181.run",
+      "consumerDate": "2025-08-05"
+    },
+    "570.169": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://us.download.nvidia.com/XFree86/Linux-x86_64/570.169/NVIDIA-Linux-x86_64-570.169.run",
+      "consumerDate": "2025-06-17"
+    },
+    "570.153.02": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://us.download.nvidia.com/XFree86/Linux-x86_64/570.153.02/NVIDIA-Linux-x86_64-570.153.02.run",
+      "consumerDate": "2025-05-19"
+    },
+    "570.144": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://us.download.nvidia.com/XFree86/Linux-x86_64/570.144/NVIDIA-Linux-x86_64-570.144.run",
+      "consumerDate": "2025-04-17"
+    },
+    "570.133.07": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://www.nvidia.com/en-us/drivers/details/242273/",
+      "consumerDate": "2025-03-18"
+    },
+    "570.124.04": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "beta": false,
+      "download": "https://www.nvidia.com/en-us/drivers/details/241089/",
+      "consumerDate": "2025-02-27"
+    },
+    "570.86.16": {
+      "enterprise": {},
+      "consumer": {
+        "3090": "Y",
+        "4090": "Y",
+        "5090": "Y"
+      },
+      "beta": true,
+      "download": "https://www.nvidia.com/en-us/drivers/details/240524/",
+      "consumerDate": "2025-01-30"
+    }
+  },
+  "issueCodes": {
+    "Y001": {
+      "retired": false,
+      "text": "HGX 底板缺少 BOM 信息导致驱动识别错误，需要手动覆盖 nvidia-fa 服务模版或使用高版本驱动。"
+    },
+    "Y002": {
+      "retired": false,
+      "text": "A800 不兼容 560.35.03，会导致 NVLink 初始化失败。"
+    },
+    "Y003": {
+      "retired": false,
+      "text": "使用 SYS-821GE-TNHR 服务器 + H100 + BIOS 2.4 + CPLD F5.11.D1，概率性 GPU 初始化时因资源分配不足导致 GPU 无法正常工作，升级 HGX 1.5.0 版本未能解决；高并发业务时可能导致 XID13。"
+    },
+    "Y004": {
+      "retired": true,
+      "text": "使用 SYS-821GE-TNHR 服务器 + H100 + BIOS 2.4 + CPLD F5.11.D1 + HGX H200 1.5.0 无法挂载驱动。2025-02-11 因无法在其他服务器复现而撤销，标记为独立事件。"
+    },
+    "Y005": {
+      "retired": false,
+      "text": "NVIDIA H20 使用 96.00.94.00.09 时无法加载驱动 570.86.15。"
+    },
+    "Y006": {
+      "retired": false,
+      "text": "任务容器退出时大概率触发 XID137，表现为 NVSwitch rx warning，一般同时伴随 XID94，重启任务可正常运行；较大概率出现 XID154，伴随小概率 XID79，不稳定状态。"
+    },
+    "Y007": {
+      "retired": false,
+      "text": "测试发现 550.54.14 不兼容 NVIDIA HGX H20-3e。"
+    },
+    "Y008": {
+      "retired": false,
+      "text": "A800 环境 P2P 异常。"
+    },
+    "Y009": {
+      "retired": false,
+      "text": "基于 550.144.03（自定义版本驱动环境 + HGX 1.5.0），故障现象与 Y003 相似。"
+    },
+    "Y010": {
+      "retired": false,
+      "text": "NVLink 大概率出现 inactive 状态，不可用。"
+    },
+    "Y011": {
+      "retired": false,
+      "text": "B200 环境 gpu-burn 会导致 “the provided PTX was compiled with an unsupported toolchain.”，一定概率导致 GPU 访问超时，形成类似 GSP XID119 现象，即使禁用 GSP 也无法解决。"
+    },
+    "Y012": {
+      "retired": false,
+      "text": "CUDA 13.0 起，Maxwell、Pascal、Volta 架构被视为 feature-complete，离线编译与库支持已移除。"
+    },
+    "Y013": {
+      "retired": false,
+      "text": "A800 出现 NVLink inactive 异常。"
+    },
+    "Y014": {
+      "retired": false,
+      "text": "该驱动不支持早于 Linux 4.15 的内核。"
+    },
+    "Y015": {
+      "retired": false,
+      "text": "不兼容 6.17.0-20-generic，安装编译过程 fb_create = nv_drm_framebuffer_create 失败。"
+    }
+  },
+  "computeCapability": [
+    {
+      "cc": "12.1",
+      "geforce": [
+        "NVIDIA GB10 (DGX Spark)"
+      ]
+    },
+    {
+      "cc": "12",
+      "dataCenter": [
+        "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+      ],
+      "geforce": [
+        "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+        "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+        "NVIDIA RTX PRO 5000 Blackwell",
+        "NVIDIA RTX PRO 4500 Blackwell",
+        "NVIDIA RTX PRO 4000 Blackwell",
+        "NVIDIA RTX PRO 4000 Blackwell SFF Edition",
+        "NVIDIA RTX PRO 2000 Blackwell",
+        "GeForce RTX 5090",
+        "GeForce RTX 5080",
+        "GeForce RTX 5070 Ti",
+        "GeForce RTX 5070",
+        "GeForce RTX 5060 Ti",
+        "GeForce RTX 5060",
+        "GeForce RTX 5050"
+      ]
+    },
+    {
+      "cc": "11",
+      "jetson": [
+        "Jetson T5000",
+        "Jetson T4000"
+      ]
+    },
+    {
+      "cc": "10.3",
+      "dataCenter": [
+        "NVIDIA GB300",
+        "NVIDIA B300"
+      ]
+    },
+    {
+      "cc": "10",
+      "dataCenter": [
+        "NVIDIA GB200",
+        "NVIDIA B200"
+      ]
+    },
+    {
+      "cc": "9",
+      "dataCenter": [
+        "NVIDIA GH200",
+        "NVIDIA H200",
+        "NVIDIA H100"
+      ]
+    },
+    {
+      "cc": "8.9",
+      "dataCenter": [
+        "NVIDIA L4",
+        "NVIDIA L40"
+      ],
+      "geforce": [
+        "RTX 6000 Ada",
+        "RTX 5000 Ada",
+        "RTX 4500 Ada",
+        "RTX 4000 Ada",
+        "RTX 4000 SFF Ada",
+        "RTX 2000 Ada",
+        "GeForce RTX 4090",
+        "GeForce RTX 4080",
+        "GeForce RTX 4070 Ti",
+        "GeForce RTX 4070",
+        "GeForce RTX 4060 Ti",
+        "GeForce RTX 4060",
+        "GeForce RTX 4050"
+      ]
+    },
+    {
+      "cc": "8.7",
+      "jetson": [
+        "Jetson AGX Orin",
+        "Jetson Orin NX",
+        "Jetson Orin Nano"
+      ]
+    },
+    {
+      "cc": "8.6",
+      "dataCenter": [
+        "NVIDIA A40",
+        "NVIDIA A10",
+        "NVIDIA A16",
+        "NVIDIA A2"
+      ],
+      "geforce": [
+        "RTX A6000",
+        "RTX A5000",
+        "RTX A4000",
+        "RTX A3000",
+        "RTX A2000",
+        "GeForce RTX 3090 Ti",
+        "GeForce RTX 3090",
+        "GeForce RTX 3080 Ti",
+        "GeForce RTX 3080",
+        "GeForce RTX 3070 Ti",
+        "GeForce RTX 3070",
+        "GeForce RTX 3060 Ti",
+        "GeForce RTX 3060",
+        "GeForce RTX 3050 Ti",
+        "GeForce RTX 3050"
+      ]
+    },
+    {
+      "cc": "8",
+      "dataCenter": [
+        "NVIDIA A100",
+        "NVIDIA A30"
+      ]
+    },
+    {
+      "cc": "7.5",
+      "dataCenter": [
+        "NVIDIA T4",
+        "T1000",
+        "T600",
+        "T400",
+        "T2000",
+        "T1200",
+        "T500"
+      ],
+      "geforce": [
+        "RTX 8000",
+        "RTX 6000",
+        "RTX 5000",
+        "RTX 4000",
+        "RTX 3000",
+        "NVIDIA TITAN RTX",
+        "GeForce RTX 2080 Ti",
+        "GeForce RTX 2080",
+        "GeForce RTX 2070",
+        "GeForce RTX 2060",
+        "GeForce GTX 1650 Ti"
+      ]
+    }
+  ],
+  "changeNotes": [
+    "2025-02-11 简化列表，将原有形态区分简化为系列<br/>H200 NVL 简化为 HGX H200<br/>H100 8-GPU 、H100 4-GPU、H100 PCIe 简化为 HGX H100<br/>H800 8-GPU 、H800 NVL、 H800 PCIe 简化为 HGX H800<br/>A100 8-GPU 、A100 4-GPU 简化为 HGX A100<br/>A800 8-GPU 简化为 HGX A800",
+    "将 Linux x64 565.57.01 | Linux 64-bit cuda 建议版本从12.7 调整为12.6"
+  ]
+}
