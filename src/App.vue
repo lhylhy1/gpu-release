@@ -128,32 +128,35 @@ const cudaCurrentPage = ref(1)
       </button>
     </div>
 
-    <template v-if="activeTab === 'drivers' || activeTab === 'matrix'">
+    <template v-if="activeTab === 'drivers'">
       <div class="toolbar">
         <SearchBox v-model="searchQuery" placeholder="Search driver version, CUDA version, date, issues, or GPU model..." />
         <FilterChips :families="families" v-model="activeFamily" />
       </div>
 
-      <template v-if="activeTab === 'drivers'">
-        <div v-if="driversLoading" class="loading" aria-live="polite">Loading drivers...</div>
-        <div v-else-if="driversError" class="error" aria-live="assertive">Failed to load: {{ driversError }}</div>
-        <template v-else>
-          <StatsBar
-            :total="driverStats.total"
-            :issues="driverStats.issues"
-            :latest="driverStats.latest"
-          />
+      <div v-if="driversLoading" class="loading" aria-live="polite">Loading drivers...</div>
+      <div v-else-if="driversError" class="error" aria-live="assertive">Failed to load: {{ driversError }}</div>
+      <template v-else>
+        <StatsBar
+          :total="driverStats.total"
+          :issues="driverStats.issues"
+          :latest="driverStats.latest"
+        />
 
-          <div v-if="filteredDrivers.length === 0" class="no-results" aria-live="polite">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="8" x2="14" y2="14"/><line x1="14" y1="8" x2="8" y2="14"/></svg>
-            <p>No drivers match your search.</p>
-          </div>
+        <div v-if="filteredDrivers.length === 0" class="no-results" aria-live="polite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="8" x2="14" y2="14"/><line x1="14" y1="8" x2="8" y2="14"/></svg>
+          <p>No drivers match your search.</p>
+        </div>
 
-          <DriverTable v-else :drivers="filteredDrivers" />
-        </template>
+        <DriverTable v-else :drivers="filteredDrivers" />
       </template>
+    </template>
 
-      <DriverMatrixTable v-else :search-query="searchQuery" :active-family="activeFamily" />
+    <template v-else-if="activeTab === 'matrix'">
+      <div class="toolbar">
+        <SearchBox v-model="searchQuery" placeholder="Search branch, version, date, or GPU model..." />
+      </div>
+      <DriverMatrixTable :search-query="searchQuery" />
     </template>
 
     <template v-else-if="activeTab === 'cuda'">

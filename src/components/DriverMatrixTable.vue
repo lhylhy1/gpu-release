@@ -4,27 +4,43 @@ import { useMatrix } from '../composables/useMatrix.js'
 
 const props = defineProps({
   searchQuery: { type: String, default: '' },
-  activeFamily: { type: String, default: 'all' },
 })
 
 const {
   loading, error,
   enterpriseGpus, consumerGpus,
   enterpriseBranches, consumerBranches,
-  issueCodes, changeNotes,
+  issueCodes, changeNotes, matrixData,
 } = useMatrix()
 
 const segment = ref('enterprise') // 'enterprise' | 'consumer'
 const selectedCode = ref(null)     // issue code shown in the detail panel
-const expandedBranch = ref(null)   // branch family whose issue list is open
+const expandedBranch = ref(null)   // branch family whose version rows are open
 
 const gpus = computed(() => (segment.value === 'enterprise' ? enterpriseGpus.value : consumerGpus.value))
 const branches = computed(() => (segment.value === 'enterprise' ? enterpriseBranches.value : consumerBranches.value))
 
+// raw matrix drivers, for rendering expanded per-version rows
+const matrixDrivers = computed(() => matrixData.value?.drivers || {})
+
+// build a per-version row (14 GPU cells) from the raw matrix for a branch
+function versionRow(segmentKey, version, fam) {
+  const d = matrixDrivers.value[version]
+  const seg = d?.[segmentKey] || {}
+  const cells = {}
+  for (const gpu of gpus.value) cells[gpu] = seg[gpu] !== undefined ? seg[gpu] : null
+  return {
+    version,
+    family: fam,
+    cells,
+    releaseDate: (segmentKey === 'consumer' ? d?.consumerDate : d?.releaseDate) || '',
+    beta: d?.beta || false,
+  }
+}
+
 const filteredBranches = computed(() => {
   const q = props.searchQuery.toLowerCase().trim()
   return branches.value.filter(b => {
-    if (props.activeFamily !== 'all' && String(b.family) !== String(props.activeFamily)) return false
     if (!q) return true
     if (b.family.includes(q)) return true
     if (b.latestVersion.toLowerCase().includes(q)) return true
@@ -57,11 +73,18 @@ function selectCell(value) {
     selectedCode.value = null
   }
 }
-function selectIssue(code) {
-  selectedCode.value = selectedCode.value === code ? null : code
-}
 function toggleBranch(fam) {
   expandedBranch.value = expandedBranch.value === fam ? null : fam
+}
+
+// expanded rows: every version in the branch, newest-first, each with its
+// own 14-GPU row. The branch's latest version is shown in the branch row, so
+// we skip it here to avoid duplication.
+function versionRows(b) {
+  const segmentKey = segment.value === 'enterprise' ? 'enterprise' : 'consumer'
+  return b.versions
+    .filter(v => v !== b.latestVersion)
+    .map(v => versionRow(segmentKey, v, b.family))
 }
 
 function cellLabel(value) {
@@ -145,12 +168,12 @@ const stats = computed(() => {
               <th v-for="gpu in gpus" :key="gpu" scope="col" class="gpu-col">
                 <span class="gpu-name">{{ gpu }}</span>
               </th>
-              <th class="expand-col" scope="col">Issues</th>
+              <th class="expand-col" scope="col">Releases</th>
             </tr>
           </thead>
           <tbody>
             <template v-for="b in filteredBranches" :key="b.family">
-              <tr>
+              <tr class="branch-row">
                 <th class="ver-col" scope="row">
                   <span class="ver-fam">R{{ b.family }}</span>
                   <span class="ver-latest">{{ b.latestVersion }}</span>
@@ -161,7 +184,7 @@ const stats = computed(() => {
                     v-if="b.cells[gpu]"
                     class="cell-btn"
                     :class="[cellStatus(b.cells[gpu]), { selected: selectedCode === codeOf(b.cells[gpu]) }]"
-                    :title="`R${b.family} · ${gpu} · ${cellLabel(b.cells[gpu])}`"
+                    :title="`R${b.family} latest ${b.latestVersion} · ${gpu} · ${cellLabel(b.cells[gpu])}`"
                     @click="selectCell(b.cells[gpu])"
                   >
                     <span class="cell-mark">{{ cellSymbol(b.cells[gpu]) }}</span>
@@ -171,34 +194,42 @@ const stats = computed(() => {
                 </td>
                 <td class="expand-col">
                   <button
-                    v-if="b.issues.length"
+                    v-if="b.versionCount > 1"
                     class="expand-btn"
                     :class="{ active: expandedBranch === b.family }"
                     :aria-expanded="expandedBranch === b.family"
                     @click="toggleBranch(b.family)"
-                  >{{ b.issues.length }} caveat{{ b.issues.length === 1 ? '' : 's' }}
+                  >{{ expandedBranch === b.family ? 'collapse' : `${b.versionCount} releases` }}
                   </button>
-                  <span v-else class="no-issues">—</span>
+                  <span v-else class="no-issues">single</span>
                 </td>
               </tr>
-              <tr v-if="expandedBranch === b.family" class="issue-row">
-                <td :colspan="gpus.length + 2" class="issue-list-cell">
-                  <div class="issue-list">
-                    <p class="issue-list-head">Field issues observed in R{{ b.family }} (across {{ b.versionCount }} release{{ b.versionCount === 1 ? '' : 's' }}):</p>
-                    <ul>
-                      <li v-for="(it, i) in b.issues" :key="i">
-                        <button
-                          class="issue-link"
-                          :class="{ retired: isRetired(it.code), selected: selectedCode === it.code }"
-                          @click="selectIssue(it.code)"
-                        >{{ it.code }}</button>
-                        <span class="issue-gpu">{{ it.gpu }}</span>
-                        <span class="issue-vers">{{ it.versions.join(', ') }}</span>
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
+              <template v-if="expandedBranch === b.family">
+                <tr
+                  v-for="vr in versionRows(b)"
+                  :key="`${b.family}-${vr.version}`"
+                  class="version-row"
+                >
+                  <th class="ver-col sub" scope="row">
+                    <span class="sub-version">{{ vr.version }}<span v-if="vr.beta" class="ver-beta">BETA</span></span>
+                    <span class="sub-date">{{ vr.releaseDate }}</span>
+                  </th>
+                  <td v-for="gpu in gpus" :key="gpu" class="cell">
+                    <button
+                      v-if="vr.cells[gpu]"
+                      class="cell-btn"
+                      :class="[cellStatus(vr.cells[gpu]), { selected: selectedCode === codeOf(vr.cells[gpu]) }]"
+                      :title="`${vr.version} · ${gpu} · ${cellLabel(vr.cells[gpu])}`"
+                      @click="selectCell(vr.cells[gpu])"
+                    >
+                      <span class="cell-mark">{{ cellSymbol(vr.cells[gpu]) }}</span>
+                      <span v-if="cellStatus(vr.cells[gpu]) === 'caveat'" class="cell-code">{{ codeOf(vr.cells[gpu]).slice(1) }}</span>
+                    </button>
+                    <span v-else class="cell-empty" :title="`${vr.version} · ${gpu} · no data`" aria-label="no data"></span>
+                  </td>
+                  <td class="expand-col sub"></td>
+                </tr>
+              </template>
             </template>
           </tbody>
         </table>
@@ -312,19 +343,15 @@ const stats = computed(() => {
 .expand-btn:hover, .expand-btn.active { border-color: var(--nv-green); color: var(--nv-green); }
 .no-issues { color: var(--text-muted); font-size: 12px; }
 
-.matrix-table tbody tr.issue-row td { padding: 0; }
-.issue-list-cell { background: var(--bg-secondary); border-top: 1px dashed var(--border-hover); }
-.issue-list { padding: 14px 18px 16px; }
-.issue-list-head { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 8px; }
-.issue-list ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.issue-list li { display: flex; align-items: baseline; gap: 10px; font-size: 12px; flex-wrap: wrap; }
-.issue-link { background: none; border: 1px solid rgba(118,185,0,0.3); border-radius: 4px; color: var(--nv-green);
-  cursor: pointer; font-family: inherit; font-size: 11px; font-weight: 700; padding: 2px 6px; letter-spacing: 0.3px; }
-.issue-link:hover, .issue-link.selected { background: rgba(118,185,0,0.15); }
-.issue-link.retired { color: #d4a73a; border-color: #d4a73a; text-decoration: line-through; }
-.issue-gpu { color: var(--text-primary); font-weight: 500; }
-.issue-vers { color: var(--text-muted); font-size: 11px; }
-.issue-vers::before { content: '↳ '; }
+/* expanded per-version rows under a branch */
+.matrix-table tbody tr.version-row { background: var(--bg-secondary); }
+.matrix-table tbody tr.version-row th.ver-col.sub { padding: 4px 12px 4px 16px; background: var(--bg-secondary); z-index: 9; }
+.matrix-table tbody tr.version-row .cell-btn { min-height: 26px; }
+.matrix-table tbody tr.version-row .cell-empty { min-height: 26px; }
+.sub-version { display: block; font-size: 12px; font-weight: 500; color: var(--text-primary); }
+.sub-version .ver-beta { margin-left: 6px; font-size: 9px; color: #000; background: #d4a73a; border-radius: 3px; padding: 1px 4px; }
+.sub-date { display: block; font-size: 10px; color: var(--text-muted); }
+.matrix-table tbody tr.version-row .expand-col.sub { background: var(--bg-secondary); }
 
 .legend { display: flex; flex-wrap: wrap; gap: 14px; padding: 16px 24px 4px; font-size: 11px; color: var(--text-muted); }
 .legend .lg { display: inline-flex; align-items: center; gap: 5px; }

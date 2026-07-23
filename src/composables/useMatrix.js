@@ -124,6 +124,8 @@ export function useMatrix() {
     enterpriseGpus, consumerGpus,
     enterpriseBranches, consumerBranches,
     issueCodes, computeCapability, changeNotes,
+    // raw matrix object, for rendering expanded per-version rows
+    matrixData: computed(() => matrix.value || null),
     reload: load,
   }
 }
