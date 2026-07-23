@@ -1,32 +1,41 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   drivers: { type: Array, required: true },
 })
 
+const selectedVersion = ref(null)
+const DAYS_PER_COLUMN = 7
+
 const visibleDrivers = computed(() => [...props.drivers].sort(compareReleaseDesc))
 
-const productColumns = computed(() => {
-  const byKey = new Map()
-
-  visibleDrivers.value.forEach(driver => {
-    ;(driver.supportedGpus || []).forEach(gpu => {
-      const key = normalizeGpuKey(gpu)
-      if (!key || byKey.has(key)) return
-      byKey.set(key, {
-        key,
-        label: formatGpuLabel(gpu),
-        sourceName: gpu,
-      })
-    })
-  })
-
-  return [...byKey.values()]
+const heatmapColumns = computed(() => {
+  const columns = []
+  for (let index = 0; index < visibleDrivers.value.length; index += DAYS_PER_COLUMN) {
+    columns.push(visibleDrivers.value.slice(index, index + DAYS_PER_COLUMN))
+  }
+  return columns
 })
 
+const maxCoverage = computed(() => Math.max(
+  1,
+  ...visibleDrivers.value.map(driver => getCoverage(driver)),
+))
+
+const selectedDriver = computed(() => (
+  visibleDrivers.value.find(driver => driver.version === selectedVersion.value)
+  || visibleDrivers.value[0]
+  || null
+))
+
+const selectedProducts = computed(() => (
+  [...new Set(selectedDriver.value?.supportedGpus || [])]
+    .sort((a, b) => a.localeCompare(b))
+))
+
 function compareReleaseDesc(a, b) {
-  const byDate = b.releaseDate.localeCompare(a.releaseDate)
+  const byDate = (b.releaseDate || '').localeCompare(a.releaseDate || '')
   if (byDate !== 0) return byDate
   return compareVersionDesc(a.version, b.version)
 }
@@ -34,106 +43,119 @@ function compareReleaseDesc(a, b) {
 function compareVersionDesc(a, b) {
   const pa = a.split('.').map(Number)
   const pb = b.split('.').map(Number)
-  for (let i = 0; i < Math.max(pa.length, pb.length); i += 1) {
-    const diff = (pb[i] || 0) - (pa[i] || 0)
+  for (let index = 0; index < Math.max(pa.length, pb.length); index += 1) {
+    const diff = (pb[index] || 0) - (pa[index] || 0)
     if (diff !== 0) return diff
   }
   return 0
+}
+
+function getCoverage(driver) {
+  return new Set(driver.supportedGpus || []).size
+}
+
+function getCoverageLevel(driver) {
+  const coverage = getCoverage(driver)
+  if (!coverage) return 0
+
+  const ratio = coverage / maxCoverage.value
+  if (ratio >= 0.75) return 4
+  if (ratio >= 0.5) return 3
+  if (ratio >= 0.25) return 2
+  return 1
+}
+
+function selectDriver(driver) {
+  selectedVersion.value = driver.version
 }
 
 function getDownloadUrl(version) {
   return `https://us.download.nvidia.com/tesla/${version}/NVIDIA-Linux-x86_64-${version}.run`
 }
 
-function normalize(value) {
-  return String(value || '').toLowerCase()
+function getDriverLabel(driver) {
+  const date = driver.releaseDate || 'Release date unavailable'
+  return `R${driver.releaseFamily} · ${driver.version} · ${date} · ${getCoverage(driver)} supported products`
 }
 
-function normalizeGpuKey(value) {
-  return normalize(value)
-    .replace(/\bnvidia\b/g, '')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim()
-}
-
-function formatGpuLabel(value) {
-  return String(value || '')
-    .replace(/\bNVIDIA\s+/g, '')
-    .replace(/\s*,\s*/g, ' / ')
-    .replace(/\b([A-Z]+ ?\d{2,4})\s+\1\b/g, '$1')
-    .replace(/\s+/g, ' ')
-    .trim()
-}
-
-function supportsProduct(driver, column) {
-  const supportedKeys = new Set((driver.supportedGpus || []).map(normalizeGpuKey))
-  return supportedKeys.has(column.key)
-}
-
-function getCell(driver, column) {
-  const supported = supportsProduct(driver, column)
-  return supported
-    ? { label: 'Y', className: 'yes' }
-    : { label: 'N', className: 'no' }
+function formatProductName(product) {
+  return String(product).replace(/^NVIDIA\s+/i, '')
 }
 </script>
 
 <template>
-  <section class="matrix-shell" aria-label="Driver product support matrix">
+  <section class="matrix-shell" aria-label="Driver product support overview">
     <header class="matrix-title">
       <div>
         <p class="eyebrow">Compatibility Matrix</p>
-        <h2>Product Support by Driver</h2>
-        <p class="matrix-meta">{{ productColumns.length }} product columns from local driver data</p>
+        <h2>Driver Support Heatmap</h2>
+        <p class="matrix-meta">Each square is a driver release. A darker green square supports more listed products.</p>
       </div>
-      <div class="legend" aria-label="Matrix legend">
-        <span><i class="legend-dot yes"></i>Supported</span>
-        <span><i class="legend-dot no"></i>Not listed</span>
+      <div class="matrix-summary" aria-label="Matrix summary">
+        <strong>{{ visibleDrivers.length }}</strong>
+        <span>Driver releases</span>
       </div>
     </header>
 
-    <div class="matrix-scroll">
-      <table class="matrix-table">
-        <thead>
-          <tr>
-            <th class="doc-col">
-              <a href="https://docs.nvidia.com/datacenter/tesla/index.html" target="_blank" rel="noopener">
-                Driver Release
-              </a>
-            </th>
-            <th class="download-col">Download</th>
-            <th class="date-col">Release</th>
-            <th class="cuda-col">CUDA</th>
-            <th v-for="column in productColumns" :key="column.key" class="product-col">
-              {{ column.label }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="driver in visibleDrivers" :key="driver.version">
-            <td class="doc-col release-cell">
-              <a :href="driver.docUrl" target="_blank" rel="noopener">
-                Linux x64 {{ driver.version }} | Linux 64-bit
-              </a>
-            </td>
-            <td class="download-col">
-              <a :href="getDownloadUrl(driver.version)" target="_blank" rel="noopener">Download</a>
-            </td>
-            <td class="date-col">{{ driver.releaseDate }}</td>
-            <td class="cuda-col">{{ driver.cudaVersion }}</td>
-            <td
-              v-for="column in productColumns"
-              :key="column.key"
-              class="product-col product-cell"
-              :class="getCell(driver, column).className"
-              :title="`${column.label}: ${getCell(driver, column).label}`"
-            >
-              <span class="status-pill">{{ getCell(driver, column).label }}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="heatmap-panel">
+      <div class="heatmap-caption">
+        <span>Newest</span>
+        <span>Click a release to inspect its supported products</span>
+        <span>Oldest</span>
+      </div>
+
+      <div class="heatmap" role="grid" aria-label="Driver support coverage heatmap">
+        <div v-for="(column, columnIndex) in heatmapColumns" :key="columnIndex" class="heatmap-column" role="row">
+          <button
+            v-for="driver in column"
+            :key="driver.version"
+            class="heatmap-cell"
+            :class="[`level-${getCoverageLevel(driver)}`, { selected: selectedDriver?.version === driver.version }]"
+            type="button"
+            role="gridcell"
+            :aria-label="getDriverLabel(driver)"
+            :aria-pressed="selectedDriver?.version === driver.version"
+            :title="getDriverLabel(driver)"
+            @click="selectDriver(driver)"
+          >
+            <span class="sr-only">{{ getDriverLabel(driver) }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="legend" aria-label="Heatmap coverage legend">
+        <span>Product coverage</span>
+        <i class="level-0"></i>
+        <i class="level-1"></i>
+        <i class="level-2"></i>
+        <i class="level-3"></i>
+        <i class="level-4"></i>
+        <span>More</span>
+      </div>
     </div>
+
+    <article v-if="selectedDriver" class="driver-detail" aria-live="polite">
+      <div class="detail-heading">
+        <div>
+          <p class="eyebrow">Selected release</p>
+          <h3>R{{ selectedDriver.releaseFamily }} · {{ selectedDriver.version }}</h3>
+          <p>{{ selectedDriver.releaseDate || 'Release date unavailable' }} <span aria-hidden="true">·</span> CUDA {{ selectedDriver.cudaVersion || '—' }}</p>
+        </div>
+        <div class="detail-actions">
+          <a :href="selectedDriver.docUrl" target="_blank" rel="noopener">Release notes</a>
+          <a :href="getDownloadUrl(selectedDriver.version)" target="_blank" rel="noopener">Download</a>
+        </div>
+      </div>
+
+      <div class="product-heading">
+        <strong>{{ selectedProducts.length }}</strong>
+        <span>listed supported products</span>
+      </div>
+      <div v-if="selectedProducts.length" class="product-list">
+        <span v-for="product in selectedProducts" :key="product" class="product-pill">{{ formatProductName(product) }}</span>
+      </div>
+      <p v-else class="empty-products">No supported-product list is available for this release.</p>
+    </article>
   </section>
 </template>
 
@@ -141,25 +163,30 @@ function getCell(driver, column) {
 .matrix-shell {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: var(--shadow);
   color: var(--text-primary);
   overflow: hidden;
 }
 
-.matrix-title {
+.matrix-title,
+.detail-heading {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-color);
-  padding: 18px 20px;
+  gap: 20px;
 }
 
-.matrix-title h2 {
+.matrix-title {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 22px 24px;
+}
+
+.matrix-title h2,
+.detail-heading h3 {
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   line-height: 1.2;
   margin: 0;
@@ -169,11 +196,12 @@ function getCell(driver, column) {
   color: var(--text-muted);
   font-size: 13px;
   margin: 8px 0 0;
+  max-width: 620px;
 }
 
 .eyebrow {
   color: var(--nv-green);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 1px;
   line-height: 1;
@@ -181,167 +209,250 @@ function getCell(driver, column) {
   text-transform: uppercase;
 }
 
-.legend {
+.matrix-summary {
+  align-items: flex-end;
   display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--text-secondary);
-  font-size: 13px;
-  white-space: nowrap;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 2px;
 }
 
-.legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.matrix-summary strong {
+  color: var(--nv-green);
+  font-size: 28px;
+  line-height: 1;
 }
 
-.legend-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.legend-dot.yes {
-  background: var(--nv-green);
-}
-
-.legend-dot.no {
-  background: var(--text-muted);
-}
-
-.matrix-scroll {
-  max-height: 72vh;
-  overflow: auto;
-}
-
-.matrix-table {
-  width: max-content;
-  min-width: 1200px;
-  border-collapse: collapse;
-  font-size: 13px;
-  line-height: 1.3;
-}
-
-.matrix-table th,
-.matrix-table td {
-  border-bottom: 1px solid var(--border-color);
-  height: 42px;
-  padding: 8px 12px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.matrix-table th {
-  position: sticky;
-  top: 0;
-  z-index: 3;
-  background: var(--bg-secondary);
+.matrix-summary span,
+.product-heading span {
   color: var(--text-muted);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.7px;
   text-transform: uppercase;
 }
 
-.matrix-table a {
+.heatmap-panel {
+  border-bottom: 1px solid var(--border-color);
+  padding: 22px 24px 18px;
+}
+
+.heatmap-caption {
+  align-items: center;
+  color: var(--text-muted);
+  display: grid;
+  font-size: 11px;
+  grid-template-columns: 1fr auto 1fr;
+  margin-bottom: 12px;
+}
+
+.heatmap-caption span:last-child {
+  text-align: right;
+}
+
+.heatmap-caption span:nth-child(2) {
+  text-align: center;
+}
+
+.heatmap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+
+.heatmap-column {
+  display: grid;
+  gap: 4px;
+  grid-template-rows: repeat(7, 16px);
+}
+
+.heatmap-cell,
+.legend i {
+  background: #202527;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+
+.heatmap-cell {
+  cursor: pointer;
+  height: 16px;
+  padding: 0;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  width: 16px;
+}
+
+.heatmap-cell:hover {
+  border-color: #b7ee67;
+  transform: scale(1.2);
+}
+
+.heatmap-cell:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.heatmap-cell.selected {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(118, 185, 0, 0.4);
+}
+
+.level-0 { background: #202527; }
+.level-1 { background: #1f5f35; }
+.level-2 { background: #238636; }
+.level-3 { background: #2ea043; }
+.level-4 { background: #56d364; }
+
+.legend {
+  align-items: center;
+  color: var(--text-muted);
+  display: flex;
+  font-size: 11px;
+  gap: 5px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.legend i {
+  display: block;
+  height: 12px;
+  width: 12px;
+}
+
+.legend span:first-child {
+  margin-right: 4px;
+}
+
+.legend span:last-child {
+  margin-left: 2px;
+}
+
+.driver-detail {
+  padding: 22px 24px 24px;
+}
+
+.detail-heading h3 {
+  font-size: 19px;
+}
+
+.detail-heading p:not(.eyebrow) {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin: 8px 0 0;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.detail-actions a {
+  background: rgba(118, 185, 0, 0.09);
+  border: 1px solid rgba(118, 185, 0, 0.28);
+  border-radius: 6px;
   color: var(--nv-green);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 10px;
+}
+
+.detail-actions a:hover {
+  background: rgba(118, 185, 0, 0.16);
+  color: #9edb37;
   text-decoration: none;
 }
 
-.matrix-table a:hover {
-  color: #8ed600;
-  text-decoration: underline;
+.product-heading {
+  align-items: baseline;
+  display: flex;
+  gap: 7px;
+  margin: 22px 0 10px;
 }
 
-.matrix-table tbody td {
-  background: var(--bg-card);
-}
-
-.matrix-table tbody tr {
-  transition: background 0.15s;
-}
-
-.matrix-table tbody tr:hover td {
-  background: var(--bg-hover);
-}
-
-.matrix-table .doc-col {
-  left: 0;
-  position: sticky;
-  z-index: 2;
-}
-
-.doc-col {
-  min-width: 260px;
-  text-align: left;
-}
-
-.matrix-table th.doc-col {
-  z-index: 4;
-}
-
-.matrix-table tbody .doc-col {
-  background: var(--bg-card);
-}
-
-.download-col {
-  min-width: 112px;
-}
-
-.date-col {
-  min-width: 120px;
-}
-
-.cuda-col {
-  min-width: 80px;
-}
-
-.product-col {
-  min-width: 92px;
-}
-
-.product-cell {
-  color: var(--text-secondary);
-}
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 30px;
-  height: 24px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.product-cell.yes .status-pill {
-  background: rgba(118, 185, 0, 0.12);
-  border: 1px solid rgba(118, 185, 0, 0.28);
+.product-heading strong {
   color: var(--nv-green);
+  font-size: 18px;
 }
 
-.product-cell.no .status-pill {
-  background: rgba(255, 255, 255, 0.04);
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.product-pill {
+  background: rgba(255, 255, 255, 0.045);
   border: 1px solid var(--border-color);
-  color: var(--text-muted);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.3;
+  padding: 5px 9px;
 }
 
-@media (max-width: 720px) {
-  .matrix-shell {
-    margin-inline: -16px;
-    border-left: none;
-    border-right: none;
-  }
+.empty-products {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0;
+}
 
-  .matrix-title {
-    align-items: flex-start;
+.sr-only {
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@media (max-width: 620px) {
+  .matrix-title,
+  .detail-heading {
     flex-direction: column;
   }
 
-  .matrix-title h2 {
-    font-size: 18px;
+  .matrix-summary {
+    align-items: flex-start;
+    flex-direction: row;
+  }
+
+  .matrix-summary span {
+    align-self: flex-end;
+  }
+
+  .heatmap-panel,
+  .matrix-title,
+  .driver-detail {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .heatmap-caption {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .heatmap-caption span:nth-child(2) {
+    display: none;
+  }
+
+  .heatmap {
+    gap: 3px;
+  }
+
+  .heatmap-column {
+    gap: 3px;
+    grid-template-rows: repeat(7, 13px);
+  }
+
+  .heatmap-cell {
+    height: 13px;
+    width: 13px;
+  }
+
+  .legend {
+    justify-content: flex-start;
   }
 }
 </style>
