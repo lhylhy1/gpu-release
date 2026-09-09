@@ -1,5 +1,12 @@
 [
   {
+    "version": "13.4",
+    "versionLabel": "13.4",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
     "version": "13.3.1",
     "versionLabel": "13.3 Update 1",
     "linuxDriver": "610.43.02",
@@ -12,6 +19,13 @@
     "linuxDriver": "610.43.02",
     "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
     "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.3.0/local_installers/cuda_13.3.0_610.43.02_linux.run"
+  },
+  {
+    "version": "13.3",
+    "versionLabel": "13.3",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
   },
   {
     "version": "13.2.1",
@@ -28,6 +42,13 @@
     "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.2.0/local_installers/cuda_13.2.0_595.45.04_linux.run"
   },
   {
+    "version": "13.2",
+    "versionLabel": "13.2",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
     "version": "13.1.1",
     "versionLabel": "13.1 Update 1",
     "linuxDriver": "590.48.01",
@@ -40,6 +61,13 @@
     "linuxDriver": "590.44.01",
     "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
     "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.1.0/local_installers/cuda_13.1.0_590.44.01_linux.run"
+  },
+  {
+    "version": "13.1",
+    "versionLabel": "13.1",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
   },
   {
     "version": "13.0.2",
@@ -61,6 +89,13 @@
     "linuxDriver": "580.65.06",
     "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
     "downloadUrl": "https://developer.download.nvidia.com/compute/cuda/13.0.0/local_installers/cuda_13.0.0_580.65.06_linux.run"
+  },
+  {
+    "version": "13.0",
+    "versionLabel": "13.0",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
   },
   {
     "version": "12.9.1",
