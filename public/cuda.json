@@ -1,5 +1,12 @@
 [
   {
+    "version": "13.5",
+    "versionLabel": "13.5",
+    "linuxDriver": "",
+    "docUrl": "https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html",
+    "downloadUrl": ""
+  },
+  {
     "version": "13.4",
     "versionLabel": "13.4",
     "linuxDriver": "",
